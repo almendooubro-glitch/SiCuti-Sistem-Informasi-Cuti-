@@ -74,3 +74,10 @@ CREATE TABLE approval_log (
   catatan TEXT,
   dibuat_pada TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE sessions (
+  id SERIAL PRIMARY KEY,
+  token_hash VARCHAR(64) UNIQUE NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  expires_at TIMESTAMP NOT NULL
+);
