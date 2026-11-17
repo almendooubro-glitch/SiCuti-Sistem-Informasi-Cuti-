@@ -87,6 +87,10 @@ async function main() {
   const uid = {};
   for (const r of (await pool.query("SELECT id, username FROM users")).rows) uid[r.username] = r.id;
 
+    await pool.query(
+    "UPDATE users SET telepon = '081234567890', alamat = 'Makassar, Sulawesi Selatan' WHERE telepon IS NULL"
+  );
+
   for (const [nama, deskripsi, ketua, anggota] of DIVISI) {
     await pool.query(
       "INSERT INTO divisi (nama, deskripsi) VALUES ($1, $2) ON CONFLICT (nama) DO NOTHING",
