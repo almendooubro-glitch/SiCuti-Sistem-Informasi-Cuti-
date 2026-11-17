@@ -23,7 +23,6 @@ CREATE TABLE divisi (
   dibuat_pada TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- users dan divisi saling merujuk, jadi relasi ditambahkan setelah keduanya ada
 ALTER TABLE users
   ADD CONSTRAINT fk_users_divisi
   FOREIGN KEY (divisi_id) REFERENCES divisi(id) ON DELETE SET NULL;
@@ -89,3 +88,26 @@ ALTER TABLE pengajuan_cuti
 ALTER TABLE users
   ADD COLUMN foto_data BYTEA,
   ADD COLUMN foto_tipe VARCHAR(100);
+
+CREATE TABLE hari_libur (
+  id SERIAL PRIMARY KEY,
+  tanggal DATE UNIQUE NOT NULL,
+  keterangan VARCHAR(150) NOT NULL,
+  jenis VARCHAR(20) NOT NULL DEFAULT 'nasional'
+    CHECK (jenis IN ('nasional','cuti_bersama'))
+);
+
+CREATE TABLE blackout (
+  id SERIAL PRIMARY KEY,
+  tanggal_mulai DATE NOT NULL,
+  tanggal_selesai DATE NOT NULL,
+  keterangan VARCHAR(150) NOT NULL,
+  CHECK (tanggal_selesai >= tanggal_mulai)
+);
+
+CREATE TABLE pengaturan (
+  kunci VARCHAR(50) PRIMARY KEY,
+  nilai VARCHAR(50) NOT NULL
+);
+
+INSERT INTO pengaturan (kunci, nilai) VALUES ('kapasitas_maks_persen', '50');
