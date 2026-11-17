@@ -24,3 +24,10 @@ export function hitungHariKerja(mulai, selesai, setengah = false) {
   if (setengah) return a.getTime() === b.getTime() && n === 1 ? 0.5 : 0;
   return n;
 }
+
+export function tambahHari(tanggal, n) {
+  const d = parseTanggal(tanggal);
+  d.setDate(d.getDate() + n);
+  const p = (x) => String(x).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
