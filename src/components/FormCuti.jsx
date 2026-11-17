@@ -34,10 +34,10 @@ export default function FormCuti({ jenis, rekan, sisaKuota }) {
     fd.set("tanggal_selesai", akhir);
 
     const f = fd.get("lampiran");
-    if (f && f.size > 900 * 1024) {
-      setError("Ukuran lampiran maksimal 900 KB");
-      return;
-    }
+  if (f && f.size > 10 * 1024 * 1024) {
+  setError("Ukuran lampiran maksimal 10 MB");
+  return;
+  }
     setError("");
 
     startTransition(async () => {

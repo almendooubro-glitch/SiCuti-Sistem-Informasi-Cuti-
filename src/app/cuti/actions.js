@@ -7,7 +7,7 @@ import { requireUser } from "@/lib/session";
 import { hitungHariKerja, hariIni, selisihHari } from "@/lib/hari";
 
 const TIPE = ["application/pdf", "image/jpeg", "image/png"];
-const MAKS_BYTE = 900 * 1024; 
+const MAKS_BYTE = 900 * 1024 *1024; 
 const TGL = /^\d{4}-\d{2}-\d{2}$/;
 const AKTIF = "('pending','approved_leader','approved')";
 
@@ -89,7 +89,7 @@ export async function ajukanCuti(formData) {
 
     if (adaFile) {
       if (!TIPE.includes(file.type)) return gagal("Lampiran harus berformat PDF, JPG, atau PNG");
-      if (file.size > MAKS_BYTE) return gagal("Ukuran lampiran maksimal 900 KB");
+      if (file.size > MAKS_BYTE) return gagal("Ukuran lampiran maksimal 10 MB");
     } else if (jenis.wajib_lampiran) {
       return gagal(`${jenis.nama} wajib melampirkan surat/dokumen`);
     }
