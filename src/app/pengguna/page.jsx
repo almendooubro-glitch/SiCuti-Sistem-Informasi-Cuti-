@@ -14,6 +14,10 @@ const ORDER = {
 };
 const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2";
 
+// Kolom yang dipakai saja, supaya isi file foto (foto_data) tidak ikut terbaca
+const KOLOM = `u.id, u.username, u.email, u.nama_lengkap, u.role, u.kuota_awal,
+               u.is_active, u.tanggal_bergabung, u.divisi_id`;
+
 export default async function PenggunaPage({ searchParams }) {
   await requireUser(["admin"]);
   const sp = await searchParams;
@@ -34,15 +38,17 @@ export default async function PenggunaPage({ searchParams }) {
   if (sp.masa === "lama") where.push("u.tanggal_bergabung <= CURRENT_DATE - INTERVAL '1 year'");
 
   const { rows } = await pool.query(
-    `SELECT u.*, d.nama AS divisi FROM users u
+    `SELECT ${KOLOM}, d.nama AS divisi FROM users u
      LEFT JOIN divisi d ON d.id = u.divisi_id
      ${where.length ? "WHERE " + where.join(" AND ") : ""}
      ORDER BY ${ORDER[sp.urut] || ORDER.nama}`,
     params
   );
   const divisi = (await pool.query("SELECT id, nama FROM divisi ORDER BY nama")).rows;
-  const edit = sp.edit ? rows.find((u) => u.id === Number(sp.edit)) ||
-    (await pool.query("SELECT * FROM users WHERE id = $1", [Number(sp.edit) || 0])).rows[0] : null;
+  const edit = sp.edit
+    ? rows.find((u) => u.id === Number(sp.edit)) ||
+      (await pool.query(`SELECT ${KOLOM} FROM users u WHERE u.id = $1`, [Number(sp.edit) || 0])).rows[0]
+    : null;
 
   return (
     <main className="max-w-5xl mx-auto p-6 space-y-6">
@@ -131,6 +137,7 @@ export default async function PenggunaPage({ searchParams }) {
                 <td>
                   <div className="flex gap-3">
                     <Link href={`/pengguna?edit=${u.id}`} className="text-blue-500 hover:underline">Edit</Link>
+                    <Link href={`/profil?id=${u.id}`} className="text-blue-500 hover:underline">Profil</Link>
                     {(u.role === "user" || u.role === "ketua_divisi") && (
                       <TombolKonfirmasi
                         action={hapusPengguna}
@@ -150,3 +157,4 @@ export default async function PenggunaPage({ searchParams }) {
     </main>
   );
 }
+
