@@ -8,7 +8,11 @@ const MENU = {
     ["Jenis Cuti", "/jenis-cuti"],
   ],
   user: [["Cuti Saya", "/cuti"]],
-  ketua_divisi: [["Cuti Saya", "/cuti"]],
+  ketua_divisi: [
+    ["Cuti Saya", "/cuti"],
+    ["Verifikasi", "/verifikasi"],
+  ],
+  hrd: [["Persetujuan Final", "/verifikasi"]],
 };
 
 export default function Navbar({ user }) {
