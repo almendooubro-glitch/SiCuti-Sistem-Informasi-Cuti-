@@ -30,7 +30,9 @@ export default function Navbar({ user }) {
         ))}
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-sm">{user.nama_lengkap}</span>
+        <Link href="/profil" className="text-sm hover:underline">
+          {user.nama_lengkap}
+        </Link>
         <TombolLogout />
       </div>
     </nav>
