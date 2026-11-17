@@ -81,3 +81,7 @@ CREATE TABLE sessions (
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   expires_at TIMESTAMP NOT NULL
 );
+
+ALTER TABLE pengajuan_cuti
+  ADD COLUMN lampiran_data BYTEA,
+  ADD COLUMN lampiran_tipe VARCHAR(100);
