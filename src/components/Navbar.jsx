@@ -4,9 +4,11 @@ import TombolLogout from "@/components/TombolLogout";
 const MENU = {
   admin: [
     ["Pengguna", "/pengguna"],
-    ["Divisi", "/divisi"],       
+    ["Divisi", "/divisi"],
     ["Jenis Cuti", "/jenis-cuti"],
   ],
+  user: [["Cuti Saya", "/cuti"]],
+  ketua_divisi: [["Cuti Saya", "/cuti"]],
 };
 
 export default function Navbar({ user }) {
