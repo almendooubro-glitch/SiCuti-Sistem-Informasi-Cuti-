@@ -4,8 +4,8 @@ import TombolLogout from "@/components/TombolLogout";
 const MENU = {
   admin: [
     ["Pengguna", "/pengguna"],
-    // ["Divisi", "/divisi"],        ← aktifkan di Langkah 4
-    // ["Jenis Cuti", "/jenis-cuti"], ← aktifkan di Langkah 5
+    ["Divisi", "/divisi"],       
+    ["Jenis Cuti", "/jenis-cuti"],
   ],
 };
 
