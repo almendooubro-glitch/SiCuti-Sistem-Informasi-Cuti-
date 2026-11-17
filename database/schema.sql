@@ -85,3 +85,7 @@ CREATE TABLE sessions (
 ALTER TABLE pengajuan_cuti
   ADD COLUMN lampiran_data BYTEA,
   ADD COLUMN lampiran_tipe VARCHAR(100);
+
+ALTER TABLE users
+  ADD COLUMN foto_data BYTEA,
+  ADD COLUMN foto_tipe VARCHAR(100);
