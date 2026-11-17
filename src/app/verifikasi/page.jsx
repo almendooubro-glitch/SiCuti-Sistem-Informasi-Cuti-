@@ -31,6 +31,7 @@ export default async function VerifikasiPage({ searchParams }) {
   const { rows: kartu } = await pool.query(
     `SELECT p.id, p.tanggal_pengajuan, p.tanggal_mulai, p.tanggal_selesai, p.setengah_hari, p.total_hari,
             p.alasan, p.catatan_tugas, p.lampiran, (p.lampiran_data IS NOT NULL) AS ada_lampiran,
+            u.id AS user_id, (u.foto_data IS NOT NULL) AS ada_foto,
             u.nama_lengkap, u.role, d.nama AS divisi, j.nama AS jenis, j.memotong_kuota,
             h.nama_lengkap AS handover,
             u.kuota_awal - COALESCE((
@@ -99,9 +100,14 @@ export default async function VerifikasiPage({ searchParams }) {
           {kartu.map((k) => (
             <article key={k.id} className="border border-slate-700 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">
-                  {k.nama_lengkap[0]}
-                </div>
+                {k.ada_foto ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={`/api/foto?id=${k.user_id}`} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
+                ) : (
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">
+                    {k.nama_lengkap[0]}
+                  </div>
+                )}
                 <div className="flex-1">
                   <p className="font-semibold">{k.nama_lengkap}</p>
                   <p className="text-xs text-slate-400">
