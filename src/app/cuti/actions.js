@@ -7,7 +7,7 @@ import { requireUser } from "@/lib/session";
 import { hitungHariKerja, hariIni, selisihHari } from "@/lib/hari";
 
 const TIPE = ["application/pdf", "image/jpeg", "image/png"];
-const MAKS_BYTE = 900 * 1024 *1024; 
+const MAKS_BYTE = 10 * 1024 * 1024; 
 const TGL = /^\d{4}-\d{2}-\d{2}$/;
 const AKTIF = "('pending','approved_leader','approved')";
 

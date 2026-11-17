@@ -176,7 +176,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota }) {
       </label>
 
       <label className="col-span-full space-y-1 text-sm">
-        Surat dokter / lampiran (PDF, JPG, PNG, maks. 900 KB)
+        Surat dokter / lampiran (PDF, JPG, PNG, maks. 10 MB)
         <input
           type="file"
           name="lampiran"

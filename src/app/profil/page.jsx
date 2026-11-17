@@ -123,7 +123,7 @@ export default async function ProfilPage({ searchParams }) {
         <label className="space-y-1 text-sm">Password baru (opsional)
           <input name="password" type="password" autoComplete="new-password" className={input} />
         </label>
-        <label className="space-y-1 text-sm">Foto profil (JPG, PNG, WEBP, maks. 900 KB)
+        <label className="space-y-1 text-sm">Foto profil (JPG, PNG, WEBP, maks. 10 MB)
           <input name="foto" type="file" accept=".jpg,.jpeg,.png,.webp" className={input} />
         </label>
         {p.ada_foto && (

@@ -9,7 +9,7 @@ import { requireUser } from "@/lib/session";
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TELEPON = /^[0-9+\-\s]{6,20}$/;
 const TIPE = ["image/jpeg", "image/png", "image/webp"];
-const MAKS_BYTE = 900 * 1024 * 1024; 
+const MAKS_BYTE = 10 * 1024 * 1024; 
 const teks = (fd, k) => String(fd.get(k) || "").trim();
 
 export async function simpanProfil(formData) {
