@@ -70,6 +70,8 @@ export default async function CutiPage({ searchParams }) {
 
   let jenis = [];
   let rekan = [];
+  let libur = []; 
+  let blackout = []; 
   if (sp.baru) {
     jenis = (
       await pool.query(
@@ -83,6 +85,18 @@ export default async function CutiPage({ searchParams }) {
            AND id <> $1 AND is_active AND role IN ('user','ketua_divisi')
          ORDER BY nama_lengkap`,
         [user.id]
+      )
+    ).rows;
+
+    libur = (
+      await pool.query(
+        "SELECT to_char(tanggal,'YYYY-MM-DD') AS t FROM hari_libur WHERE tanggal >= CURRENT_DATE - INTERVAL '1 month'"
+      )
+    ).rows.map((r) => r.t);
+    blackout = (
+      await pool.query(
+        `SELECT to_char(tanggal_mulai,'YYYY-MM-DD') AS mulai, to_char(tanggal_selesai,'YYYY-MM-DD') AS selesai, keterangan
+         FROM blackout WHERE tanggal_selesai >= CURRENT_DATE ORDER BY tanggal_mulai`
       )
     ).rows;
   }
@@ -131,7 +145,15 @@ export default async function CutiPage({ searchParams }) {
 
       {sp.error && <p className="text-red-400">{sp.error}</p>}
 
-      {sp.baru && <FormCuti jenis={jenis} rekan={rekan} sisaKuota={Number(kuota.sisa)} />}
+      {sp.baru && (
+        <FormCuti
+          jenis={jenis}
+          rekan={rekan}
+          sisaKuota={Number(kuota.sisa)}
+          libur={libur}
+          blackout={blackout}
+        />
+      )}
 
       {sebagaiPengganti.length > 0 && (
         <section className="border border-sky-700 rounded-lg p-4 space-y-2">
