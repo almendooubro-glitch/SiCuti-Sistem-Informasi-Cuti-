@@ -5,9 +5,10 @@ import { revalidatePath } from "next/cache";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { hitungHariKerja, hariIni, selisihHari } from "@/lib/hari";
+import { cekKapasitas } from "@/lib/kapasitas";
 
 const TIPE = ["application/pdf", "image/jpeg", "image/png"];
-const MAKS_BYTE = 10 * 1024 * 1024; 
+const MAKS_BYTE = 900 * 1024; 
 const TGL = /^\d{4}-\d{2}-\d{2}$/;
 const AKTIF = "('pending','approved_leader','approved')";
 
@@ -38,8 +39,27 @@ export async function ajukanCuti(formData) {
     if (!alasan) return gagal("Alasan cuti wajib diisi");
     if (darurat && !/^[0-9+\-\s]{6,20}$/.test(darurat)) return gagal("Nomor darurat tidak valid");
 
-    const total = hitungHariKerja(mulai, selesai, setengah);
-    if (total === 0) return gagal("Rentang tanggal tidak memuat hari kerja (Sabtu dan Minggu tidak dihitung)");
+    const libur = (
+      await pool.query(
+        "SELECT to_char(tanggal,'YYYY-MM-DD') AS t FROM hari_libur WHERE tanggal BETWEEN $1 AND $2",
+        [mulai, selesai]
+      )
+    ).rows.map((r) => r.t);
+    const total = hitungHariKerja(mulai, selesai, setengah, libur);
+    if (total === 0) {
+      return gagal("Rentang tanggal tidak memuat hari kerja (Sabtu, Minggu, dan hari libur tidak dihitung)");
+    }
+
+    const biasa = jenis.nama !== "Cuti Sakit";
+    if (biasa) {
+      const bo = (
+        await pool.query(
+          "SELECT keterangan FROM blackout WHERE tanggal_mulai <= $2 AND tanggal_selesai >= $1 LIMIT 1",
+          [mulai, selesai]
+        )
+      ).rows[0];
+      if (bo) return gagal(`Cuti tidak bisa diajukan pada periode blackout: ${bo.keterangan}`);
+    }
 
     const selisih = selisihHari(hariIni(), mulai);
     if (selisih < 0) {
@@ -56,6 +76,16 @@ export async function ajukanCuti(formData) {
 
     const u = (await pool.query("SELECT divisi_id, kuota_awal FROM users WHERE id = $1", [user.id])).rows[0];
     if (user.role === "user" && !u.divisi_id) return gagal("Kamu belum masuk divisi, hubungi admin");
+
+    if (biasa && u.divisi_id) {
+      const k = await cekKapasitas(u.divisi_id, mulai, selesai, user.id);
+      if (k?.melebihi) {
+        const hari = new Date(k.tanggal + "T00:00:00").toLocaleDateString("id-ID");
+        return gagal(
+          `Kapasitas divisi penuh: pada ${hari} akan ada ${k.persen}% anggota yang cuti (batas ${k.maks}%)`
+        );
+      }
+    }
 
     if (jenis.memotong_kuota) {
       const { rows } = await pool.query(
@@ -89,7 +119,7 @@ export async function ajukanCuti(formData) {
 
     if (adaFile) {
       if (!TIPE.includes(file.type)) return gagal("Lampiran harus berformat PDF, JPG, atau PNG");
-      if (file.size > MAKS_BYTE) return gagal("Ukuran lampiran maksimal 10 MB");
+      if (file.size > MAKS_BYTE) return gagal("Ukuran lampiran maksimal 900 KB");
     } else if (jenis.wajib_lampiran) {
       return gagal(`${jenis.nama} wajib melampirkan surat/dokumen`);
     }
