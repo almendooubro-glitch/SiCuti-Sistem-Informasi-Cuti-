@@ -1,6 +1,10 @@
 "use client";
 
-export default function TombolKonfirmasi({ action, fields, label, pesan, pesan2 }) {
+import { Trash2, UserMinus } from "lucide-react";
+
+export default function TombolKonfirmasi({ action, fields, label, pesan, pesan2, ikon }) {
+  const Ikon = ikon === "keluar" ? UserMinus : Trash2;
+
   return (
     <form
       action={action}
@@ -12,7 +16,7 @@ export default function TombolKonfirmasi({ action, fields, label, pesan, pesan2 
         <input key={k} type="hidden" name={k} value={v} />
       ))}
       <button type="submit" className="text-red-500 hover:underline">
-        {label}
+        <Ikon size={14} /> {label}
       </button>
     </form>
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ClipboardCheck, CheckCheck, Clock, History, Paperclip, Filter, RotateCcw } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { cekKapasitas } from "@/lib/kapasitas";
@@ -83,7 +84,9 @@ export default async function VerifikasiPage({ searchParams }) {
   return (
     <main className="max-w-5xl mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">{hrd ? "Persetujuan Final" : "Verifikasi Pengajuan"}</h1>
+        <h1 className="text-2xl font-bold">
+          <ClipboardCheck size={24} /> {hrd ? "Persetujuan Final" : "Verifikasi Pengajuan"}
+        </h1>
         <p className="text-sm text-slate-400">
           {hrd
             ? "Pengajuan yang sudah disetujui ketua divisi dan pengajuan langsung dari ketua divisi."
@@ -98,10 +101,10 @@ export default async function VerifikasiPage({ searchParams }) {
 
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold">Menunggu Keputusan ({kartu.length})</h2>
+          <h2 className="font-semibold"><Clock size={16} /> Menunggu Keputusan ({kartu.length})</h2>
           {hrd && kartu.length > 0 && (
             <button type="submit" form="multi" className="bg-green-600 text-white rounded px-4 py-2 text-sm">
-              Setujui yang dipilih
+              <CheckCheck size={16} /> Setujui yang dipilih
             </button>
           )}
         </div>
@@ -113,7 +116,6 @@ export default async function VerifikasiPage({ searchParams }) {
             <article key={k.id} className="border border-slate-700 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
                 {k.ada_foto ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={`/api/foto?id=${k.user_id}`} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
                 ) : (
                   <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">
@@ -141,7 +143,7 @@ export default async function VerifikasiPage({ searchParams }) {
                     <dt className="inline text-slate-400">Lampiran: </dt>
                     <dd className="inline">
                       <a href={`/api/lampiran?id=${k.id}`} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
-                        {k.lampiran}
+                        <Paperclip size={14} /> {k.lampiran}
                       </a>
                     </dd>
                   </div>
@@ -182,7 +184,7 @@ export default async function VerifikasiPage({ searchParams }) {
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-semibold">Riwayat Pengajuan</h2>
+        <h2 className="font-semibold"><History size={16} /> Riwayat Pengajuan</h2>
         <form className="flex gap-2 items-center">
           <select name="status" defaultValue={sp.status ?? ""} className={input}>
             <option value="">Semua status</option>
@@ -190,8 +192,8 @@ export default async function VerifikasiPage({ searchParams }) {
               <option key={v} value={v}>{l}</option>
             ))}
           </select>
-          <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2">Terapkan</button>
-          <Link href="/verifikasi" className="hover:underline text-sm">Reset</Link>
+          <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
+          <Link href="/verifikasi" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
         </form>
 
         <div className="overflow-x-auto">

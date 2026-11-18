@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Building2, Plus, Save, Filter, RotateCcw, Pencil, Eye, UserPlus, Users } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -64,7 +65,7 @@ export default async function DivisiPage({ searchParams }) {
 
   return (
     <main className="max-w-5xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Manajemen Divisi</h1>
+      <h1 className="text-2xl font-bold"><Building2 size={24} /> Manajemen Divisi</h1>
       {sp.error && <p className="text-red-400">{sp.error}</p>}
 
       <form key={edit?.id ?? "baru"} action={simpanDivisi} className="grid grid-cols-1 md:grid-cols-3 gap-3 border border-slate-700 rounded-lg p-4">
@@ -80,7 +81,7 @@ export default async function DivisiPage({ searchParams }) {
         </select>
         <div className="col-span-full flex gap-3">
           <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            {edit ? "Simpan Perubahan" : "Tambah"}
+            {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
           </button>
           {edit && <Link href="/divisi" className="px-4 py-2 hover:underline">Batal</Link>}
         </div>
@@ -96,8 +97,8 @@ export default async function DivisiPage({ searchParams }) {
           <option value="anggota">Jumlah anggota</option>
           <option value="dibuat">Tanggal dibuat</option>
         </select>
-        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2">Terapkan</button>
-        <Link href="/divisi" className="hover:underline text-sm">Reset</Link>
+        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
+        <Link href="/divisi" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
       </form>
 
       <table className="w-full text-left text-sm border-collapse">
@@ -115,8 +116,8 @@ export default async function DivisiPage({ searchParams }) {
               <td>{new Date(d.dibuat_pada).toLocaleDateString("id-ID")}</td>
               <td>
                 <div className="flex gap-3">
-                  <Link href={`/divisi?detail=${d.id}`} className="text-blue-500 hover:underline">Detail</Link>
-                  <Link href={`/divisi?edit=${d.id}`} className="text-blue-500 hover:underline">Edit</Link>
+                  <Link href={`/divisi?detail=${d.id}`} className="text-blue-500 hover:underline"><Eye size={14} /> Detail</Link>
+                  <Link href={`/divisi?edit=${d.id}`} className="text-blue-500 hover:underline"><Pencil size={14} /> Edit</Link>
                   <TombolKonfirmasi
                     action={hapusDivisi}
                     fields={{ id: d.id }}
@@ -134,7 +135,7 @@ export default async function DivisiPage({ searchParams }) {
 
       {detail && (
         <section className="border border-slate-700 rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold">Anggota Divisi {detail.nama}</h2>
+          <h2 className="font-semibold"><Users size={16} /> Anggota Divisi {detail.nama}</h2>
           <form action={tambahAnggota} className="flex gap-2">
             <input type="hidden" name="divisi_id" value={detail.id} />
             <select name="user_id" required className={input}>
@@ -143,7 +144,7 @@ export default async function DivisiPage({ searchParams }) {
                 <option key={k.id} value={k.id}>{k.nama_lengkap}</option>
               ))}
             </select>
-            <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">Tambah Anggota</button>
+            <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2"><UserPlus size={16} /> Tambah Anggota</button>
           </form>
           <ul className="text-sm space-y-2">
             {anggota.map((a) => (
@@ -156,6 +157,7 @@ export default async function DivisiPage({ searchParams }) {
                     action={hapusAnggota}
                     fields={{ user_id: a.id, divisi_id: detail.id }}
                     label="Keluarkan"
+                    ikon="keluar"
                     pesan={`Keluarkan ${a.nama_lengkap} dari divisi?`}
                   />
                 )}

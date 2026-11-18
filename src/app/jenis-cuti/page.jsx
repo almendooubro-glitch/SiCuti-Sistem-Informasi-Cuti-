@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Tags, Plus, Save, Pencil } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { simpanJenisCuti } from "./actions";
@@ -16,7 +17,7 @@ export default async function JenisCutiPage({ searchParams }) {
 
   return (
     <main className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Manajemen Jenis Cuti</h1>
+      <h1 className="text-2xl font-bold"><Tags size={24} /> Manajemen Jenis Cuti</h1>
       {sp.error && <p className="text-red-400">{sp.error}</p>}
 
       <form key={edit?.id ?? "baru"} action={simpanJenisCuti} className="grid grid-cols-2 md:grid-cols-3 gap-3 border border-slate-700 rounded-lg p-4">
@@ -39,7 +40,7 @@ export default async function JenisCutiPage({ searchParams }) {
         </p>
         <div className="col-span-full flex gap-3">
           <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            {edit ? "Simpan Perubahan" : "Tambah"}
+            {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
           </button>
           {edit && <Link href="/jenis-cuti" className="px-4 py-2 hover:underline">Batal</Link>}
         </div>
@@ -62,7 +63,7 @@ export default async function JenisCutiPage({ searchParams }) {
               <td>{j.min_hari_sebelum}</td>
               <td>{j.maks_hari_sesudah}</td>
               <td>
-                <Link href={`/jenis-cuti?edit=${j.id}`} className="text-blue-500 hover:underline">Edit</Link>
+                <Link href={`/jenis-cuti?edit=${j.id}`} className="text-blue-500 hover:underline"><Pencil size={14} /> Edit</Link>
               </td>
             </tr>
           ))}

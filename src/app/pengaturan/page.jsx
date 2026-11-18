@@ -1,3 +1,4 @@
+import { Settings, Gauge, CalendarOff, CalendarX, Save, Plus } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -35,24 +36,24 @@ export default async function PengaturanPage({ searchParams }) {
 
   return (
     <main className="max-w-4xl mx-auto p-6 space-y-8">
-      <h1 className="text-2xl font-bold">Pengaturan Cuti</h1>
+      <h1 className="text-2xl font-bold"><Settings size={24} /> Pengaturan Cuti</h1>
       {sp.error && <p className="text-red-400">{sp.error}</p>}
       {sp.info && <p className="text-green-400">{sp.info}</p>}
 
       <section className="space-y-3">
-        <h2 className="font-semibold">Kapasitas Tim</h2>
+        <h2 className="font-semibold"><Gauge size={16} /> Kapasitas Tim</h2>
         <p className="text-sm text-slate-400">
           Maksimal persentase anggota satu divisi yang boleh cuti bersamaan (Cuti Sakit tidak dibatasi).
         </p>
         <form action={simpanKapasitas} className="flex gap-2 items-center">
           <input name="persen" type="number" min="1" max="100" defaultValue={persen} required className={`${input} w-28`} />
           <span>%</span>
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">Simpan</button>
+          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2"><Save size={16} /> Simpan</button>
         </form>
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-semibold">Hari Libur dan Cuti Bersama</h2>
+        <h2 className="font-semibold"><CalendarOff size={16} /> Hari Libur dan Cuti Bersama</h2>
         <form action={tambahLibur} className="flex flex-wrap gap-2">
           <input name="tanggal" type="date" required className={input} />
           <input name="keterangan" placeholder="Keterangan" required className={input} />
@@ -60,7 +61,7 @@ export default async function PengaturanPage({ searchParams }) {
             <option value="nasional">Libur nasional</option>
             <option value="cuti_bersama">Cuti bersama</option>
           </select>
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">Tambah</button>
+          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2"><Plus size={16} /> Tambah</button>
         </form>
         <ul className="text-sm space-y-2">
           {libur.map((l) => (
@@ -77,13 +78,13 @@ export default async function PengaturanPage({ searchParams }) {
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-semibold">Periode Blackout</h2>
+        <h2 className="font-semibold"><CalendarX size={16} /> Periode Blackout</h2>
         <p className="text-sm text-slate-400">Pada periode ini cuti (selain Cuti Sakit) tidak bisa diajukan.</p>
         <form action={tambahBlackout} className="flex flex-wrap gap-2">
           <input name="tanggal_mulai" type="date" required className={input} />
           <input name="tanggal_selesai" type="date" required className={input} />
           <input name="keterangan" placeholder="Keterangan" required className={input} />
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">Tambah</button>
+          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2"><Plus size={16} /> Tambah</button>
         </form>
         <ul className="text-sm space-y-2">
           {blackout.map((b) => (

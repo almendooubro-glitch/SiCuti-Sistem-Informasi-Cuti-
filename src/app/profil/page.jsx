@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { CircleUser, Settings, Save, Pencil, History } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { simpanProfil } from "./actions";
@@ -62,10 +63,12 @@ export default async function ProfilPage({ searchParams }) {
   return (
     <main className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">{lain ? `Profil ${p.nama_lengkap}` : "Profil Saya"}</h1>
+        <h1 className="text-2xl font-bold">
+          <CircleUser size={24} /> {lain ? `Profil ${p.nama_lengkap}` : "Profil Saya"}
+        </h1>
         {admin && (
           <Link href={`/pengguna?edit=${p.id}`} className="text-sm text-blue-500 hover:underline">
-            Ubah role, status aktif, dan kuota awal
+            <Settings size={14} /> Ubah role, status aktif, dan kuota awal
           </Link>
         )}
       </div>
@@ -104,7 +107,7 @@ export default async function ProfilPage({ searchParams }) {
       )}
 
       <form action={simpanProfil} className="grid grid-cols-1 md:grid-cols-2 gap-3 border border-slate-700 rounded-lg p-4">
-        <h2 className="col-span-full font-semibold">Edit Data</h2>
+        <h2 className="col-span-full font-semibold"><Pencil size={16} /> Edit Data</h2>
         <input type="hidden" name="id" value={p.id} />
         <label className="space-y-1 text-sm">Nama lengkap
           <input name="nama_lengkap" defaultValue={p.nama_lengkap} required className={input} />
@@ -133,12 +136,12 @@ export default async function ProfilPage({ searchParams }) {
           </label>
         )}
         <div className="col-span-full">
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">Simpan</button>
+          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2"><Save size={16} /> Simpan</button>
         </div>
       </form>
 
       <section className="space-y-3">
-        <h2 className="font-semibold">Riwayat Pengajuan Cuti</h2>
+        <h2 className="font-semibold"><History size={16} /> Riwayat Pengajuan Cuti</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm border-collapse">
             <thead>

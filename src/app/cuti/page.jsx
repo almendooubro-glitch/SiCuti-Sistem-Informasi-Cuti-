@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalendarDays, Plus, Bell, Filter, RotateCcw, Eye, X, History, Ban } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import FormCuti from "@/components/FormCuti";
@@ -131,14 +132,14 @@ export default async function CutiPage({ searchParams }) {
     <main className="max-w-5xl mx-auto p-6 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Cuti Saya</h1>
+          <h1 className="text-2xl font-bold"><CalendarDays size={24} /> Cuti Saya</h1>
           <p className="text-sm text-slate-400">
             Sisa kuota cuti tahunan: <strong className="text-white">{Number(kuota.sisa)} hari</strong>
           </p>
         </div>
         {!sp.baru && (
           <Link href="/cuti?baru=1" className="bg-blue-600 text-white rounded px-4 py-2">
-            Ajukan Cuti
+            <Plus size={16} /> Ajukan Cuti
           </Link>
         )}
       </div>
@@ -146,18 +147,12 @@ export default async function CutiPage({ searchParams }) {
       {sp.error && <p className="text-red-400">{sp.error}</p>}
 
       {sp.baru && (
-        <FormCuti
-          jenis={jenis}
-          rekan={rekan}
-          sisaKuota={Number(kuota.sisa)}
-          libur={libur}
-          blackout={blackout}
-        />
+        <FormCuti jenis={jenis} rekan={rekan} sisaKuota={Number(kuota.sisa)} libur={libur} blackout={blackout} />
       )}
 
       {sebagaiPengganti.length > 0 && (
         <section className="border border-sky-700 rounded-lg p-4 space-y-2">
-          <h2 className="font-semibold">Kamu ditunjuk sebagai rekan pengganti</h2>
+          <h2 className="font-semibold"><Bell size={16} /> Kamu ditunjuk sebagai rekan pengganti</h2>
           <ul className="text-sm space-y-1">
             {sebagaiPengganti.map((s) => (
               <li key={s.id}>
@@ -181,8 +176,8 @@ export default async function CutiPage({ searchParams }) {
           <option value="mulai">Urut: Tanggal mulai</option>
           <option value="hari">Urut: Lama cuti</option>
         </select>
-        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2">Terapkan</button>
-        <Link href="/cuti" className="hover:underline text-sm">Reset</Link>
+        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
+        <Link href="/cuti" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
       </form>
 
       <div className="overflow-x-auto">
@@ -201,7 +196,7 @@ export default async function CutiPage({ searchParams }) {
                 <td>{Number(p.total_hari)}</td>
                 <td className={WARNA[p.status]}>{STATUS[p.status]}</td>
                 <td>
-                  <Link href={`/cuti?detail=${p.id}`} className="text-blue-500 hover:underline">Detail</Link>
+                  <Link href={`/cuti?detail=${p.id}`} className="text-blue-500 hover:underline"><Eye size={14} /> Detail</Link>
                 </td>
               </tr>
             ))}
@@ -214,7 +209,7 @@ export default async function CutiPage({ searchParams }) {
         <section className="border border-slate-700 rounded-lg p-4 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold">Detail Pengajuan #{d.id}</h2>
-            <Link href="/cuti" className="text-sm hover:underline">Tutup</Link>
+            <Link href="/cuti" className="text-sm hover:underline"><X size={14} /> Tutup</Link>
           </div>
 
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm">
@@ -240,7 +235,7 @@ export default async function CutiPage({ searchParams }) {
           </dl>
 
           <div>
-            <h3 className="font-semibold text-sm mb-2">Timeline Approval</h3>
+            <h3 className="font-semibold text-sm mb-2"><History size={16} /> Timeline Approval</h3>
             <ol className="border-l border-slate-600 pl-4 space-y-3 text-sm">
               <li>Diajukan · {tgl(d.tanggal_pengajuan)}</li>
               {log.map((l, i) => (
@@ -257,11 +252,11 @@ export default async function CutiPage({ searchParams }) {
 
           {d.status === "pending" && (
             <details>
-              <summary className="cursor-pointer text-red-500 hover:underline text-sm">Batalkan pengajuan</summary>
+              <summary className="cursor-pointer text-red-500 hover:underline text-sm"><Ban size={14} /> Batalkan pengajuan</summary>
               <form action={batalkanCuti} className="mt-3 space-y-2">
                 <input type="hidden" name="id" value={d.id} />
                 <textarea name="alasan" required rows={2} placeholder="Alasan pembatalan (wajib)" className={`${input} w-full`} />
-                <button type="submit" className="bg-red-600 text-white rounded px-4 py-2">Batalkan Pengajuan</button>
+                <button type="submit" className="bg-red-600 text-white rounded px-4 py-2"><Ban size={16} /> Batalkan Pengajuan</button>
               </form>
             </details>
           )}

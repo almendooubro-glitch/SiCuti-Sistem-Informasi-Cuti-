@@ -1,3 +1,7 @@
+import {
+  LayoutDashboard, UserCheck, UserX, CalendarDays, Clock, Building2, CalendarCheck,
+  HeartPulse, FileText, Crown, Inbox, Users, Hourglass, Plane,
+} from "lucide-react";
 import { requireUser } from "@/lib/session";
 import pool from "@/lib/db";
 
@@ -12,19 +16,19 @@ const LABEL_ROLE = {
 
 const tgl = (d) => new Date(d).toLocaleDateString("id-ID");
 
-function Kartu({ judul, nilai }) {
+function Kartu({ judul, nilai, ikon: Ikon }) {
   return (
     <div className="border border-slate-700 rounded-lg p-4">
-      <p className="text-sm text-slate-400">{judul}</p>
+      <p className="text-sm text-slate-400"><Ikon size={16} /> {judul}</p>
       <p className="text-2xl font-bold mt-1">{nilai}</p>
     </div>
   );
 }
 
-function Daftar({ judul, items, kosong }) {
+function Daftar({ judul, items, kosong, ikon: Ikon }) {
   return (
     <section>
-      <h2 className="font-semibold mb-2">{judul}</h2>
+      <h2 className="font-semibold mb-2"><Ikon size={16} /> {judul}</h2>
       {items.length === 0 ? (
         <p className="text-sm text-slate-400">{kosong}</p>
       ) : (
@@ -59,14 +63,15 @@ async function DashboardAdmin() {
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <Kartu judul="Karyawan Aktif" nilai={s.aktif} />
-        <Kartu judul="Karyawan Tidak Aktif" nilai={s.nonaktif} />
-        <Kartu judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} />
-        <Kartu judul="Pending Approval" nilai={s.pending} />
-        <Kartu judul="Total Divisi" nilai={s.divisi} />
+        <Kartu judul="Karyawan Aktif" nilai={s.aktif} ikon={UserCheck} />
+        <Kartu judul="Karyawan Tidak Aktif" nilai={s.nonaktif} ikon={UserX} />
+        <Kartu judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} ikon={CalendarDays} />
+        <Kartu judul="Pending Approval" nilai={s.pending} ikon={Clock} />
+        <Kartu judul="Total Divisi" nilai={s.divisi} ikon={Building2} />
       </div>
       <Daftar
         judul="Masa Kerja < 1 Tahun (belum eligible cuti tahunan)"
+        ikon={Hourglass}
         items={baru.rows.map((r) => `${r.nama_lengkap} (bergabung ${tgl(r.tanggal_bergabung)})`)}
         kosong="Tidak ada karyawan."
       />
@@ -99,11 +104,11 @@ async function DashboardKaryawan({ user }) {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-      <Kartu judul="Sisa Kuota Cuti Tahunan" nilai={`${Number(s.sisa)} hari`} />
-      <Kartu judul="Cuti Sakit Diajukan" nilai={s.sakit} />
-      <Kartu judul="Total Pengajuan" nilai={s.total} />
-      <Kartu judul="Divisi" nilai={s.divisi || "-"} />
-      <Kartu judul="Ketua Divisi" nilai={s.ketua || "-"} />
+      <Kartu judul="Sisa Kuota Cuti Tahunan" nilai={`${Number(s.sisa)} hari`} ikon={CalendarCheck} />
+      <Kartu judul="Cuti Sakit Diajukan" nilai={s.sakit} ikon={HeartPulse} />
+      <Kartu judul="Total Pengajuan" nilai={s.total} ikon={FileText} />
+      <Kartu judul="Divisi" nilai={s.divisi || "-"} ikon={Building2} />
+      <Kartu judul="Ketua Divisi" nilai={s.ketua || "-"} ikon={Crown} />
     </div>
   );
 }
@@ -139,11 +144,12 @@ async function DashboardKetua({ user }) {
     <>
       <p className="text-slate-400">Divisi {div.rows[0].nama}</p>
       <div className="grid grid-cols-2 gap-4">
-        <Kartu judul="Pengajuan Masuk" nilai={stat.rows[0].total} />
-        <Kartu judul="Pending Verifikasi" nilai={stat.rows[0].pending} />
+        <Kartu judul="Pengajuan Masuk" nilai={stat.rows[0].total} ikon={Inbox} />
+        <Kartu judul="Pending Verifikasi" nilai={stat.rows[0].pending} ikon={Clock} />
       </div>
       <Daftar
         judul="Anggota Divisi"
+        ikon={Users}
         items={anggota.rows.map((a) => (a.cuti ? `${a.nama_lengkap} (sedang cuti minggu ini)` : a.nama_lengkap))}
         kosong="Belum ada anggota."
       />
@@ -178,16 +184,18 @@ async function DashboardHrd() {
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
-        <Kartu judul="Pengajuan Bulan Ini" nilai={stat.rows[0].bulan_ini} />
-        <Kartu judul="Pending Final Approval" nilai={stat.rows[0].pending} />
+        <Kartu judul="Pengajuan Bulan Ini" nilai={stat.rows[0].bulan_ini} ikon={CalendarDays} />
+        <Kartu judul="Pending Final Approval" nilai={stat.rows[0].pending} ikon={Clock} />
       </div>
       <Daftar
         judul="Karyawan Sedang Cuti Bulan Ini"
+        ikon={Plane}
         items={cuti.rows.map((r) => r.nama_lengkap)}
         kosong="Tidak ada yang cuti bulan ini."
       />
       <Daftar
         judul="Daftar Divisi"
+        ikon={Building2}
         items={divisi.rows.map((d) => `${d.nama} (ketua: ${d.ketua || "-"}, ${d.anggota} anggota)`)}
         kosong="Belum ada divisi."
       />
@@ -201,7 +209,7 @@ export default async function DashboardPage() {
   return (
     <main className="max-w-3xl mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold"><LayoutDashboard size={24} /> Dashboard</h1>
         <p className="text-slate-400">
           Selamat datang, {user.nama_lengkap} ({LABEL_ROLE[user.role]})
         </p>

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FilePlus2, Send, Loader2, RotateCcw, X } from "lucide-react";
 import { ajukanCuti } from "@/app/cuti/actions";
 import { hitungHariKerja, hariIni } from "@/lib/hari";
 
@@ -58,7 +59,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
       onReset={handleReset}
       className="grid grid-cols-1 md:grid-cols-2 gap-3 border border-slate-700 rounded-lg p-4"
     >
-      <h2 className="col-span-full font-semibold">Form Pengajuan Cuti</h2>
+      <h2 className="col-span-full font-semibold"><FilePlus2 size={18} /> Form Pengajuan Cuti</h2>
 
       <label className="space-y-1 text-sm">
         Jenis cuti
@@ -169,10 +170,10 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
 
       <div className="col-span-full flex gap-3">
         <button type="submit" disabled={pending} className="bg-blue-600 disabled:opacity-50 text-white rounded px-4 py-2">
-          {pending ? "Mengirim..." : "Submit"}
+          {pending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />} {pending ? "Mengirim..." : "Submit"}
         </button>
-        <button type="reset" className="bg-slate-600 text-white rounded px-4 py-2">Reset</button>
-        <Link href="/cuti" className="px-4 py-2 hover:underline">Cancel</Link>
+        <button type="reset" className="bg-slate-600 text-white rounded px-4 py-2"><RotateCcw size={16} /> Reset</button>
+        <Link href="/cuti" className="px-4 py-2 hover:underline"><X size={16} /> Cancel</Link>
       </div>
     </form>
   );

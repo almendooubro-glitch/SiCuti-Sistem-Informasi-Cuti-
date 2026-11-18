@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Users, Plus, Save, Filter, RotateCcw, Pencil, UserRound } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -13,10 +14,6 @@ const ORDER = {
   divisi: "d.nama NULLS LAST, u.nama_lengkap",
 };
 const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2";
-
-// Kolom yang dipakai saja, supaya isi file foto (foto_data) tidak ikut terbaca
-const KOLOM = `u.id, u.username, u.email, u.nama_lengkap, u.role, u.kuota_awal,
-               u.is_active, u.tanggal_bergabung, u.divisi_id`;
 
 export default async function PenggunaPage({ searchParams }) {
   await requireUser(["admin"]);
@@ -38,7 +35,9 @@ export default async function PenggunaPage({ searchParams }) {
   if (sp.masa === "lama") where.push("u.tanggal_bergabung <= CURRENT_DATE - INTERVAL '1 year'");
 
   const { rows } = await pool.query(
-    `SELECT ${KOLOM}, d.nama AS divisi FROM users u
+    `SELECT u.id, u.username, u.email, u.nama_lengkap, u.role, u.is_active, u.kuota_awal,
+            u.tanggal_bergabung, d.nama AS divisi
+     FROM users u
      LEFT JOIN divisi d ON d.id = u.divisi_id
      ${where.length ? "WHERE " + where.join(" AND ") : ""}
      ORDER BY ${ORDER[sp.urut] || ORDER.nama}`,
@@ -47,12 +46,18 @@ export default async function PenggunaPage({ searchParams }) {
   const divisi = (await pool.query("SELECT id, nama FROM divisi ORDER BY nama")).rows;
   const edit = sp.edit
     ? rows.find((u) => u.id === Number(sp.edit)) ||
-      (await pool.query(`SELECT ${KOLOM} FROM users u WHERE u.id = $1`, [Number(sp.edit) || 0])).rows[0]
+      (
+        await pool.query(
+          `SELECT id, username, email, nama_lengkap, role, is_active, kuota_awal
+           FROM users WHERE id = $1`,
+          [Number(sp.edit) || 0]
+        )
+      ).rows[0]
     : null;
 
   return (
     <main className="max-w-5xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Manajemen Pengguna</h1>
+      <h1 className="text-2xl font-bold"><Users size={24} /> Manajemen Pengguna</h1>
       {sp.error && <p className="text-red-400">{sp.error}</p>}
 
       <form key={edit?.id ?? "baru"} action={simpanPengguna} className="grid grid-cols-2 md:grid-cols-4 gap-3 border border-slate-700 rounded-lg p-4">
@@ -78,7 +83,7 @@ export default async function PenggunaPage({ searchParams }) {
         {!edit && <input type="hidden" name="is_active" value="on" />}
         <div className="col-span-full flex gap-3">
           <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            {edit ? "Simpan Perubahan" : "Tambah"}
+            {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
           </button>
           {edit && <Link href="/pengguna" className="px-4 py-2 hover:underline">Batal</Link>}
         </div>
@@ -112,8 +117,8 @@ export default async function PenggunaPage({ searchParams }) {
           <option value="bergabung">Urut: Tanggal bergabung</option>
           <option value="divisi">Urut: Divisi</option>
         </select>
-        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2">Terapkan</button>
-        <Link href="/pengguna" className="hover:underline text-sm">Reset</Link>
+        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
+        <Link href="/pengguna" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
       </form>
 
       <div className="overflow-x-auto">
@@ -136,8 +141,8 @@ export default async function PenggunaPage({ searchParams }) {
                 <td>{u.is_active ? "Aktif" : "Tidak aktif"}</td>
                 <td>
                   <div className="flex gap-3">
-                    <Link href={`/pengguna?edit=${u.id}`} className="text-blue-500 hover:underline">Edit</Link>
-                    <Link href={`/profil?id=${u.id}`} className="text-blue-500 hover:underline">Profil</Link>
+                    <Link href={`/pengguna?edit=${u.id}`} className="text-blue-500 hover:underline"><Pencil size={14} /> Edit</Link>
+                    <Link href={`/profil?id=${u.id}`} className="text-blue-500 hover:underline"><UserRound size={14} /> Profil</Link>
                     {(u.role === "user" || u.role === "ketua_divisi") && (
                       <TombolKonfirmasi
                         action={hapusPengguna}
@@ -157,4 +162,3 @@ export default async function PenggunaPage({ searchParams }) {
     </main>
   );
 }
-
