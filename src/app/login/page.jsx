@@ -12,6 +12,7 @@ import {
   User,
   UserRound,
 } from "lucide-react";
+import { Alert, Card, Field, btn, field } from "@/components/ui";
 
 const PASSWORD_DEMO = "password123";
 const AKUN = [
@@ -60,67 +61,81 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex-1 flex items-center justify-center bg-slate-900 p-4">
-      <div className="w-full max-w-sm space-y-4">
-        <form onSubmit={handleSubmit} className="bg-slate-800 rounded-xl p-6 space-y-4">
-          <h1 className="text-2xl font-bold text-white text-center">
-            <CalendarCheck size={26} /> SiCuti
-          </h1>
-          <p className="text-sm text-slate-400 text-center">Sistem Manajemen Cuti Karyawan</p>
+    <main className="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4">
+      <div className="w-full max-w-md space-y-5">
+        <div className="text-center">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+            <CalendarCheck size={28} />
+          </span>
+          <h1 className="mt-4 text-2xl font-bold text-slate-900">SiCuti</h1>
+          <p className="text-sm text-slate-500">Sistem Manajemen Cuti Karyawan</p>
+        </div>
 
-          <input
-            type="text"
-            placeholder="Email atau username"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            required
-            className="w-full rounded px-3 py-2 bg-slate-700 text-white"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full rounded px-3 py-2 bg-slate-700 text-white"
-          />
+        <Card className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Field label="Email atau username">
+              <input
+                type="text"
+                placeholder="nama@sicuti.com"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                required
+                className={field}
+              />
+            </Field>
+            <Field label="Password">
+              <input
+                type="password"
+                placeholder="Masukkan password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={field}
+              />
+            </Field>
 
-          <label className="flex items-center gap-2 text-sm text-slate-300">
-            <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
-            Remember Me
-          </label>
+            <label className="flex items-center gap-2 text-sm text-slate-600">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              Remember Me
+            </label>
 
-          {pesan && <p className="text-sm text-red-400">{pesan}</p>}
+            <Alert error={pesan} />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded px-4 py-2"
-          >
-            {loading ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}{" "}
-            {loading ? "Memproses..." : "Login"}
-          </button>
-        </form>
+            <button type="submit" disabled={loading} className={btn("primary", "md", "w-full")}>
+              {loading ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
+              {loading ? "Memproses..." : "Login"}
+            </button>
+          </form>
+        </Card>
 
-        <section className="bg-slate-800 rounded-xl p-4 space-y-3">
-          <h2 className="text-sm font-semibold text-white">Akun Uji Cepat</h2>
-          <p className="text-xs text-slate-400">
-            Klik salah satu akun untuk mengisi form. Password semua akun: <code>{PASSWORD_DEMO}</code>
-          </p>
-          <div className="grid grid-cols-2 gap-2">
+        <Card className="space-y-3 p-4">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-800">Akun Uji Cepat</h2>
+            <p className="text-xs text-slate-500">
+              Klik salah satu akun untuk mengisi form. Password semua akun: <code className="rounded bg-slate-100 px-1">{PASSWORD_DEMO}</code>
+            </p>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
             {AKUN.map((a) => (
               <button
                 key={a.email}
                 type="button"
                 onClick={() => isiAkun(a.email)}
-                className="rounded border border-slate-600 px-3 py-2 text-left text-xs text-slate-200 hover:bg-slate-700"
+                className="rounded-lg border border-slate-200 px-3 py-2 text-left text-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                <a.ikon size={14} /> {a.label}
-                <span className="block text-slate-400">{a.email}</span>
+                <span className="flex items-center gap-1.5 font-medium text-slate-800">
+                  <a.ikon size={14} className="text-indigo-600" /> {a.label}
+                </span>
+                <span className="block truncate text-slate-500">{a.email}</span>
               </button>
             ))}
           </div>
-        </section>
+        </Card>
       </div>
     </main>
   );
