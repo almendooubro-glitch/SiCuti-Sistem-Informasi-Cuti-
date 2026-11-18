@@ -1,6 +1,7 @@
 import Link from "next/link";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
+import { cekKapasitas } from "@/lib/kapasitas";
 import ModalKeputusan from "@/components/ModalKeputusan";
 import { putuskan, setujuiBanyak } from "./actions";
 
@@ -29,9 +30,11 @@ export default async function VerifikasiPage({ searchParams }) {
   const hrd = user.role === "hrd";
 
   const { rows: kartu } = await pool.query(
-    `SELECT p.id, p.tanggal_pengajuan, p.tanggal_mulai, p.tanggal_selesai, p.setengah_hari, p.total_hari,
+    `SELECT u.id AS user_id, u.divisi_id, (u.foto_data IS NOT NULL) AS ada_foto,
+            to_char(p.tanggal_mulai,'YYYY-MM-DD') AS mulai_str,
+            to_char(p.tanggal_selesai,'YYYY-MM-DD') AS selesai_str,
+            p.id, p.tanggal_pengajuan, p.tanggal_mulai, p.tanggal_selesai, p.setengah_hari, p.total_hari,
             p.alasan, p.catatan_tugas, p.lampiran, (p.lampiran_data IS NOT NULL) AS ada_lampiran,
-            u.id AS user_id, (u.foto_data IS NOT NULL) AS ada_foto,
             u.nama_lengkap, u.role, d.nama AS divisi, j.nama AS jenis, j.memotong_kuota,
             h.nama_lengkap AS handover,
             u.kuota_awal - COALESCE((
@@ -53,6 +56,14 @@ export default async function VerifikasiPage({ searchParams }) {
      }
      ORDER BY p.tanggal_pengajuan, p.id`,
     hrd ? [] : [user.id]
+  );
+
+  const kapasitas = await Promise.all(
+    kartu.map((k) =>
+      hrd && k.divisi_id && k.jenis !== "Cuti Sakit"
+        ? cekKapasitas(k.divisi_id, k.mulai_str, k.selesai_str, k.user_id)
+        : null
+    )
   );
 
   const params = hrd ? [] : [user.id];
@@ -97,11 +108,10 @@ export default async function VerifikasiPage({ searchParams }) {
         {kartu.length === 0 && <p className="text-slate-400 text-sm">Tidak ada pengajuan yang menunggu.</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {kartu.map((k) => (
+          {kartu.map((k, i) => (
             <article key={k.id} className="border border-slate-700 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
                 {k.ada_foto ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={`/api/foto?id=${k.user_id}`} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
                 ) : (
                   <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">
@@ -138,6 +148,12 @@ export default async function VerifikasiPage({ searchParams }) {
 
               {hrd && (
                 <div className="text-sm border-t border-slate-700 pt-2 space-y-1">
+                  {kapasitas[i] && (
+                    <p className={kapasitas[i].melebihi ? "text-amber-400" : "text-slate-400"}>
+                      {kapasitas[i].melebihi ? "⚠ Melebihi kapasitas: " : "Kapasitas divisi: "}
+                      hari terpadat {kapasitas[i].persen}% anggota cuti (batas {kapasitas[i].maks}%)
+                    </p>
+                  )}
                   {k.memotong_kuota && (
                     <p className={Number(k.sisa) < 0 ? "text-red-400" : ""}>
                       Sisa kuota (termasuk pengajuan ini): <strong>{Number(k.sisa)} hari</strong>
