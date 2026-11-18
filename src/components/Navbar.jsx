@@ -6,13 +6,17 @@ const MENU = {
     ["Pengguna", "/pengguna"],
     ["Divisi", "/divisi"],
     ["Jenis Cuti", "/jenis-cuti"],
+    ["Pengaturan", "/pengaturan"],
   ],
   user: [["Cuti Saya", "/cuti"]],
   ketua_divisi: [
     ["Cuti Saya", "/cuti"],
     ["Verifikasi", "/verifikasi"],
   ],
-  hrd: [["Persetujuan Final", "/verifikasi"]],
+  hrd: [
+    ["Persetujuan Final", "/verifikasi"],
+    ["Pengaturan", "/pengaturan"],
+  ],
 };
 
 export default function Navbar({ user }) {
