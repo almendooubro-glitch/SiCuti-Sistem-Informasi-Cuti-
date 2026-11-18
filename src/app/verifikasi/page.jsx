@@ -1,29 +1,18 @@
 import Link from "next/link";
-import { ClipboardCheck, CheckCheck, Clock, History, Paperclip, Filter, RotateCcw } from "lucide-react";
+import {
+  ClipboardCheck, CheckCheck, Clock, History, Paperclip, Filter, RotateCcw, TriangleAlert, UserCheck,
+} from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { cekKapasitas } from "@/lib/kapasitas";
 import ModalKeputusan from "@/components/ModalKeputusan";
+import {
+  PAGE, STATUS_LABEL, Alert, Avatar, Badge, Card, Kosong, PageHeader, Panel,
+  btn, filterField, tgl, TABLE, TH, TD, TR,
+} from "@/components/ui";
 import { putuskan, setujuiBanyak } from "./actions";
 
 export const dynamic = "force-dynamic";
-
-const STATUS = {
-  pending: "Pending",
-  approved_leader: "Disetujui Ketua Divisi",
-  approved: "Disetujui",
-  rejected: "Ditolak",
-  cancelled: "Dibatalkan",
-};
-const WARNA = {
-  pending: "text-yellow-400",
-  approved_leader: "text-sky-400",
-  approved: "text-green-400",
-  rejected: "text-red-400",
-  cancelled: "text-slate-400",
-};
-const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2";
-const tgl = (d) => new Date(d).toLocaleDateString("id-ID");
 
 export default async function VerifikasiPage({ searchParams }) {
   const user = await requireUser(["ketua_divisi", "hrd"]);
@@ -70,7 +59,7 @@ export default async function VerifikasiPage({ searchParams }) {
 
   const params = hrd ? [] : [user.id];
   const where = [hrd ? "TRUE" : "u.divisi_id IN (SELECT id FROM divisi WHERE ketua_id = $1) AND u.id <> $1"];
-  if (STATUS[sp.status]) {
+  if (STATUS_LABEL[sp.status]) {
     params.push(sp.status);
     where.push(`p.status = $${params.length}`);
   }
@@ -82,67 +71,72 @@ export default async function VerifikasiPage({ searchParams }) {
   );
 
   return (
-    <main className="max-w-5xl mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">
-          <ClipboardCheck size={24} /> {hrd ? "Persetujuan Final" : "Verifikasi Pengajuan"}
-        </h1>
-        <p className="text-sm text-slate-400">
-          {hrd
+    <main className={PAGE}>
+      <PageHeader
+        ikon={ClipboardCheck}
+        judul={hrd ? "Persetujuan Final" : "Verifikasi Pengajuan"}
+        sub={
+          hrd
             ? "Pengajuan yang sudah disetujui ketua divisi dan pengajuan langsung dari ketua divisi."
-            : "Pengajuan cuti dari anggota divisi yang kamu pimpin."}
-        </p>
-      </div>
+            : "Pengajuan cuti dari anggota divisi yang kamu pimpin."
+        }
+      />
 
-      {sp.error && <p className="text-red-400">{sp.error}</p>}
-      {sp.info && <p className="text-green-400">{sp.info}</p>}
+      <Alert error={sp.error} info={sp.info} />
 
       {hrd && <form id="multi" action={setujuiBanyak} />}
 
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="font-semibold"><Clock size={16} /> Menunggu Keputusan ({kartu.length})</h2>
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="flex items-center gap-2 font-semibold text-slate-800">
+            <Clock size={18} className="text-amber-500" /> Menunggu Keputusan ({kartu.length})
+          </h2>
           {hrd && kartu.length > 0 && (
-            <button type="submit" form="multi" className="bg-green-600 text-white rounded px-4 py-2 text-sm">
+            <button type="submit" form="multi" className={btn("success")}>
               <CheckCheck size={16} /> Setujui yang dipilih
             </button>
           )}
         </div>
 
-        {kartu.length === 0 && <p className="text-slate-400 text-sm">Tidak ada pengajuan yang menunggu.</p>}
+        {kartu.length === 0 && (
+          <Card><Kosong>Tidak ada pengajuan yang menunggu.</Kosong></Card>
+        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid gap-4 lg:grid-cols-2">
           {kartu.map((k, i) => (
-            <article key={k.id} className="border border-slate-700 rounded-lg p-4 space-y-3">
+            <Card key={k.id} hover className="space-y-4 p-5">
               <div className="flex items-center gap-3">
-                {k.ada_foto ? (
-                  <img src={`/api/foto?id=${k.user_id}`} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
-                ) : (
-                  <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">
-                    {k.nama_lengkap[0]}
-                  </div>
-                )}
-                <div className="flex-1">
-                  <p className="font-semibold">{k.nama_lengkap}</p>
-                  <p className="text-xs text-slate-400">
+                <Avatar id={k.user_id} ada={k.ada_foto} nama={k.nama_lengkap} size="h-11 w-11" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-semibold text-slate-900">{k.nama_lengkap}</p>
+                  <p className="text-xs text-slate-500">
                     {k.role === "ketua_divisi" ? "Ketua Divisi" : "Karyawan"} · {k.divisi || "Tanpa divisi"}
                   </p>
                 </div>
-                {hrd && <input type="checkbox" name="ids" value={k.id} form="multi" aria-label={`Pilih pengajuan ${k.id}`} />}
+                {hrd && (
+                  <input
+                    type="checkbox"
+                    name="ids"
+                    value={k.id}
+                    form="multi"
+                    aria-label={`Pilih pengajuan ${k.id}`}
+                    className="h-5 w-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                )}
               </div>
 
-              <dl className="text-sm space-y-1">
-                <div><dt className="inline text-slate-400">Jenis: </dt><dd className="inline">{k.jenis}{k.setengah_hari && " (setengah hari)"}</dd></div>
-                <div><dt className="inline text-slate-400">Periode: </dt><dd className="inline">{tgl(k.tanggal_mulai)} - {tgl(k.tanggal_selesai)} ({Number(k.total_hari)} hari)</dd></div>
-                <div><dt className="inline text-slate-400">Diajukan: </dt><dd className="inline">{tgl(k.tanggal_pengajuan)}</dd></div>
-                <div><dt className="inline text-slate-400">Alasan: </dt><dd className="inline">{k.alasan}</dd></div>
-                <div><dt className="inline text-slate-400">Rekan pengganti: </dt><dd className="inline">{k.handover || "-"}</dd></div>
-                <div><dt className="inline text-slate-400">Catatan tugas: </dt><dd className="inline">{k.catatan_tugas || "-"}</dd></div>
+              <dl className="space-y-1.5 text-sm">
+                <div><dt className="inline text-slate-500">Jenis: </dt><dd className="inline font-medium text-slate-900">{k.jenis}{k.setengah_hari && " (setengah hari)"}</dd></div>
+                <div><dt className="inline text-slate-500">Periode: </dt><dd className="inline text-slate-900">{tgl(k.tanggal_mulai)} - {tgl(k.tanggal_selesai)} ({Number(k.total_hari)} hari)</dd></div>
+                <div><dt className="inline text-slate-500">Diajukan: </dt><dd className="inline text-slate-900">{tgl(k.tanggal_pengajuan)}</dd></div>
+                <div><dt className="inline text-slate-500">Alasan: </dt><dd className="inline text-slate-900">{k.alasan}</dd></div>
+                <div><dt className="inline text-slate-500">Rekan pengganti: </dt><dd className="inline text-slate-900">{k.handover || "-"}</dd></div>
+                <div><dt className="inline text-slate-500">Catatan tugas: </dt><dd className="inline text-slate-900">{k.catatan_tugas || "-"}</dd></div>
                 {k.ada_lampiran && (
                   <div>
-                    <dt className="inline text-slate-400">Lampiran: </dt>
+                    <dt className="inline text-slate-500">Lampiran: </dt>
                     <dd className="inline">
-                      <a href={`/api/lampiran?id=${k.id}`} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+                      <a href={`/api/lampiran?id=${k.id}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-indigo-600 hover:underline">
                         <Paperclip size={14} /> {k.lampiran}
                       </a>
                     </dd>
@@ -151,73 +145,85 @@ export default async function VerifikasiPage({ searchParams }) {
               </dl>
 
               {hrd && (
-                <div className="text-sm border-t border-slate-700 pt-2 space-y-1">
+                <div className="space-y-2 border-t border-slate-100 pt-3 text-sm">
                   {kapasitas[i] && (
-                    <p className={kapasitas[i].melebihi ? "text-amber-400" : "text-slate-400"}>
-                      {kapasitas[i].melebihi ? "⚠ Melebihi kapasitas: " : "Kapasitas divisi: "}
-                      hari terpadat {kapasitas[i].persen}% anggota cuti (batas {kapasitas[i].maks}%)
+                    <p
+                      className={`flex items-start gap-2 rounded-lg px-3 py-2 ${
+                        kapasitas[i].melebihi
+                          ? "border border-amber-200 bg-amber-50 text-amber-800"
+                          : "bg-slate-50 text-slate-600"
+                      }`}
+                    >
+                      {kapasitas[i].melebihi && <TriangleAlert size={16} className="mt-0.5" />}
+                      <span>
+                        {kapasitas[i].melebihi ? "Melebihi kapasitas: " : "Kapasitas divisi: "}
+                        hari terpadat {kapasitas[i].persen}% anggota cuti (batas {kapasitas[i].maks}%)
+                      </span>
                     </p>
                   )}
                   {k.memotong_kuota && (
-                    <p className={Number(k.sisa) < 0 ? "text-red-400" : ""}>
+                    <p className={Number(k.sisa) < 0 ? "font-medium text-rose-600" : "text-slate-700"}>
                       Sisa kuota (termasuk pengajuan ini): <strong>{Number(k.sisa)} hari</strong>
                     </p>
                   )}
                   {k.atasan ? (
-                    <p>
-                      Disetujui atasan: <strong>{k.atasan}</strong> · {tgl(k.tgl_atasan)}
-                      <span className="block text-slate-400">Catatan: {k.catatan_atasan || "-"}</span>
+                    <p className="flex items-start gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sky-800">
+                      <UserCheck size={16} className="mt-0.5" />
+                      <span>
+                        Disetujui atasan: <strong>{k.atasan}</strong> · {tgl(k.tgl_atasan)}
+                        <span className="block text-sky-700/80">Catatan: {k.catatan_atasan || "-"}</span>
+                      </span>
                     </p>
                   ) : (
-                    <p className="text-slate-400">Diajukan langsung oleh Ketua Divisi.</p>
+                    <p className="text-slate-500">Diajukan langsung oleh Ketua Divisi.</p>
                   )}
                 </div>
               )}
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <ModalKeputusan action={putuskan} id={k.id} aksi="approved" label="Approve" judul={`Setujui pengajuan ${k.nama_lengkap}?`} />
                 <ModalKeputusan action={putuskan} id={k.id} aksi="rejected" label="Reject" judul={`Tolak pengajuan ${k.nama_lengkap}?`} />
               </div>
-            </article>
+            </Card>
           ))}
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="font-semibold"><History size={16} /> Riwayat Pengajuan</h2>
-        <form className="flex gap-2 items-center">
-          <select name="status" defaultValue={sp.status ?? ""} className={input}>
+      <Panel ikon={History} judul="Riwayat Pengajuan" flush>
+        <form className="flex flex-wrap items-end gap-3 border-b border-slate-100 p-4">
+          <select name="status" defaultValue={sp.status ?? ""} className={filterField}>
             <option value="">Semua status</option>
-            {Object.entries(STATUS).map(([v, l]) => (
+            {Object.entries(STATUS_LABEL).map(([v, l]) => (
               <option key={v} value={v}>{l}</option>
             ))}
           </select>
-          <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
-          <Link href="/verifikasi" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
+          <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
+          <Link href="/verifikasi" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
         </form>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
+          <table className={TABLE}>
             <thead>
-              <tr className="border-b border-slate-700">
-                <th className="py-2">Karyawan</th><th>Jenis</th><th>Periode</th><th>Hari</th><th>Status</th>
+              <tr>
+                <th className={TH}>Karyawan</th><th className={TH}>Jenis</th><th className={TH}>Periode</th>
+                <th className={TH}>Hari</th><th className={TH}>Status</th>
               </tr>
             </thead>
             <tbody>
               {riwayat.map((r) => (
-                <tr key={r.id} className="border-b border-slate-800">
-                  <td className="py-2">{r.nama_lengkap}</td>
-                  <td>{r.jenis}</td>
-                  <td>{tgl(r.tanggal_mulai)} - {tgl(r.tanggal_selesai)}</td>
-                  <td>{Number(r.total_hari)}</td>
-                  <td className={WARNA[r.status]}>{STATUS[r.status]}</td>
+                <tr key={r.id} className={TR}>
+                  <td className={`${TD} font-medium text-slate-900`}>{r.nama_lengkap}</td>
+                  <td className={TD}>{r.jenis}</td>
+                  <td className={`${TD} whitespace-nowrap`}>{tgl(r.tanggal_mulai)} - {tgl(r.tanggal_selesai)}</td>
+                  <td className={TD}>{Number(r.total_hari)}</td>
+                  <td className={TD}><Badge status={r.status} /></td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {riwayat.length === 0 && <p className="text-slate-400 py-4">Belum ada riwayat.</p>}
         </div>
-      </section>
+        {riwayat.length === 0 && <Kosong>Belum ada riwayat.</Kosong>}
+      </Panel>
     </main>
   );
 }
