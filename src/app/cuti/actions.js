@@ -74,8 +74,20 @@ export async function ajukanCuti(formData) {
       return gagal(`${jenis.nama} harus diajukan minimal H-${jenis.min_hari_sebelum}`);
     }
 
-    const u = (await pool.query("SELECT divisi_id, kuota_awal FROM users WHERE id = $1", [user.id])).rows[0];
+    const u = (
+      await pool.query(
+        `SELECT divisi_id, kuota_awal,
+                to_char((tanggal_bergabung + INTERVAL '1 year')::date, 'YYYY-MM-DD') AS eligible_sejak
+         FROM users WHERE id = $1`,
+        [user.id]
+      )
+    ).rows[0];
     if (user.role === "user" && !u.divisi_id) return gagal("Kamu belum masuk divisi, hubungi admin");
+
+    if (jenis.nama === "Cuti Tahunan" && mulai < u.eligible_sejak) {
+      const sejak = new Date(u.eligible_sejak + "T00:00:00").toLocaleDateString("id-ID");
+      return gagal(`Cuti Tahunan baru bisa diambil setelah masa kerja 1 tahun (mulai ${sejak})`);
+    }
 
     if (biasa && u.divisi_id) {
       const k = await cekKapasitas(u.divisi_id, mulai, selesai, user.id);
@@ -91,8 +103,9 @@ export async function ajukanCuti(formData) {
       const { rows } = await pool.query(
         `SELECT COALESCE(SUM(p.total_hari), 0) AS pakai
          FROM pengajuan_cuti p JOIN jenis_cuti j ON j.id = p.jenis_cuti_id
-         WHERE p.user_id = $1 AND j.memotong_kuota AND p.status IN ${AKTIF}`,
-        [user.id]
+         WHERE p.user_id = $1 AND j.memotong_kuota AND p.status IN ${AKTIF}
+           AND EXTRACT(YEAR FROM p.tanggal_mulai) = $2`,
+        [user.id, Number(mulai.slice(0, 4))]
       );
       const sisa = Number(u.kuota_awal) - Number(rows[0].pakai);
       if (total > sisa) return gagal(`Kuota tidak mencukupi. Sisa ${sisa} hari, pengajuan ${total} hari`);
