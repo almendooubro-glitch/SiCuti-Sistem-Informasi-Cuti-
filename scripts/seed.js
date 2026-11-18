@@ -3,18 +3,20 @@ const bcrypt = require("bcryptjs");
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
+const p2 = (n) => String(n).padStart(2, "0");
+const fmt = (d) => `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+
 function tgl(offset) {
   const d = new Date();
   d.setDate(d.getDate() + offset);
-  const p = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  return fmt(d);
 }
 
-function hariKerja(a, b) {
+function hariKerja(a, b, libur) {
   let n = 0;
   const e = new Date(b + "T00:00:00");
   for (let d = new Date(a + "T00:00:00"); d <= e; d.setDate(d.getDate() + 1)) {
-    if (d.getDay() !== 0 && d.getDay() !== 6) n++;
+    if (d.getDay() !== 0 && d.getDay() !== 6 && !libur.has(fmt(d))) n++;
   }
   return Math.max(n, 1);
 }
@@ -28,8 +30,8 @@ const USERS = [
   ["dewi", "dewi@sicuti.com", "Dewi Lestari", "user", 450, true],
   ["eko", "eko@sicuti.com", "Eko Prasetyo", "user", 400, true],
   ["fajar", "fajar@sicuti.com", "Fajar Nugroho", "user", 300, true],
-  ["gita", "gita@sicuti.com", "Gita Pratiwi", "user", 90, true], 
-  ["hendra", "hendra@sicuti.com", "Hendra Wijaya", "user", 600, false], 
+  ["gita", "gita@sicuti.com", "Gita Pratiwi", "user", 90, true], // < 1 tahun
+  ["hendra", "hendra@sicuti.com", "Hendra Wijaya", "user", 600, false], // tidak aktif
 ];
 
 const DIVISI = [
@@ -43,6 +45,12 @@ const JENIS = [
   ["Cuti Menikah", 3, false, false, 7, 0],
   ["Cuti Melahirkan", 90, false, false, 7, 0],
   ["Cuti Duka", 3, false, false, 0, 1],
+];
+
+const LIBUR = [
+  ["2026-12-24", "Cuti Bersama Natal", "cuti_bersama"],
+  ["2026-12-25", "Hari Raya Natal", "nasional"],
+  ["2027-01-01", "Tahun Baru 2027", "nasional"],
 ];
 
 const PENGAJUAN = [
@@ -72,6 +80,26 @@ async function main() {
     );
   }
 
+  await pool.query(
+    `INSERT INTO pengaturan (kunci, nilai) VALUES ('kapasitas_maks_persen', '50')
+     ON CONFLICT (kunci) DO NOTHING`
+  );
+  for (const [t, k, j] of LIBUR) {
+    await pool.query(
+      "INSERT INTO hari_libur (tanggal, keterangan, jenis) VALUES ($1, $2, $3) ON CONFLICT (tanggal) DO NOTHING",
+      [t, k, j]
+    );
+  }
+  if (!(await pool.query("SELECT 1 FROM blackout LIMIT 1")).rows.length) {
+    await pool.query(
+      `INSERT INTO blackout (tanggal_mulai, tanggal_selesai, keterangan)
+       VALUES ('2026-12-28', '2026-12-31', 'Tutup buku akhir tahun')`
+    );
+  }
+  const libur = new Set(
+    (await pool.query("SELECT to_char(tanggal, 'YYYY-MM-DD') AS t FROM hari_libur")).rows.map((r) => r.t)
+  );
+
   for (const [username, email, nama, role, hari, aktif] of USERS) {
     await pool.query(
       `INSERT INTO users (username, email, password, nama_lengkap, role, is_active, tanggal_bergabung)
@@ -87,7 +115,7 @@ async function main() {
   const uid = {};
   for (const r of (await pool.query("SELECT id, username FROM users")).rows) uid[r.username] = r.id;
 
-    await pool.query(
+  await pool.query(
     "UPDATE users SET telepon = '081234567890', alamat = 'Makassar, Sulawesi Selatan' WHERE telepon IS NULL"
   );
 
@@ -112,7 +140,7 @@ async function main() {
     for (const [user, jenis, ajuan, mulai, selesai, setengah, alasan, handover, status, logs] of PENGAJUAN) {
       const m = tgl(mulai);
       const s = tgl(selesai);
-      const total = setengah ? 0.5 : hariKerja(m, s);
+      const total = setengah ? 0.5 : hariKerja(m, s, libur);
       const { id } = (
         await pool.query(
           `INSERT INTO pengajuan_cuti
