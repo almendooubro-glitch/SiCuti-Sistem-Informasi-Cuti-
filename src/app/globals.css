@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+svg.lucide {
+  display: inline-block;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
