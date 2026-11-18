@@ -30,16 +30,17 @@ export default async function VerifikasiPage({ searchParams }) {
   const hrd = user.role === "hrd";
 
   const { rows: kartu } = await pool.query(
-    `SELECT u.id AS user_id, u.divisi_id, (u.foto_data IS NOT NULL) AS ada_foto,
-            to_char(p.tanggal_mulai,'YYYY-MM-DD') AS mulai_str,
+    `SELECT u.divisi_id, to_char(p.tanggal_mulai,'YYYY-MM-DD') AS mulai_str,
             to_char(p.tanggal_selesai,'YYYY-MM-DD') AS selesai_str,
             p.id, p.tanggal_pengajuan, p.tanggal_mulai, p.tanggal_selesai, p.setengah_hari, p.total_hari,
             p.alasan, p.catatan_tugas, p.lampiran, (p.lampiran_data IS NOT NULL) AS ada_lampiran,
+            u.id AS user_id, (u.foto_data IS NOT NULL) AS ada_foto,
             u.nama_lengkap, u.role, d.nama AS divisi, j.nama AS jenis, j.memotong_kuota,
             h.nama_lengkap AS handover,
             u.kuota_awal - COALESCE((
               SELECT SUM(x.total_hari) FROM pengajuan_cuti x JOIN jenis_cuti jx ON jx.id = x.jenis_cuti_id
               WHERE x.user_id = u.id AND jx.memotong_kuota
+                AND EXTRACT(YEAR FROM x.tanggal_mulai) = EXTRACT(YEAR FROM p.tanggal_mulai)
                 AND x.status IN ('pending','approved_leader','approved')), 0) AS sisa,
             a.nama_lengkap AS atasan, l.catatan AS catatan_atasan, l.dibuat_pada AS tgl_atasan
      FROM pengajuan_cuti p
@@ -112,6 +113,7 @@ export default async function VerifikasiPage({ searchParams }) {
             <article key={k.id} className="border border-slate-700 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
                 {k.ada_foto ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={`/api/foto?id=${k.user_id}`} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
                 ) : (
                   <div className="h-10 w-10 shrink-0 rounded-full bg-slate-600 flex items-center justify-center font-bold">

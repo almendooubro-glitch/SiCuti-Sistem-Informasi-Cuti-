@@ -37,6 +37,7 @@ export default async function CutiPage({ searchParams }) {
       `SELECT u.kuota_awal - COALESCE((
          SELECT SUM(p.total_hari) FROM pengajuan_cuti p JOIN jenis_cuti j ON j.id = p.jenis_cuti_id
          WHERE p.user_id = u.id AND j.memotong_kuota
+           AND EXTRACT(YEAR FROM p.tanggal_mulai) = EXTRACT(YEAR FROM CURRENT_DATE)
            AND p.status IN ('pending','approved_leader','approved')), 0) AS sisa
        FROM users u WHERE u.id = $1`,
       [user.id]
@@ -70,8 +71,8 @@ export default async function CutiPage({ searchParams }) {
 
   let jenis = [];
   let rekan = [];
-  let libur = []; 
-  let blackout = []; 
+  let libur = [];
+  let blackout = [];
   if (sp.baru) {
     jenis = (
       await pool.query(
@@ -87,7 +88,6 @@ export default async function CutiPage({ searchParams }) {
         [user.id]
       )
     ).rows;
-
     libur = (
       await pool.query(
         "SELECT to_char(tanggal,'YYYY-MM-DD') AS t FROM hari_libur WHERE tanggal >= CURRENT_DATE - INTERVAL '1 month'"

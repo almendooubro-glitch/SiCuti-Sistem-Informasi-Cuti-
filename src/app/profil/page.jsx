@@ -37,6 +37,7 @@ export default async function ProfilPage({ searchParams }) {
             COALESCE((
               SELECT SUM(x.total_hari) FROM pengajuan_cuti x JOIN jenis_cuti j ON j.id = x.jenis_cuti_id
               WHERE x.user_id = u.id AND j.memotong_kuota
+                AND EXTRACT(YEAR FROM x.tanggal_mulai) = EXTRACT(YEAR FROM CURRENT_DATE)
                 AND x.status IN ('pending','approved_leader','approved')), 0) AS terpakai
      FROM users u LEFT JOIN divisi d ON d.id = u.divisi_id
      WHERE u.id = $1`,
@@ -123,7 +124,7 @@ export default async function ProfilPage({ searchParams }) {
         <label className="space-y-1 text-sm">Password baru (opsional)
           <input name="password" type="password" autoComplete="new-password" className={input} />
         </label>
-        <label className="space-y-1 text-sm">Foto profil (JPG, PNG, WEBP, maks. 10 MB)
+        <label className="space-y-1 text-sm">Foto profil (JPG, PNG, WEBP, maks. 900 KB)
           <input name="foto" type="file" accept=".jpg,.jpeg,.png,.webp" className={input} />
         </label>
         {p.ada_foto && (

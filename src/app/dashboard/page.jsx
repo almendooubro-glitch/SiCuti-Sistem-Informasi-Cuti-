@@ -81,6 +81,7 @@ async function DashboardKaryawan({ user }) {
          SELECT SUM(p.total_hari) FROM pengajuan_cuti p
          JOIN jenis_cuti j ON j.id = p.jenis_cuti_id
          WHERE p.user_id = u.id AND j.memotong_kuota
+           AND EXTRACT(YEAR FROM p.tanggal_mulai) = EXTRACT(YEAR FROM CURRENT_DATE)
            AND p.status IN ('pending','approved_leader','approved')
        ), 0) AS sisa,
        (SELECT COUNT(*) FROM pengajuan_cuti p

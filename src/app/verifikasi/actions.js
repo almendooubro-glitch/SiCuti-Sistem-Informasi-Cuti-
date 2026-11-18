@@ -18,7 +18,9 @@ async function proses(user, id, aksi, catatan) {
               u.kuota_awal - COALESCE((
                 SELECT SUM(x.total_hari) FROM pengajuan_cuti x
                 JOIN jenis_cuti jx ON jx.id = x.jenis_cuti_id
-                WHERE x.user_id = u.id AND jx.memotong_kuota AND x.status IN ${AKTIF}), 0) AS sisa
+                WHERE x.user_id = u.id AND jx.memotong_kuota
+                  AND EXTRACT(YEAR FROM x.tanggal_mulai) = EXTRACT(YEAR FROM p.tanggal_mulai)
+                  AND x.status IN ${AKTIF}), 0) AS sisa
        FROM pengajuan_cuti p
        JOIN users u ON u.id = p.user_id
        JOIN jenis_cuti j ON j.id = p.jenis_cuti_id
