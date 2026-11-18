@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ajukanCuti } from "@/app/cuti/actions";
-import { hitungHariKerja } from "@/lib/hari";
+import { hitungHariKerja, hariIni } from "@/lib/hari";
 
 const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2 w-full";
 
@@ -88,6 +88,21 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           {blackout.map((b) => `${b.keterangan} (${b.mulai} s.d. ${b.selesai})`).join("; ")}
         </p>
       )}
+
+      <label className="col-span-full space-y-1 text-sm">
+        Tanggal pengajuan (otomatis hari ini)
+        <input
+          value={new Date(hariIni() + "T00:00:00").toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+          readOnly
+          disabled
+          className={input}
+        />
+      </label>
 
       <label className="space-y-1 text-sm">
         Tanggal mulai
