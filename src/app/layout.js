@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import Footer from "@/components/Footer";
+import pool from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 
 const geistSans = Geist({
@@ -21,6 +22,9 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const user = await getCurrentUser();
+  const adaFoto = user
+    ? (await pool.query("SELECT (foto_data IS NOT NULL) AS ada FROM users WHERE id = $1", [user.id])).rows[0]?.ada
+    : false;
 
   return (
     <html
@@ -29,7 +33,7 @@ export default async function RootLayout({ children }) {
     >
       <body className="min-h-full bg-slate-50 text-slate-900">
         {user ? (
-          <AppShell user={user} footer={<Footer />}>
+          <AppShell user={user} adaFoto={Boolean(adaFoto)} footer={<Footer />}>
             {children}
           </AppShell>
         ) : (
