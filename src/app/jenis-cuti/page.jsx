@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { Tags, Plus, Save, Pencil } from "lucide-react";
+import { Tags, Plus, Save, Pencil, Paperclip } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
+import { PAGE, Alert, Card, Field, PageHeader, btn, field, TABLE, TH, TD, TR } from "@/components/ui";
 import { simpanJenisCuti } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2";
+const cek = "h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500";
 
 export default async function JenisCutiPage({ searchParams }) {
   await requireUser(["admin"]);
@@ -16,59 +17,79 @@ export default async function JenisCutiPage({ searchParams }) {
   const edit = rows.find((j) => j.id === Number(sp.edit));
 
   return (
-    <main className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold"><Tags size={24} /> Manajemen Jenis Cuti</h1>
-      {sp.error && <p className="text-red-400">{sp.error}</p>}
+    <main className={PAGE}>
+      <PageHeader ikon={Tags} judul="Manajemen Jenis Cuti" sub="Atur kuota, batas pengajuan, lampiran, dan pemotongan kuota" />
+      <Alert error={sp.error} />
 
-      <form key={edit?.id ?? "baru"} action={simpanJenisCuti} className="grid grid-cols-2 md:grid-cols-3 gap-3 border border-slate-700 rounded-lg p-4">
-        <h2 className="col-span-full font-semibold">
-          {edit ? `Edit Jenis Cuti #${edit.id}` : "Tambah Jenis Cuti"}
-        </h2>
-        <input type="hidden" name="id" value={edit?.id ?? ""} />
-        <input name="nama" placeholder="Nama jenis cuti" defaultValue={edit?.nama} required className={input} />
-        <input name="kuota" type="number" step="0.5" min="0" placeholder="Kuota hari (kosong = tanpa batas)" defaultValue={edit?.kuota ?? ""} className={input} />
-        <input name="min_hari_sebelum" type="number" min="0" defaultValue={edit?.min_hari_sebelum ?? 0} title="Minimal diajukan berapa hari sebelum mulai" className={input} />
-        <input name="maks_hari_sesudah" type="number" min="0" defaultValue={edit?.maks_hari_sesudah ?? 0} title="Maksimal diajukan berapa hari setelah mulai" className={input} />
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="wajib_lampiran" defaultChecked={edit?.wajib_lampiran} /> Wajib lampiran
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="memotong_kuota" defaultChecked={edit?.memotong_kuota} /> Memotong kuota tahunan
-        </label>
-        <p className="col-span-full text-xs text-slate-400">
-          Kolom 3 = minimal hari sebelum mulai (H-n), kolom 4 = maksimal hari setelah mulai.
-        </p>
-        <div className="col-span-full flex gap-3">
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
-          </button>
-          {edit && <Link href="/jenis-cuti" className="px-4 py-2 hover:underline">Batal</Link>}
+      <Card className="p-5">
+        <form key={edit?.id ?? "baru"} action={simpanJenisCuti} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
+            {edit ? <Pencil size={18} className="text-indigo-600" /> : <Plus size={18} className="text-indigo-600" />}
+            {edit ? `Edit Jenis Cuti #${edit.id}` : "Tambah Jenis Cuti"}
+          </h2>
+          <input type="hidden" name="id" value={edit?.id ?? ""} />
+          <Field label="Nama jenis cuti">
+            <input name="nama" placeholder="Nama jenis cuti" defaultValue={edit?.nama} required className={field} />
+          </Field>
+          <Field label="Kuota (hari)">
+            <input name="kuota" type="number" step="0.5" min="0" placeholder="Kosong = tanpa batas" defaultValue={edit?.kuota ?? ""} className={field} />
+          </Field>
+          <span className="hidden lg:block" />
+          <Field label="Minimal diajukan H-n sebelum mulai">
+            <input name="min_hari_sebelum" type="number" min="0" defaultValue={edit?.min_hari_sebelum ?? 0} className={field} />
+          </Field>
+          <Field label="Maksimal diajukan n hari setelah mulai">
+            <input name="maks_hari_sesudah" type="number" min="0" defaultValue={edit?.maks_hari_sesudah ?? 0} className={field} />
+          </Field>
+          <div className="flex flex-col justify-end gap-2 pb-1 text-sm font-medium text-slate-700">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="wajib_lampiran" defaultChecked={edit?.wajib_lampiran} className={cek} /> Wajib lampiran
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="memotong_kuota" defaultChecked={edit?.memotong_kuota} className={cek} /> Memotong kuota tahunan
+            </label>
+          </div>
+          <div className="col-span-full flex flex-wrap gap-2">
+            <button type="submit" className={btn("primary")}>
+              {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
+            </button>
+            {edit && <Link href="/jenis-cuti" className={btn("secondary")}>Batal</Link>}
+          </div>
+        </form>
+      </Card>
+
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className={TABLE}>
+            <thead>
+              <tr>
+                <th className={TH}>Jenis Cuti</th><th className={TH}>Kuota</th><th className={TH}>Lampiran</th>
+                <th className={TH}>Potong Kuota</th><th className={TH}>Min. H-</th><th className={TH}>Maks. H+</th>
+                <th className={TH}>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((j) => (
+                <tr key={j.id} className={TR}>
+                  <td className={`${TD} font-medium text-slate-900`}>{j.nama}</td>
+                  <td className={TD}>{j.kuota ?? "Tanpa batas"}</td>
+                  <td className={TD}>
+                    {j.wajib_lampiran ? (
+                      <span className="inline-flex items-center gap-1 text-amber-700"><Paperclip size={14} /> Wajib</span>
+                    ) : "Tidak"}
+                  </td>
+                  <td className={TD}>{j.memotong_kuota ? "Ya" : "Tidak"}</td>
+                  <td className={TD}>{j.min_hari_sebelum}</td>
+                  <td className={TD}>{j.maks_hari_sesudah}</td>
+                  <td className={TD}>
+                    <Link href={`/jenis-cuti?edit=${j.id}`} className={btn("ghost", "sm")}><Pencil size={14} /> Edit</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </form>
-
-      <table className="w-full text-left text-sm border-collapse">
-        <thead>
-          <tr className="border-b border-slate-700">
-            <th className="py-2">Jenis Cuti</th><th>Kuota</th><th>Lampiran</th>
-            <th>Potong Kuota</th><th>Min. H-</th><th>Maks. H+</th><th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((j) => (
-            <tr key={j.id} className="border-b border-slate-800">
-              <td className="py-2">{j.nama}</td>
-              <td>{j.kuota ?? "Tanpa batas"}</td>
-              <td>{j.wajib_lampiran ? "Wajib" : "Tidak"}</td>
-              <td>{j.memotong_kuota ? "Ya" : "Tidak"}</td>
-              <td>{j.min_hari_sebelum}</td>
-              <td>{j.maks_hari_sesudah}</td>
-              <td>
-                <Link href={`/jenis-cuti?edit=${j.id}`} className="text-blue-500 hover:underline"><Pencil size={14} /> Edit</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      </Card>
     </main>
   );
 }

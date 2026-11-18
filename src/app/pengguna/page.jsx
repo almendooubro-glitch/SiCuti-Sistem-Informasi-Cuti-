@@ -3,17 +3,19 @@ import { Users, Plus, Save, Filter, RotateCcw, Pencil, UserRound } from "lucide-
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
+import {
+  PAGE, LABEL_ROLE, Alert, Card, Field, PageHeader, RoleBadge, ActiveBadge, Kosong,
+  btn, field, filterField, tgl, TABLE, TH, TD, TR,
+} from "@/components/ui";
 import { simpanPengguna, hapusPengguna } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const LABEL_ROLE = { admin: "Admin", user: "Karyawan", ketua_divisi: "Ketua Divisi", hrd: "HRD" };
 const ORDER = {
   nama: "u.nama_lengkap",
   bergabung: "u.tanggal_bergabung DESC",
   divisi: "d.nama NULLS LAST, u.nama_lengkap",
 };
-const input = "border border-slate-600 bg-slate-800 text-white rounded px-3 py-2";
 
 export default async function PenggunaPage({ searchParams }) {
   await requireUser(["admin"]);
@@ -56,109 +58,143 @@ export default async function PenggunaPage({ searchParams }) {
     : null;
 
   return (
-    <main className="max-w-5xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold"><Users size={24} /> Manajemen Pengguna</h1>
-      {sp.error && <p className="text-red-400">{sp.error}</p>}
+    <main className={PAGE}>
+      <PageHeader ikon={Users} judul="Manajemen Pengguna" sub="Kelola akun karyawan, ketua divisi, HRD, dan admin" />
+      <Alert error={sp.error} />
 
-      <form key={edit?.id ?? "baru"} action={simpanPengguna} className="grid grid-cols-2 md:grid-cols-4 gap-3 border border-slate-700 rounded-lg p-4">
-        <h2 className="col-span-full font-semibold">
-          {edit ? `Edit Pengguna #${edit.id}` : "Tambah Pengguna"}
-        </h2>
-        <input type="hidden" name="id" value={edit?.id ?? ""} />
-        <input name="username" placeholder="Username" defaultValue={edit?.username} required className={input} />
-        <input name="email" type="email" placeholder="Email" defaultValue={edit?.email} required className={input} />
-        <input name="nama_lengkap" placeholder="Nama lengkap" defaultValue={edit?.nama_lengkap} required className={input} />
-        <input name="password" type="password" placeholder={edit ? "Password baru (opsional)" : "Password"} required={!edit} className={input} />
-        <select name="role" defaultValue={edit?.role ?? "user"} className={input}>
-          {Object.entries(LABEL_ROLE).map(([v, l]) => (
-            <option key={v} value={v}>{l}</option>
-          ))}
-        </select>
-        <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={edit?.kuota_awal ?? 12} required className={input} />
-        {edit && (
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="is_active" defaultChecked={edit.is_active} /> Aktif
-          </label>
-        )}
-        {!edit && <input type="hidden" name="is_active" value="on" />}
-        <div className="col-span-full flex gap-3">
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
-          </button>
-          {edit && <Link href="/pengguna" className="px-4 py-2 hover:underline">Batal</Link>}
-        </div>
-      </form>
+      <Card className="p-5">
+        <form key={edit?.id ?? "baru"} action={simpanPengguna} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
+            {edit ? <Pencil size={18} className="text-indigo-600" /> : <Plus size={18} className="text-indigo-600" />}
+            {edit ? `Edit Pengguna #${edit.id}` : "Tambah Pengguna"}
+          </h2>
+          <input type="hidden" name="id" value={edit?.id ?? ""} />
+          <Field label="Username">
+            <input name="username" placeholder="Username" defaultValue={edit?.username} required className={field} />
+          </Field>
+          <Field label="Email">
+            <input name="email" type="email" placeholder="Email" defaultValue={edit?.email} required className={field} />
+          </Field>
+          <Field label="Nama lengkap">
+            <input name="nama_lengkap" placeholder="Nama lengkap" defaultValue={edit?.nama_lengkap} required className={field} />
+          </Field>
+          <Field label={edit ? "Password baru (opsional)" : "Password"}>
+            <input
+              name="password"
+              type="password"
+              placeholder={edit ? "Kosongkan jika tidak diubah" : "Minimal 6 karakter"}
+              required={!edit}
+              className={field}
+            />
+          </Field>
+          <Field label="Role">
+            <select name="role" defaultValue={edit?.role ?? "user"} className={field}>
+              {Object.entries(LABEL_ROLE).map(([v, l]) => (
+                <option key={v} value={v}>{l}</option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Kuota cuti awal (hari)">
+            <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={edit?.kuota_awal ?? 12} required className={field} />
+          </Field>
+          {edit && (
+            <label className="flex items-center gap-2 self-end pb-2 text-sm font-medium text-slate-700">
+              <input
+                type="checkbox"
+                name="is_active"
+                defaultChecked={edit.is_active}
+                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              Akun aktif
+            </label>
+          )}
+          {!edit && <input type="hidden" name="is_active" value="on" />}
+          <div className="col-span-full flex flex-wrap gap-2">
+            <button type="submit" className={btn("primary")}>
+              {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
+            </button>
+            {edit && (
+              <Link href="/pengguna" className={btn("secondary")}>Batal</Link>
+            )}
+          </div>
+        </form>
+      </Card>
 
-      <form className="flex flex-wrap gap-2 items-center">
-        <select name="role" defaultValue={sp.role ?? ""} className={input}>
-          <option value="">Semua role</option>
-          {Object.entries(LABEL_ROLE).map(([v, l]) => (
-            <option key={v} value={v}>{l}</option>
-          ))}
-        </select>
-        <select name="divisi" defaultValue={sp.divisi ?? ""} className={input}>
-          <option value="">Semua divisi</option>
-          {divisi.map((d) => (
-            <option key={d.id} value={d.id}>{d.nama}</option>
-          ))}
-        </select>
-        <select name="status" defaultValue={sp.status ?? ""} className={input}>
-          <option value="">Semua status</option>
-          <option value="aktif">Aktif</option>
-          <option value="nonaktif">Tidak aktif</option>
-        </select>
-        <select name="masa" defaultValue={sp.masa ?? ""} className={input}>
-          <option value="">Semua masa kerja</option>
-          <option value="baru">&lt; 1 tahun</option>
-          <option value="lama">&ge; 1 tahun</option>
-        </select>
-        <select name="urut" defaultValue={sp.urut ?? "nama"} className={input}>
-          <option value="nama">Urut: Nama</option>
-          <option value="bergabung">Urut: Tanggal bergabung</option>
-          <option value="divisi">Urut: Divisi</option>
-        </select>
-        <button type="submit" className="bg-slate-600 text-white rounded px-4 py-2"><Filter size={16} /> Terapkan</button>
-        <Link href="/pengguna" className="hover:underline text-sm"><RotateCcw size={14} /> Reset</Link>
-      </form>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm border-collapse">
-          <thead>
-            <tr className="border-b border-slate-700">
-              <th className="py-2">Nama</th><th>Username</th><th>Email</th><th>Role</th>
-              <th>Divisi</th><th>Bergabung</th><th>Status</th><th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((u) => (
-              <tr key={u.id} className="border-b border-slate-800">
-                <td className="py-2">{u.nama_lengkap}</td>
-                <td>{u.username}</td>
-                <td>{u.email}</td>
-                <td>{LABEL_ROLE[u.role]}</td>
-                <td>{u.divisi || "-"}</td>
-                <td>{new Date(u.tanggal_bergabung).toLocaleDateString("id-ID")}</td>
-                <td>{u.is_active ? "Aktif" : "Tidak aktif"}</td>
-                <td>
-                  <div className="flex gap-3">
-                    <Link href={`/pengguna?edit=${u.id}`} className="text-blue-500 hover:underline"><Pencil size={14} /> Edit</Link>
-                    <Link href={`/profil?id=${u.id}`} className="text-blue-500 hover:underline"><UserRound size={14} /> Profil</Link>
-                    {(u.role === "user" || u.role === "ketua_divisi") && (
-                      <TombolKonfirmasi
-                        action={hapusPengguna}
-                        fields={{ id: u.id }}
-                        label="Hapus"
-                        pesan={`Yakin hapus ${u.nama_lengkap}?`}
-                      />
-                    )}
-                  </div>
-                </td>
-              </tr>
+      <Card className="p-4">
+        <form className="flex flex-wrap items-end gap-3">
+          <select name="role" defaultValue={sp.role ?? ""} className={filterField}>
+            <option value="">Semua role</option>
+            {Object.entries(LABEL_ROLE).map(([v, l]) => (
+              <option key={v} value={v}>{l}</option>
             ))}
-          </tbody>
-        </table>
-        {rows.length === 0 && <p className="text-slate-400 py-4">Tidak ada pengguna.</p>}
-      </div>
+          </select>
+          <select name="divisi" defaultValue={sp.divisi ?? ""} className={filterField}>
+            <option value="">Semua divisi</option>
+            {divisi.map((d) => (
+              <option key={d.id} value={d.id}>{d.nama}</option>
+            ))}
+          </select>
+          <select name="status" defaultValue={sp.status ?? ""} className={filterField}>
+            <option value="">Semua status</option>
+            <option value="aktif">Aktif</option>
+            <option value="nonaktif">Tidak aktif</option>
+          </select>
+          <select name="masa" defaultValue={sp.masa ?? ""} className={filterField}>
+            <option value="">Semua masa kerja</option>
+            <option value="baru">&lt; 1 tahun</option>
+            <option value="lama">&ge; 1 tahun</option>
+          </select>
+          <select name="urut" defaultValue={sp.urut ?? "nama"} className={filterField}>
+            <option value="nama">Urut: Nama</option>
+            <option value="bergabung">Urut: Tanggal bergabung</option>
+            <option value="divisi">Urut: Divisi</option>
+          </select>
+          <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
+          <Link href="/pengguna" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
+        </form>
+      </Card>
+
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className={TABLE}>
+            <thead>
+              <tr>
+                <th className={TH}>Nama</th><th className={TH}>Username</th><th className={TH}>Email</th>
+                <th className={TH}>Role</th><th className={TH}>Divisi</th><th className={TH}>Bergabung</th>
+                <th className={TH}>Status</th><th className={TH}>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((u) => (
+                <tr key={u.id} className={TR}>
+                  <td className={`${TD} font-medium text-slate-900`}>{u.nama_lengkap}</td>
+                  <td className={TD}>{u.username}</td>
+                  <td className={TD}>{u.email}</td>
+                  <td className={TD}><RoleBadge role={u.role} /></td>
+                  <td className={TD}>{u.divisi || "-"}</td>
+                  <td className={`${TD} whitespace-nowrap`}>{tgl(u.tanggal_bergabung)}</td>
+                  <td className={TD}><ActiveBadge aktif={u.is_active} /></td>
+                  <td className={TD}>
+                    <div className="flex flex-wrap items-center gap-1">
+                      <Link href={`/pengguna?edit=${u.id}`} className={btn("ghost", "sm")}><Pencil size={14} /> Edit</Link>
+                      <Link href={`/profil?id=${u.id}`} className={btn("ghost", "sm")}><UserRound size={14} /> Profil</Link>
+                      {(u.role === "user" || u.role === "ketua_divisi") && (
+                        <TombolKonfirmasi
+                          action={hapusPengguna}
+                          fields={{ id: u.id }}
+                          label="Hapus"
+                          pesan={`Yakin hapus ${u.nama_lengkap}?`}
+                        />
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {rows.length === 0 && <Kosong>Tidak ada pengguna.</Kosong>}
+      </Card>
     </main>
   );
 }
