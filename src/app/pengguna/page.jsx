@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, Plus, Save, Filter, RotateCcw, Pencil, UserRound } from "lucide-react";
+import { Users, Plus, Filter, RotateCcw, UserCog } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -46,76 +46,44 @@ export default async function PenggunaPage({ searchParams }) {
     params
   );
   const divisi = (await pool.query("SELECT id, nama FROM divisi ORDER BY nama")).rows;
-  const edit = sp.edit
-    ? rows.find((u) => u.id === Number(sp.edit)) ||
-      (
-        await pool.query(
-          `SELECT id, username, email, nama_lengkap, role, is_active, kuota_awal
-           FROM users WHERE id = $1`,
-          [Number(sp.edit) || 0]
-        )
-      ).rows[0]
-    : null;
 
   return (
     <main className={PAGE}>
-      <PageHeader ikon={Users} judul="Manajemen Pengguna" sub="Kelola akun karyawan, ketua divisi, HRD, dan admin" />
+      <PageHeader ikon={Users} judul="Manajemen Pengguna" sub="Tambah pengguna baru, lalu kelola datanya lewat tombol Kelola" />
       <Alert error={sp.error} />
 
       <Card className="p-5">
-        <form key={edit?.id ?? "baru"} action={simpanPengguna} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <form action={simpanPengguna} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            {edit ? <Pencil size={18} className="text-indigo-600" /> : <Plus size={18} className="text-indigo-600" />}
-            {edit ? `Edit Pengguna #${edit.id}` : "Tambah Pengguna"}
+            <Plus size={18} className="text-indigo-600" /> Tambah Pengguna
           </h2>
-          <input type="hidden" name="id" value={edit?.id ?? ""} />
           <Field label="Username">
-            <input name="username" placeholder="Username" defaultValue={edit?.username} required className={field} />
+            <input name="username" placeholder="Username" required className={field} />
           </Field>
           <Field label="Email">
-            <input name="email" type="email" placeholder="Email" defaultValue={edit?.email} required className={field} />
+            <input name="email" type="email" placeholder="Email" required className={field} />
           </Field>
           <Field label="Nama lengkap">
-            <input name="nama_lengkap" placeholder="Nama lengkap" defaultValue={edit?.nama_lengkap} required className={field} />
+            <input name="nama_lengkap" placeholder="Nama lengkap" required className={field} />
           </Field>
-          <Field label={edit ? "Password baru (opsional)" : "Password"}>
-            <input
-              name="password"
-              type="password"
-              placeholder={edit ? "Kosongkan jika tidak diubah" : "Minimal 6 karakter"}
-              required={!edit}
-              className={field}
-            />
+          <Field label="Password">
+            <input name="password" type="password" placeholder="Minimal 6 karakter" required className={field} />
           </Field>
           <Field label="Role">
-            <select name="role" defaultValue={edit?.role ?? "user"} className={field}>
+            <select name="role" defaultValue="user" className={field}>
               {Object.entries(LABEL_ROLE).map(([v, l]) => (
                 <option key={v} value={v}>{l}</option>
               ))}
             </select>
           </Field>
           <Field label="Kuota cuti awal (hari)">
-            <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={edit?.kuota_awal ?? 12} required className={field} />
+            <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={12} required className={field} />
           </Field>
-          {edit && (
-            <label className="flex items-center gap-2 self-end pb-2 text-sm font-medium text-slate-700">
-              <input
-                type="checkbox"
-                name="is_active"
-                defaultChecked={edit.is_active}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              Akun aktif
-            </label>
-          )}
-          {!edit && <input type="hidden" name="is_active" value="on" />}
-          <div className="col-span-full flex flex-wrap gap-2">
+          <input type="hidden" name="is_active" value="on" />
+          <div className="col-span-full">
             <button type="submit" className={btn("primary")}>
-              {edit ? <Save size={16} /> : <Plus size={16} />} {edit ? "Simpan Perubahan" : "Tambah"}
+              <Plus size={16} /> Tambah
             </button>
-            {edit && (
-              <Link href="/pengguna" className={btn("secondary")}>Batal</Link>
-            )}
           </div>
         </form>
       </Card>
@@ -176,8 +144,7 @@ export default async function PenggunaPage({ searchParams }) {
                   <td className={TD}><ActiveBadge aktif={u.is_active} /></td>
                   <td className={TD}>
                     <div className="flex flex-wrap items-center gap-1">
-                      <Link href={`/pengguna?edit=${u.id}`} className={btn("ghost", "sm")}><Pencil size={14} /> Edit</Link>
-                      <Link href={`/profil?id=${u.id}`} className={btn("ghost", "sm")}><UserRound size={14} /> Profil</Link>
+                      <Link href={`/profil?id=${u.id}`} className={btn("ghost", "sm")}><UserCog size={14} /> Kelola</Link>
                       {(u.role === "user" || u.role === "ketua_divisi") && (
                         <TombolKonfirmasi
                           action={hapusPengguna}
