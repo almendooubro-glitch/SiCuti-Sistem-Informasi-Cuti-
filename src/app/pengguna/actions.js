@@ -76,20 +76,34 @@ export async function hapusPengguna(formData) {
   const id = Number(formData.get("id"));
 
   let error = null;
+  const client = await pool.connect();
   try {
-    const r = await pool.query(
-      "DELETE FROM users WHERE id = $1 AND role IN ('user', 'ketua_divisi')",
+    await client.query("BEGIN");
+
+    const cek = await client.query(
+      "SELECT id FROM users WHERE id = $1 AND role IN ('user', 'ketua_divisi') FOR UPDATE",
       [id]
     );
-    if (r.rowCount === 0) error = "Hanya karyawan dan ketua divisi yang bisa dihapus";
+
+    if (cek.rowCount === 0) {
+      await client.query("ROLLBACK");
+      error = "Hanya karyawan dan ketua divisi yang bisa dihapus";
+    } else {
+      await client.query("UPDATE pengajuan_cuti SET handover_user_id = NULL WHERE handover_user_id = $1", [id]);
+      await client.query("DELETE FROM approval_log WHERE approver_id = $1", [id]);
+      await client.query("DELETE FROM pengajuan_cuti WHERE user_id = $1", [id]);
+      await client.query("DELETE FROM users WHERE id = $1", [id]);
+      await client.query("COMMIT");
+    }
   } catch (e) {
-    error =
-      e.code === "23503"
-        ? "Pengguna punya riwayat pengajuan cuti, nonaktifkan saja"
-        : "Terjadi kesalahan pada server";
+    await client.query("ROLLBACK");
+    console.error(e);
+    error = "Terjadi kesalahan pada server";
+  } finally {
+    client.release();
   }
 
   if (error) redirect(`/pengguna?error=${encodeURIComponent(error)}`);
-  revalidatePath("/pengguna");
+  revalidatePath("/", "layout");
   redirect("/pengguna");
 }

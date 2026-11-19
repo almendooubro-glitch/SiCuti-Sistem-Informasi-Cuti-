@@ -183,7 +183,8 @@ export default async function PenggunaPage({ searchParams }) {
                           action={hapusPengguna}
                           fields={{ id: u.id }}
                           label="Hapus"
-                          pesan={`Yakin hapus ${u.nama_lengkap}?`}
+                          pesan={`Hapus ${u.nama_lengkap}? Akun beserta seluruh riwayat pengajuan cutinya akan terhapus permanen.`}
+                          pesan2="Konfirmasi sekali lagi: data tidak bisa dikembalikan. Lanjutkan?"
                         />
                       )}
                     </div>
