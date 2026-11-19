@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CircleUser, Settings, Save, Pencil, History } from "lucide-react";
+import { CircleUser, ShieldCheck, Save, Pencil, History } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
+import { simpanPengguna } from "@/app/pengguna/actions";
 import {
-  PAGE, Alert, Avatar, Badge, Card, Field, Kosong, PageHeader, Panel, Progress, RoleBadge, ActiveBadge,
+  PAGE, LABEL_ROLE, Alert, Avatar, Badge, Card, Field, Kosong, PageHeader, Panel, Progress, RoleBadge, ActiveBadge,
   btn, field, tgl, TABLE, TH, TD, TR,
 } from "@/components/ui";
 import { simpanProfil } from "./actions";
@@ -48,13 +48,11 @@ export default async function ProfilPage({ searchParams }) {
 
   return (
     <main className={`${PAGE} max-w-4xl`}>
-      <PageHeader ikon={CircleUser} judul={lain ? `Profil ${p.nama_lengkap}` : "Profil Saya"} sub="Data diri, kuota cuti, dan riwayat pengajuan">
-        {admin && (
-          <Link href={`/pengguna?edit=${p.id}`} className={btn("ghost")}>
-            <Settings size={14} /> Ubah role, status aktif, dan kuota awal
-          </Link>
-        )}
-      </PageHeader>
+      <PageHeader
+        ikon={CircleUser}
+        judul={lain ? `Profil ${p.nama_lengkap}` : "Profil Saya"}
+        sub="Data diri, kuota cuti, dan riwayat pengajuan"
+      />
 
       <Alert error={sp.error} info={sp.info} />
 
@@ -89,6 +87,43 @@ export default async function ProfilPage({ searchParams }) {
             <Progress sisa={sisa} total={Number(p.kuota_awal)} />
           </div>
         </Panel>
+      )}
+
+      {admin && (
+        <Card className="p-5">
+          <form key={`akun-${p.id}`} action={simpanPengguna} className="grid gap-4 sm:grid-cols-3">
+            <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
+              <ShieldCheck size={18} className="text-indigo-600" /> Pengaturan Akun (khusus admin)
+            </h2>
+            <input type="hidden" name="id" value={p.id} />
+            <input type="hidden" name="dari" value="profil" />
+            <input type="hidden" name="username" value={p.username} />
+            <input type="hidden" name="email" value={p.email} />
+            <input type="hidden" name="nama_lengkap" value={p.nama_lengkap} />
+            <Field label="Role">
+              <select name="role" defaultValue={p.role} className={field}>
+                {Object.entries(LABEL_ROLE).map(([v, l]) => (
+                  <option key={v} value={v}>{l}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Kuota cuti awal (hari)">
+              <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={Number(p.kuota_awal)} required className={field} />
+            </Field>
+            <label className="flex items-center gap-2 self-end pb-2 text-sm font-medium text-slate-700">
+              <input
+                type="checkbox"
+                name="is_active"
+                defaultChecked={p.is_active}
+                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              Akun aktif
+            </label>
+            <div className="col-span-full">
+              <button type="submit" className={btn("primary")}><Save size={16} /> Simpan Pengaturan Akun</button>
+            </div>
+          </form>
+        </Card>
       )}
 
       <Card className="p-5">
