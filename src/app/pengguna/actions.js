@@ -13,6 +13,7 @@ export async function simpanPengguna(formData) {
   const admin = await requireUser(["admin"]);
 
   const id = Number(formData.get("id")) || null;
+  const dariProfil = String(formData.get("dari") || "") === "profil" && Boolean(id);
   const username = String(formData.get("username") || "").trim();
   const email = String(formData.get("email") || "").trim().toLowerCase();
   const nama = String(formData.get("nama_lengkap") || "").trim();
@@ -65,10 +66,15 @@ export async function simpanPengguna(formData) {
   }
 
   if (error) {
-    redirect(`/pengguna?error=${encodeURIComponent(error)}${id ? `&edit=${id}` : ""}`);
+    const q = `error=${encodeURIComponent(error)}`;
+    redirect(dariProfil ? `/profil?id=${id}&${q}` : `/pengguna?${q}${id ? `&edit=${id}` : ""}`);
   }
   revalidatePath("/pengguna");
-  redirect("/pengguna");
+  revalidatePath("/profil");
+  revalidatePath("/", "layout");
+  redirect(
+    dariProfil ? `/profil?id=${id}&info=${encodeURIComponent("Pengaturan akun berhasil disimpan")}` : "/pengguna"
+  );
 }
 
 export async function hapusPengguna(formData) {
