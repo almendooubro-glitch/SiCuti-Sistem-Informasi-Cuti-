@@ -14,6 +14,7 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
+import ToggleTema from "@/components/ToggleTema";
 import { Alert, Card, Field, LABEL_ROLE, btn, field } from "@/components/ui";
 
 const PASSWORD_DEMO = "password123";
@@ -57,7 +58,10 @@ export default function FormLogin({ akun }) {
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4">
+    <main className="relative flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4">
+      <div className="absolute right-4 top-4">
+        <ToggleTema />
+      </div>
       <div className="w-full max-w-md space-y-5">
         <div className="text-center">
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">

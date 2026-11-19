@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import TombolLogout from "@/components/TombolLogout";
+import ToggleTema from "@/components/ToggleTema";
 import { Avatar, RoleBadge } from "@/components/ui";
 
 const MENU = {
@@ -40,20 +41,12 @@ const MENU = {
 export default function AppShell({ user, adaFoto, footer, children }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  const menu = [
-    ["Dashboard", "/dashboard", LayoutDashboard],
-    ...(MENU[user.role] || []),
-  ];
-
+  const menu = [["Dashboard", "/dashboard", LayoutDashboard], ...(MENU[user.role] || [])];
   const akun = [["Profil Saya", "/profil", CircleUser]];
-
-  const aktif = (href) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+  const aktif = (href) => pathname === href || pathname.startsWith(`${href}/`);
 
   const item = ([label, href, Ikon]) => {
     const on = aktif(href);
-
     return (
       <Link
         key={href}
@@ -61,16 +54,11 @@ export default function AppShell({ user, adaFoto, footer, children }) {
         onClick={() => setOpen(false)}
         aria-current={on ? "page" : undefined}
         className={`relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-          on
-            ? "bg-indigo-50 font-semibold text-indigo-700"
-            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+          on ? "bg-indigo-50 font-semibold text-indigo-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
         }`}
       >
-        {on && (
-          <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-indigo-600" />
-        )}
-        <Ikon size={18} />
-        {label}
+        {on && <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-indigo-600" />}
+        <Ikon size={18} /> {label}
       </Link>
     );
   };
@@ -78,10 +66,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
   return (
     <div className="flex min-h-screen">
       {open && (
-        <div
-          className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden"
-          onClick={() => setOpen(false)}
-        />
+        <div className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)} />
       )}
 
       <aside
@@ -94,13 +79,11 @@ export default function AppShell({ user, adaFoto, footer, children }) {
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-white">
               <CalendarCheck size={20} />
             </span>
-
             <div className="leading-tight">
               <p className="font-bold text-slate-900">SiCuti</p>
               <p className="text-xs text-slate-500">Manajemen Cuti</p>
             </div>
           </div>
-
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -113,36 +96,24 @@ export default function AppShell({ user, adaFoto, footer, children }) {
 
         <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
           <div className="space-y-1">
-            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Menu
-            </p>
+            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">Menu</p>
             {menu.map(item)}
           </div>
-
           <div className="space-y-1">
-            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Akun
-            </p>
+            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">Akun</p>
             {akun.map(item)}
           </div>
         </nav>
 
         <div className="space-y-3 border-t border-slate-100 p-4">
           <div className="flex items-center gap-3">
-            <Avatar
-              id={user.id}
-              ada={adaFoto}
-              nama={user.nama_lengkap}
-            />
-
+            <Avatar id={user.id} ada={adaFoto} nama={user.nama_lengkap} />
             <div className="min-w-0 space-y-1">
-              <p className="truncate text-sm font-semibold text-slate-800">
-                {user.nama_lengkap}
-              </p>
+              <p className="truncate text-sm font-semibold text-slate-800">{user.nama_lengkap}</p>
               <RoleBadge role={user.role} />
             </div>
           </div>
-
+          <ToggleTema penuh />
           <TombolLogout />
         </div>
       </aside>
@@ -157,15 +128,15 @@ export default function AppShell({ user, adaFoto, footer, children }) {
           >
             <Menu size={22} />
           </button>
-
           <span className="flex items-center gap-2 font-bold text-indigo-700">
-            <CalendarCheck size={20} />
-            SiCuti
+            <CalendarCheck size={20} /> SiCuti
           </span>
+          <div className="ml-auto">
+            <ToggleTema />
+          </div>
         </header>
 
         <div className="flex-1">{children}</div>
-
         {footer}
       </div>
     </div>
