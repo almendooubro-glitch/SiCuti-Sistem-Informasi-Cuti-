@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  CalendarCheck,
   LogIn,
   Loader2,
   ShieldCheck,
@@ -64,9 +63,11 @@ export default function FormLogin({ akun }) {
       </div>
       <div className="w-full max-w-md space-y-5">
         <div className="text-center">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
-            <CalendarCheck size={28} />
-          </span>
+          <img
+            src="https://cdn.phototourl.com/anon/2026-11-19-cf7659f2-145b-4fda-b214-da8d53175397.png"
+            alt="Logo SiCuti"
+            className="mx-auto h-16 w-16 rounded-2xl object-cover shadow-lg shadow-indigo-600/30"
+          />
           <h1 className="mt-4 text-2xl font-bold text-slate-900">SiCuti</h1>
           <p className="text-sm text-slate-500">Sistem Manajemen Cuti Karyawan</p>
         </div>
