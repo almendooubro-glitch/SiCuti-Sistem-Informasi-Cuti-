@@ -57,7 +57,7 @@ export default function FormLogin({ akun }) {
   }
 
   return (
-    <main className="relative flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4">
+    <main className="relative flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       <div className="absolute right-4 top-4">
         <ToggleTema />
       </div>
