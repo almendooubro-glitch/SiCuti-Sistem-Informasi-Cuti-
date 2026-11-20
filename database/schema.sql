@@ -49,7 +49,8 @@ INSERT INTO jenis_cuti (nama, kuota, wajib_lampiran, memotong_kuota, min_hari_se
   ('Cuti Sakit', NULL, TRUE, FALSE, 0, 3),
   ('Cuti Menikah', 3, FALSE, FALSE, 7, 0),
   ('Cuti Melahirkan', 90, FALSE, FALSE, 7, 0),
-  ('Cuti Duka', 3, FALSE, FALSE, 0, 1)
+  ('Cuti Duka', 3, FALSE, FALSE, 0, 1),
+  ('Cuti Setengah Hari', 0.5, FALSE, TRUE, 3, 0)
 ON CONFLICT (nama) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS pengajuan_cuti (
