@@ -53,12 +53,15 @@ export default function AppShell({ user, adaFoto, footer, children }) {
         href={href}
         onClick={() => setOpen(false)}
         aria-current={on ? "page" : undefined}
-        className={`relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-          on ? "bg-indigo-50 font-semibold text-indigo-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+          on
+            ? "bg-gradient-to-r from-indigo-50 to-sky-50 font-semibold text-indigo-800 ring-1 ring-indigo-100 dark:from-indigo-950 dark:to-sky-950 dark:ring-indigo-900"
+            : "text-slate-600 hover:translate-x-0.5 hover:bg-slate-100 hover:text-slate-900"
         }`}
       >
         {on && <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-indigo-600" />}
-        <Ikon size={18} /> {label}
+        <Ikon size={18} className={on ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-600"} />
+        {label}
       </Link>
     );
   };
@@ -76,7 +79,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
       >
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-4">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-sky-600 text-white shadow-md shadow-indigo-600/20">
               <CalendarCheck size={20} />
             </span>
             <div className="leading-tight">

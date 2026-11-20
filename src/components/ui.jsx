@@ -5,8 +5,8 @@ export const LABEL_ROLE = { admin: "Admin", user: "Karyawan", ketua_divisi: "Ket
 const ROLE_STYLE = {
   admin: "bg-indigo-50 text-indigo-700 ring-indigo-600/20",
   hrd: "bg-sky-50 text-sky-700 ring-sky-600/20",
-  ketua_divisi: "bg-slate-100 text-slate-700 ring-slate-500/20",
-  user: "bg-slate-50 text-slate-600 ring-slate-500/20",
+  ketua_divisi: "bg-amber-50 text-amber-700 ring-amber-600/20",
+  user: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
 };
 
 export const STATUS = {
@@ -20,17 +20,17 @@ export const STATUS_LABEL = Object.fromEntries(Object.entries(STATUS).map(([k, v
 
 export const tgl = (d) => new Date(d).toLocaleDateString("id-ID");
 
-export const PAGE = "mx-auto w-full max-w-6xl space-y-6 p-4 sm:p-6";
+export const PAGE = "mx-auto w-full max-w-6xl space-y-6 p-4 sm:p-6 lg:space-y-8 lg:py-8";
 
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-lg font-medium shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-0 active:scale-[0.98] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50";
 const SIZE = { md: "px-4 py-2 text-sm", sm: "px-2.5 py-1.5 text-xs" };
 const VARIAN = {
-  primary: "bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:ring-indigo-500",
-  secondary: "bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400",
+  primary: "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-indigo-500/20 hover:from-indigo-700 hover:to-violet-700 focus-visible:ring-indigo-500",
+  secondary: "border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400",
   success: "bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-500",
   danger: "bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-500",
-  warning: "bg-amber-500 text-white hover:bg-amber-600 focus-visible:ring-amber-500",
+  warning: "bg-amber-700 text-white hover:bg-amber-800 focus-visible:ring-amber-500",
   ghost: "text-indigo-600 shadow-none hover:bg-indigo-50 focus-visible:ring-indigo-500",
   dangerGhost: "text-rose-600 shadow-none hover:bg-rose-50 focus-visible:ring-rose-500",
 };
@@ -38,7 +38,7 @@ export const btn = (varian = "primary", ukuran = "md", extra = "") =>
   `${BASE} ${SIZE[ukuran]} ${VARIAN[varian]} ${extra}`;
 
 export const field =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100 disabled:text-slate-500 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700 hover:file:bg-indigo-100";
+  "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition duration-200 placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/15 disabled:bg-slate-100 disabled:text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100";
 export const filterField = `${field} sm:w-auto`;
 
 export const TABLE = "w-full text-left text-sm";
@@ -46,12 +46,13 @@ export const TH = "bg-slate-50 px-4 py-3 text-xs font-semibold uppercase trackin
 export const TD = "px-4 py-3 text-slate-700";
 export const TR = "border-t border-slate-100 transition-colors hover:bg-indigo-50/40";
 
-const HOVER = "transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md";
+const HOVER =
+  "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-950/5";
 const PILL = "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset";
 
 export function Card({ className = "", hover = false, children }) {
   return (
-    <div className={`rounded-xl border border-slate-200 bg-white shadow-sm ${hover ? HOVER : ""} ${className}`}>
+    <div className={`rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 ${hover ? HOVER : ""} ${className}`}>
       {children}
     </div>
   );
@@ -60,9 +61,14 @@ export function Card({ className = "", hover = false, children }) {
 export function Panel({ ikon: Ikon, judul, aksi, className = "", flush = false, children }) {
   return (
     <Card className={`overflow-hidden ${className}`}>
-      <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-3.5">
+      <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-slate-50/70 px-4 py-3.5 sm:px-5 dark:bg-slate-800">
         <h2 className="flex items-center gap-2 font-semibold text-slate-800">
-          {Ikon && <Ikon size={18} className="text-indigo-600" />} {judul}
+          {Ikon && (
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+              <Ikon size={16} />
+            </span>
+          )}
+          {judul}
         </h2>
         {aksi}
       </div>
@@ -75,7 +81,7 @@ export function PageHeader({ ikon: Ikon, judul, sub, children }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-100 to-sky-100 text-indigo-700 shadow-sm ring-1 ring-indigo-100 dark:from-indigo-950 dark:to-sky-950 dark:ring-indigo-900">
           <Ikon size={22} />
         </span>
         <div>
@@ -99,13 +105,13 @@ const TONE = {
 
 export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo" }) {
   return (
-    <Card hover className="flex items-center gap-4 p-4">
-      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${TONE[tone]}`}>
+    <Card hover className="group flex items-center gap-4 p-4 sm:p-5">
+      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-200 group-hover:scale-105 ${TONE[tone]}`}>
         <Ikon size={22} />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-xs font-medium text-slate-500">{judul}</p>
-        <p className="truncate text-xl font-bold text-slate-900">{nilai}</p>
+        <p className="truncate text-xs font-semibold uppercase tracking-wide text-slate-500">{judul}</p>
+        <p className="truncate text-2xl font-bold tracking-tight text-slate-900">{nilai}</p>
       </div>
     </Card>
   );
@@ -143,7 +149,7 @@ export function Alert({ error, info }) {
   return (
     <div
       role="alert"
-      className={`flex items-start gap-2 rounded-lg border px-4 py-3 text-sm ${
+      className={`flex items-start gap-3 rounded-xl border px-4 py-3.5 text-sm shadow-sm ${
         gagal ? "border-rose-200 bg-rose-50 text-rose-700" : "border-emerald-200 bg-emerald-50 text-emerald-700"
       }`}
     >
@@ -155,7 +161,7 @@ export function Alert({ error, info }) {
 
 export function Field({ label, className = "", children }) {
   return (
-    <label className={`block space-y-1.5 text-sm font-medium text-slate-700 ${className}`}>
+    <label className={`block space-y-2 text-sm font-semibold text-slate-700 ${className}`}>
       <span>{label}</span>
       {children}
     </label>
@@ -166,7 +172,7 @@ export function Avatar({ id, ada, nama, size = "h-10 w-10", teks = "text-sm" }) 
   return ada ? (
     <img src={`/api/foto?id=${id}`} alt={`Foto ${nama}`} className={`${size} shrink-0 rounded-full object-cover ring-2 ring-white`} />
   ) : (
-    <div className={`${size} ${teks} flex shrink-0 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700`}>
+    <div className={`${size} ${teks} flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-sky-100 font-semibold text-indigo-700 ring-2 ring-white shadow-sm dark:from-indigo-950 dark:to-sky-950 dark:ring-slate-700`}>
       {nama[0]}
     </div>
   );
@@ -176,8 +182,8 @@ export function Progress({ sisa, total }) {
   const persen = total > 0 ? Math.max(0, Math.min(100, (sisa / total) * 100)) : 0;
   const warna = persen > 50 ? "bg-emerald-500" : persen > 20 ? "bg-amber-500" : "bg-rose-500";
   return (
-    <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuenow={Math.round(persen)} aria-valuemin={0} aria-valuemax={100}>
-      <div className={`h-full rounded-full transition-all duration-500 ${warna}`} style={{ width: `${persen}%` }} />
+    <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100 p-0.5" role="progressbar" aria-valuenow={Math.round(persen)} aria-valuemin={0} aria-valuemax={100}>
+      <div className={`h-full rounded-full transition-all duration-700 ease-out ${warna}`} style={{ width: `${persen}%` }} />
     </div>
   );
 }

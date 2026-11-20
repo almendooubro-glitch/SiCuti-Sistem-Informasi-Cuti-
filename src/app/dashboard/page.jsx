@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 function Hero({ user, children }) {
   return (
-    <div className="rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 p-6 text-white shadow-sm">
+    <div className="rounded-3xl bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-600 p-5 text-white shadow-lg shadow-indigo-900/15 sm:p-7">
       <p className="text-sm text-indigo-100">{LABEL_ROLE[user.role]}</p>
       <h1 className="mt-1 flex items-center gap-2 text-xl font-bold sm:text-2xl">
         <LayoutDashboard size={24} /> Selamat datang, {user.nama_lengkap}
