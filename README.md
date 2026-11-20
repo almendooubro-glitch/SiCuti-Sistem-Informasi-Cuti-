@@ -1,10 +1,11 @@
 # SiCuti
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.3.0-149ECA?logo=react)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3.3-06B6D4?logo=tailwindcss)
-![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?logo=nodedotjs)
-![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-4169E1?logo=postgresql)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black?logo=next.js&style=flat-square)
+![React](https://img.shields.io/badge/React-19.3.0-149ECA?logo=react&style=flat-square)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3.3-06B6D4?logo=tailwindcss&style=flat-square)
+![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?logo=nodedotjs&style=flat-square)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-4169E1?logo=postgresql&style=flat-square)
+![Lucide React](https://img.shields.io/badge/Lucide_React-Icon_Library-4F46E5?style=flat-square)
 
 **SiCuti** adalah aplikasi web untuk mengelola pengajuan cuti karyawan, pemeriksaan berjenjang, kuota, dan kalender hari libur.
 
