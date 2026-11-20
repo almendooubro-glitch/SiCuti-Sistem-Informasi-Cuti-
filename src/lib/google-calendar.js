@@ -1,7 +1,5 @@
-const CALENDAR_ID =
-  process.env.GOOGLE_HOLIDAY_CALENDAR_ID ||
-  "en.indonesian#holiday@group.v.calendar.google.com";
-const API_URL = "https://www.googleapis.com/calendar/v3/calendars";
+const FEED_URL =
+  "https://calendar.google.com/calendar/ical/en.indonesian%23holiday%40group.v.calendar.google.com/public/basic.ics";
 
 function tanggalBerikutnya(tanggal) {
   const date = new Date(`${tanggal}T00:00:00.000Z`);
@@ -20,18 +18,65 @@ function tanggalAcara(tanggal) {
   return tanggal;
 }
 
-function hariLiburAcara(event) {
-  const keterangan = String(event.summary || "").trim();
-  const deskripsi = String(event.description || "");
-  const cutiBersama = /\b(cuti bersama|joint holiday)\b/i.test(keterangan);
+function tanggalIcs(value, nama) {
+  const match = /^(\d{4})(\d{2})(\d{2})$/.exec(value || "");
+  if (!match) {
+    throw new Error(`Properti ${nama} pada feed Google Calendar tidak valid`);
+  }
+  return tanggalAcara(`${match[1]}-${match[2]}-${match[3]}`);
+}
 
-  if (!cutiBersama && !/\bpublic holiday\b/i.test(deskripsi)) return [];
-  if (!event.start?.date || !event.end?.date) {
-    throw new Error(`Tanggal acara "${keterangan}" tidak tersedia sebagai acara sepanjang hari`);
+function bukaTeksIcs(value) {
+  return value.replace(/\\([nN,;\\])/g, (_, character) => {
+    if (character.toLowerCase() === "n") return "\n";
+    return character;
+  });
+}
+
+function bacaAcaraIcs(ical) {
+  if (!ical.startsWith("BEGIN:VCALENDAR") || !ical.trimEnd().endsWith("END:VCALENDAR")) {
+    throw new Error("Feed Google Calendar tidak lengkap");
   }
 
-  const mulai = tanggalAcara(event.start.date);
-  const akhir = tanggalAcara(event.end.date);
+  const baris = ical.replace(/\r?\n[ \t]/g, "").split(/\r?\n/);
+  const events = [];
+  let event = null;
+
+  for (const line of baris) {
+    if (line === "BEGIN:VEVENT") {
+      event = {};
+      continue;
+    }
+    if (line === "END:VEVENT") {
+      if (event) events.push(event);
+      event = null;
+      continue;
+    }
+    if (!event) continue;
+
+    const pemisah = line.indexOf(":");
+    if (pemisah < 0) continue;
+    const nama = line.slice(0, pemisah).split(";")[0].toUpperCase();
+    if (["DESCRIPTION", "DTEND", "DTSTART", "STATUS", "SUMMARY"].includes(nama)) {
+      event[nama] = bukaTeksIcs(line.slice(pemisah + 1));
+    }
+  }
+
+  return events;
+}
+
+function hariLiburAcara(event) {
+  const keterangan = String(event.SUMMARY || "").trim();
+  const cutiBersama = /\b(cuti bersama|joint holiday)\b/i.test(keterangan);
+  if (
+    event.STATUS?.toUpperCase() === "CANCELLED" ||
+    (!cutiBersama && !/\bpublic holiday\b/i.test(event.DESCRIPTION || ""))
+  ) {
+    return [];
+  }
+
+  const mulai = tanggalIcs(event.DTSTART, "DTSTART");
+  const akhir = tanggalIcs(event.DTEND, "DTEND");
   if (akhir <= mulai) {
     throw new Error(`Rentang tanggal acara "${keterangan}" tidak valid`);
   }
@@ -48,48 +93,16 @@ function hariLiburAcara(event) {
 }
 
 export async function ambilHariLiburIndonesia() {
-  const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
-  if (!apiKey) {
-    throw new Error("Konfigurasi GOOGLE_CALENDAR_API_KEY belum tersedia");
+  const response = await fetch(FEED_URL, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(
+      `Feed Google Calendar gagal (${response.status}): ${response.statusText}`
+    );
   }
 
-  const events = [];
-  let pageToken;
-
-  do {
-    const url = new URL(
-      `${API_URL}/${encodeURIComponent(CALENDAR_ID)}/events`
-    );
-    url.searchParams.set("key", apiKey);
-    url.searchParams.set("maxResults", "2500");
-    url.searchParams.set("singleEvents", "true");
-    url.searchParams.set("orderBy", "startTime");
-    url.searchParams.set(
-      "fields",
-      "items(description,end(date),start(date),status,summary),nextPageToken"
-    );
-    if (pageToken) url.searchParams.set("pageToken", pageToken);
-
-    const response = await fetch(url, { cache: "no-store" });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(
-        `Google Calendar API gagal (${response.status}): ${
-          data.error?.message || response.statusText
-        }`
-      );
-    }
-    if (!Array.isArray(data.items)) {
-      throw new Error("Respons Google Calendar API tidak berisi daftar acara");
-    }
-
-    events.push(...data.items);
-    pageToken = data.nextPageToken;
-  } while (pageToken);
-
+  const events = bacaAcaraIcs(await response.text());
   const hariLibur = new Map();
   for (const event of events) {
-    if (event.status === "cancelled") continue;
     for (const hari of hariLiburAcara(event)) {
       const tersimpan = hariLibur.get(hari.tanggal);
       if (!tersimpan || hari.jenis === "cuti_bersama") {

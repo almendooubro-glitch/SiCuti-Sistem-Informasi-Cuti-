@@ -18,14 +18,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Sinkronisasi Hari Libur
 
-SiCuti mengambil hari libur dari kalender publik Google **Holidays in Indonesia** menggunakan endpoint `GET https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events` ([dokumentasi Events API](https://developers.google.com/workspace/calendar/api/v3/reference/events/list)).
+SiCuti mengambil hari libur dari feed iCalendar publik Google **Holidays in Indonesia**: [buka feed kalender](https://calendar.google.com/calendar/ical/en.indonesian%23holiday%40group.v.calendar.google.com/public/basic.ics). Google Calendar REST API memerlukan API key, jadi integrasi ini membaca feed publik agar tidak perlu menyimpan key.
 
-1. [Aktifkan Google Calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com) dan [buat API key](https://console.cloud.google.com/apis/credentials) yang dibatasi untuk Google Calendar API.
-2. Tambahkan `GOOGLE_CALENDAR_API_KEY=API_KEY_ANDA` ke `.env.local` dan variabel lingkungan deployment. Simpan API key di server, jangan gunakan awalan `NEXT_PUBLIC_`.
-3. Untuk database lama, jalankan `database/schema.sql` sekali agar kolom sumber sinkronisasi ditambahkan.
-4. Masuk sebagai admin atau HRD, buka **Pengaturan Cuti**, lalu pilih **Sinkronkan Google Calendar**.
+1. Untuk database lama, jalankan `database/schema.sql` sekali agar kolom sumber sinkronisasi ditambahkan.
+2. Masuk sebagai admin atau HRD, buka **Pengaturan Cuti**, lalu pilih **Sinkronkan Google Calendar**.
 
-Sinkronisasi membaca seluruh halaman acara pada kalender `en.indonesian#holiday@group.v.calendar.google.com`, termasuk hari libur dan cuti bersama. Observansi yang bukan hari libur nasional tidak dimasukkan. Tanggal hasil sinkronisasi disimpan di `hari_libur` dan otomatis digunakan dalam perhitungan hari kerja pengajuan serta kapasitas divisi. Data yang dimasukkan manual tidak ditimpa, sedangkan data Google diperbarui dan dihapus jika sudah tidak ada di kalender. Kalender Google bukan sumber resmi pemerintah; admin tetap dapat menambahkan hari libur secara manual.
+Sinkronisasi membaca seluruh acara dalam feed kalender `en.indonesian#holiday@group.v.calendar.google.com`, termasuk hari libur dan cuti bersama. Observansi yang bukan hari libur nasional tidak dimasukkan. Tanggal hasil sinkronisasi disimpan di `hari_libur` dan otomatis digunakan dalam perhitungan hari kerja pengajuan serta kapasitas divisi. Data yang dimasukkan manual tidak ditimpa, sedangkan data Google diperbarui dan dihapus jika sudah tidak ada di kalender. Kalender Google bukan sumber resmi pemerintah; admin tetap dapat menambahkan hari libur secara manual.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
