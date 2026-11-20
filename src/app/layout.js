@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import Footer from "@/components/Footer";
@@ -30,7 +31,23 @@ export default async function RootLayout({ children }) {
     <html
       lang="id"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <Script
+          id="tema-awal"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `try {
+              if (localStorage.getItem("sicuti-tema") === "dark") {
+                document.documentElement.classList.add("dark");
+              }
+            } catch (error) {
+              console.error("Gagal memuat preferensi tema:", error);
+            }`,
+          }}
+        />
+      </head>
       <body className="min-h-full bg-slate-50 text-slate-900">
         {user ? (
           <AppShell user={user} adaFoto={Boolean(adaFoto)} footer={<Footer />}>
