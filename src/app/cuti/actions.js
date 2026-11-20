@@ -22,7 +22,6 @@ export async function ajukanCuti(formData) {
     const jenisId = Number(formData.get("jenis_cuti_id"));
     const mulai = teks(formData, "tanggal_mulai");
     const selesai = teks(formData, "tanggal_selesai");
-    const setengah = formData.get("setengah_hari") === "on";
     const alasan = teks(formData, "alasan");
     const handoverId = Number(formData.get("handover_user_id")) || null;
     const catatan = teks(formData, "catatan_tugas") || null;
@@ -33,6 +32,7 @@ export async function ajukanCuti(formData) {
 
     const jenis = (await pool.query("SELECT * FROM jenis_cuti WHERE id = $1", [jenisId])).rows[0];
     if (!jenis) return gagal("Jenis cuti tidak valid");
+    const setengah = jenis.nama === "Cuti Setengah Hari";
     if (!TGL.test(mulai) || !TGL.test(selesai)) return gagal("Tanggal mulai dan selesai wajib diisi");
     if (selesai < mulai) return gagal("Tanggal selesai tidak boleh sebelum tanggal mulai");
     if (setengah && mulai !== selesai) return gagal("Cuti setengah hari hanya untuk satu tanggal");

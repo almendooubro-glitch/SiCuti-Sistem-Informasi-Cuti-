@@ -75,6 +75,7 @@ const JENIS = [
   ["Cuti Menikah", 3, false, false, 7, 0],
   ["Cuti Melahirkan", 90, false, false, 7, 0],
   ["Cuti Duka", 3, false, false, 0, 1],
+  ["Cuti Setengah Hari", 0.5, false, true, 3, 0],
 ];
 
 const LIBUR = [

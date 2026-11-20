@@ -14,11 +14,11 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
   const [jenisId, setJenisId] = useState(jenis[0]?.id ?? "");
   const [mulai, setMulai] = useState("");
   const [selesai, setSelesai] = useState("");
-  const [setengah, setSetengah] = useState(false);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
   const j = jenis.find((x) => x.id === Number(jenisId));
+  const setengah = j?.nama === "Cuti Setengah Hari";
 
   const hari = hariIni();
   const batas = new Date(hari + "T00:00:00");
@@ -60,7 +60,6 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
   function handleReset() {
     setMulai("");
     setSelesai("");
-    setSetengah(false);
     setError("");
   }
 
@@ -90,17 +89,6 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
             ))}
           </select>
         </Field>
-
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-700 md:mt-7">
-          <input
-            type="checkbox"
-            name="setengah_hari"
-            checked={setengah}
-            onChange={(e) => setSetengah(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-          />
-          Cuti setengah hari (0,5 hari)
-        </label>
 
         {j &&
           (j.min_hari_sebelum > 0 ||
