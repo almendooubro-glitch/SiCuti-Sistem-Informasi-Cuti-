@@ -1,9 +1,9 @@
-import { Settings, Gauge, CalendarOff, CalendarX, Save, Plus } from "lucide-react";
+import { Settings, Gauge, CalendarOff, CalendarX, Save, Plus, RefreshCw } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
 import { PAGE, Alert, Field, PageHeader, Panel, btn, field, filterField } from "@/components/ui";
-import { simpanKapasitas, tambahLibur, hapusLibur, tambahBlackout, hapusBlackout } from "./actions";
+import { simpanKapasitas, tambahLibur, hapusLibur, sinkronkanHariLiburGoogle, tambahBlackout, hapusBlackout } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +69,12 @@ export default async function PengaturanPage({ searchParams }) {
               </select>
             </Field>
             <button type="submit" className={btn("primary")}><Plus size={16} /> Tambah</button>
+          </form>
+          <form action={sinkronkanHariLiburGoogle} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 p-3">
+            <p className="text-sm text-slate-600">
+              Ambil libur nasional dan cuti bersama dari Google Calendar Indonesia.
+            </p>
+            <button type="submit" className={btn("secondary")}><RefreshCw size={16} /> Sinkronkan Google Calendar</button>
           </form>
           <ul className="divide-y divide-slate-100 text-sm">
             {libur.map((l) => (

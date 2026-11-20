@@ -97,8 +97,12 @@ CREATE TABLE IF NOT EXISTS hari_libur (
   tanggal DATE UNIQUE NOT NULL,
   keterangan VARCHAR(150) NOT NULL,
   jenis VARCHAR(20) NOT NULL DEFAULT 'nasional'
-    CHECK (jenis IN ('nasional','cuti_bersama'))
+    CHECK (jenis IN ('nasional','cuti_bersama')),
+  sumber VARCHAR(20) NOT NULL DEFAULT 'manual'
 );
+
+ALTER TABLE hari_libur
+  ADD COLUMN IF NOT EXISTS sumber VARCHAR(20) NOT NULL DEFAULT 'manual';
 
 CREATE TABLE IF NOT EXISTS blackout (
   id SERIAL PRIMARY KEY,
