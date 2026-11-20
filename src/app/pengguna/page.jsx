@@ -49,13 +49,17 @@ export default async function PenggunaPage({ searchParams }) {
 
   return (
     <main className={PAGE}>
-      <PageHeader ikon={Users} judul="Manajemen Pengguna" sub="Tambah pengguna baru, lalu kelola datanya lewat tombol Kelola" />
-      <Alert error={sp.error} />
+      <PageHeader
+        ikon={Users}
+        judul="Manajemen Pengguna"
+        sub="Tambah akun Admin atau pengguna lain, lalu kelola datanya lewat tombol Kelola"
+      />
+      <Alert error={sp.error} info={sp.info} />
 
       <Card className="p-5">
         <form action={simpanPengguna} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            <Plus size={18} className="text-indigo-600" /> Tambah Pengguna
+            <Plus size={18} className="text-indigo-600" /> Tambah Akun
           </h2>
           <Field label="Nama pengguna">
             <input name="username" placeholder="Nama pengguna" required className={field} />
@@ -69,20 +73,26 @@ export default async function PenggunaPage({ searchParams }) {
           <Field label="Kata sandi">
             <input name="password" type="password" placeholder="Minimal 6 karakter" required className={field} />
           </Field>
-          <Field label="Peran">
-            <select name="role" defaultValue="user" className={field}>
-              {Object.entries(LABEL_ROLE).map(([v, l]) => (
-                <option key={v} value={v}>{l}</option>
-              ))}
-            </select>
-          </Field>
+          <div>
+            <Field label="Hak akses">
+              <select name="role" defaultValue="user" required className={field}>
+                {Object.entries(LABEL_ROLE).map(([v, l]) => (
+                  <option key={v} value={v}>{l}</option>
+                ))}
+              </select>
+            </Field>
+            <p className="mt-1 text-xs text-slate-500">
+              Admin mengelola pengguna, divisi, jenis cuti, dan pengaturan. HRD memproses persetujuan akhir;
+              Ketua Divisi memverifikasi pengajuan anggota; Karyawan mengajukan cuti sendiri.
+            </p>
+          </div>
           <Field label="Kuota cuti awal (hari)">
             <input name="kuota_awal" type="number" step="0.5" min="0" defaultValue={12} required className={field} />
           </Field>
           <input type="hidden" name="is_active" value="on" />
           <div className="col-span-full">
             <button type="submit" className={btn("primary")}>
-              <Plus size={16} /> Tambah
+              <Plus size={16} /> Buat Akun
             </button>
           </div>
         </form>

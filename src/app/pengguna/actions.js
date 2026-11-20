@@ -72,8 +72,15 @@ export async function simpanPengguna(formData) {
   revalidatePath("/pengguna");
   revalidatePath("/profil");
   revalidatePath("/", "layout");
+  const info = id
+    ? "Data pengguna berhasil diperbarui"
+    : role === "admin"
+      ? "Akun Admin berhasil dibuat"
+      : "Pengguna berhasil ditambahkan";
   redirect(
-    dariProfil ? `/profil?id=${id}&info=${encodeURIComponent("Pengaturan akun berhasil disimpan")}` : "/pengguna"
+    dariProfil
+      ? `/profil?id=${id}&info=${encodeURIComponent("Pengaturan akun berhasil disimpan")}`
+      : `/pengguna?info=${encodeURIComponent(info)}`
   );
 }
 
