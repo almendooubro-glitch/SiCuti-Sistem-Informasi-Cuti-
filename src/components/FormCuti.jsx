@@ -3,13 +3,14 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FilePlus2, Send, Loader2, RotateCcw, X, Info, TriangleAlert } from "lucide-react";
+import {FilePlus2, Send, Loader2, RotateCcw, X, Info, TriangleAlert,} from "lucide-react";
 import { ajukanCuti } from "@/app/cuti/actions";
 import { hitungHariKerja, hariIni } from "@/lib/hari";
 import { Alert, Card, Field, btn, field } from "@/components/ui";
 
 export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
   const router = useRouter();
+
   const [jenisId, setJenisId] = useState(jenis[0]?.id ?? "");
   const [mulai, setMulai] = useState("");
   const [selesai, setSelesai] = useState("");
@@ -18,6 +19,17 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
   const [pending, startTransition] = useTransition();
 
   const j = jenis.find((x) => x.id === Number(jenisId));
+
+  const hari = hariIni();
+  const batas = new Date(hari + "T00:00:00");
+  batas.setDate(batas.getDate() - (j?.maks_hari_sesudah ?? 0));
+
+  const tanggalMin = [
+    batas.getFullYear(),
+    String(batas.getMonth() + 1).padStart(2, "0"),
+    String(batas.getDate()).padStart(2, "0"),
+  ].join("-");
+
   const akhir = setengah ? mulai : selesai;
   const total = hitungHariKerja(mulai, akhir, setengah, libur);
   const sisaSetelah = Number((Number(sisaKuota) - total).toFixed(1));
@@ -54,15 +66,27 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
 
   return (
     <Card className="p-5">
-      <form onSubmit={handleSubmit} onReset={handleReset} className="grid gap-4 md:grid-cols-2">
+      <form
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+        className="grid gap-4 md:grid-cols-2"
+      >
         <h2 className="col-span-full flex items-center gap-2 text-lg font-semibold text-slate-800">
-          <FilePlus2 size={20} className="text-indigo-600" /> Form Pengajuan Cuti
+          <FilePlus2 size={20} className="text-indigo-600" />
+          Form Pengajuan Cuti
         </h2>
 
         <Field label="Jenis cuti">
-          <select name="jenis_cuti_id" value={jenisId} onChange={(e) => setJenisId(e.target.value)} className={field}>
+          <select
+            name="jenis_cuti_id"
+            value={jenisId}
+            onChange={(e) => setJenisId(e.target.value)}
+            className={field}
+          >
             {jenis.map((x) => (
-              <option key={x.id} value={x.id}>{x.nama}</option>
+              <option key={x.id} value={x.id}>
+                {x.nama}
+              </option>
             ))}
           </select>
         </Field>
@@ -78,35 +102,51 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           Cuti setengah hari (0,5 hari)
         </label>
 
-        {j && (j.min_hari_sebelum > 0 || j.maks_hari_sesudah > 0 || j.wajib_lampiran) && (
-          <p className="col-span-full flex items-start gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
-            <Info size={16} className="mt-0.5" />
-            <span>
-              {j.min_hari_sebelum > 0 && `Diajukan minimal H-${j.min_hari_sebelum}. `}
-              {j.maks_hari_sesudah > 0 && `Boleh diajukan sampai ${j.maks_hari_sesudah} hari setelah tanggal mulai. `}
-              {j.wajib_lampiran && "Wajib melampirkan dokumen."}
-            </span>
-          </p>
-        )}
+        {j &&
+          (j.min_hari_sebelum > 0 ||
+            j.maks_hari_sesudah > 0 ||
+            j.wajib_lampiran) && (
+            <p className="col-span-full flex items-start gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+              <Info size={16} className="mt-0.5" />
+              <span>
+                {j.min_hari_sebelum > 0 &&
+                  `Diajukan minimal H-${j.min_hari_sebelum}. `}
+                {j.maks_hari_sesudah > 0 &&
+                  `Boleh diajukan sampai ${j.maks_hari_sesudah} hari setelah tanggal mulai. `}
+                {j.wajib_lampiran && "Wajib melampirkan dokumen."}
+              </span>
+            </p>
+          )}
 
         {blackout.length > 0 && (
           <p className="col-span-full flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
             <TriangleAlert size={16} className="mt-0.5" />
             <span>
               Periode blackout (cuti selain sakit tidak bisa diajukan):{" "}
-              {blackout.map((b) => `${b.keterangan} (${b.mulai} s.d. ${b.selesai})`).join("; ")}
+              {blackout
+                .map(
+                  (b) =>
+                    `${b.keterangan} (${b.mulai} s.d. ${b.selesai})`
+                )
+                .join("; ")}
             </span>
           </p>
         )}
 
-        <Field label="Tanggal pengajuan (otomatis hari ini)" className="col-span-full">
+        <Field
+          label="Tanggal pengajuan (otomatis hari ini)"
+          className="col-span-full"
+        >
           <input
-            value={new Date(hariIni() + "T00:00:00").toLocaleDateString("id-ID", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            value={new Date(hariIni() + "T00:00:00").toLocaleDateString(
+              "id-ID",
+              {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }
+            )}
             readOnly
             disabled
             className={field}
@@ -114,22 +154,49 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
         </Field>
 
         <Field label="Tanggal mulai">
-          <input type="date" name="tanggal_mulai" value={mulai} onChange={(e) => setMulai(e.target.value)} required className={field} />
+          <input
+            type="date"
+            name="tanggal_mulai"
+            min={tanggalMin}
+            value={mulai}
+            onChange={(e) => setMulai(e.target.value)}
+            required
+            className={field}
+          />
         </Field>
+
         <Field label="Tanggal selesai">
-          <input type="date" value={akhir} onChange={(e) => setSelesai(e.target.value)} disabled={setengah} required className={field} />
+          <input
+            type="date"
+            min={mulai || tanggalMin}
+            value={akhir}
+            onChange={(e) => setSelesai(e.target.value)}
+            disabled={setengah}
+            required
+            className={field}
+          />
         </Field>
 
         <div className="col-span-full space-y-1 rounded-lg border border-indigo-100 bg-indigo-50/60 p-4 text-sm text-slate-700">
           <p>
-            Total hari kerja: <strong className="text-indigo-700">{total}</strong> hari (Sabtu, Minggu, dan hari libur tidak dihitung)
+            Total hari kerja:{" "}
+            <strong className="text-indigo-700">{total}</strong> hari (Sabtu,
+            Minggu, dan hari libur tidak dihitung)
           </p>
           {mulai && akhir && total === 0 && (
-            <p className="text-rose-600">Tanggal tidak valid atau tidak memuat hari kerja.</p>
+            <p className="text-rose-600">
+              Tanggal tidak valid atau tidak memuat hari kerja.
+            </p>
           )}
+
           {j?.memotong_kuota && (
-            <p className={sisaSetelah < 0 ? "font-medium text-rose-600" : ""}>
-              Sisa kuota tahunan: {Number(sisaKuota)} hari → setelah pengajuan ini: {sisaSetelah} hari
+            <p
+              className={
+                sisaSetelah < 0 ? "font-medium text-rose-600" : ""
+              }
+            >
+              Sisa kuota tahunan: {Number(sisaKuota)} hari → setelah pengajuan
+              ini: {sisaSetelah} hari
             </p>
           )}
         </div>
@@ -142,21 +209,29 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           <select name="handover_user_id" defaultValue="" className={field}>
             <option value="">Tidak ada</option>
             {rekan.map((r) => (
-              <option key={r.id} value={r.id}>{r.nama_lengkap}</option>
+              <option key={r.id} value={r.id}>
+                {r.nama_lengkap}
+              </option>
             ))}
           </select>
         </Field>
+
         <Field label="Catatan tugas">
           <textarea name="catatan_tugas" rows={1} className={field} />
         </Field>
+
         <Field label="Alamat selama cuti">
           <input name="alamat_selama_cuti" className={field} />
         </Field>
+
         <Field label="Nomor darurat">
           <input name="nomor_darurat" inputMode="tel" className={field} />
         </Field>
 
-        <Field label="Surat dokter / lampiran (PDF, JPG, PNG, maks. 900 KB)" className="col-span-full">
+        <Field
+          label="Surat dokter / lampiran (PDF, JPG, PNG, maks. 900 KB)"
+          className="col-span-full"
+        >
           <input
             type="file"
             name="lampiran"
@@ -173,11 +248,26 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
         )}
 
         <div className="col-span-full flex flex-wrap gap-2">
-          <button type="submit" disabled={pending} className={btn("primary")}>
-            {pending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />} {pending ? "Mengirim..." : "Submit"}
+          <button
+            type="submit"
+            disabled={pending}
+            className={btn("primary")}
+          >
+            {pending ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Send size={16} />
+            )}
+            {pending ? "Mengirim..." : "Submit"}
           </button>
-          <button type="reset" className={btn("secondary")}><RotateCcw size={16} /> Reset</button>
-          <Link href="/cuti" className={btn("ghost")}><X size={16} /> Cancel</Link>
+
+          <button type="reset" className={btn("secondary")}>
+            <RotateCcw size={16} /> Reset
+          </button>
+
+          <Link href="/cuti" className={btn("ghost")}>
+            <X size={16} /> Cancel
+          </Link>
         </div>
       </form>
     </Card>
