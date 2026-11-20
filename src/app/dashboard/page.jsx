@@ -134,7 +134,7 @@ async function DashboardAdmin({ user }) {
         <StatCard judul="Karyawan Aktif" nilai={s.aktif} ikon={UserCheck} tone="emerald" />
         <StatCard judul="Karyawan Tidak Aktif" nilai={s.nonaktif} ikon={UserX} tone="slate" />
         <StatCard judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} ikon={CalendarDays} tone="indigo" />
-        <StatCard judul="Pending Approval" nilai={s.pending} ikon={Clock} tone="amber" />
+        <StatCard judul="Menunggu Persetujuan" nilai={s.pending} ikon={Clock} tone="amber" />
         <StatCard judul="Total Divisi" nilai={s.divisi} ikon={Building2} tone="sky" />
       </div>
 
@@ -173,7 +173,7 @@ async function DashboardAdmin({ user }) {
             </ol>
           )}
         </Panel>
-        <Panel ikon={Hourglass} judul="Masa Kerja < 1 Tahun (belum eligible cuti tahunan)">
+        <Panel ikon={Hourglass} judul="Masa Kerja < 1 Tahun (belum memenuhi syarat cuti tahunan)">
           <DaftarNama
             items={baru.rows.map((r) => `${r.nama_lengkap} (bergabung ${tgl(r.tanggal_bergabung)})`)}
             kosong="Tidak ada karyawan."
@@ -235,7 +235,7 @@ async function DashboardKaryawan({ user }) {
           <div className="mt-3">
             <Progress sisa={Number(s.sisa)} total={Number(s.kuota_awal)} />
           </div>
-          <p className="mt-2 text-xs text-slate-500">Termasuk pengajuan yang masih pending, dihitung untuk tahun berjalan.</p>
+          <p className="mt-2 text-xs text-slate-500">Termasuk pengajuan yang masih menunggu persetujuan, dihitung untuk tahun berjalan.</p>
         </Panel>
         <div className="grid gap-4">
           <StatCard judul="Cuti Sakit Diajukan" nilai={s.sakit} ikon={HeartPulse} tone="rose" />
@@ -316,7 +316,7 @@ async function DashboardKetua({ user }) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <StatCard judul="Pengajuan Masuk" nilai={stat.rows[0].total} ikon={Inbox} tone="indigo" />
-        <StatCard judul="Pending Verifikasi" nilai={stat.rows[0].pending} ikon={Clock} tone="amber" />
+        <StatCard judul="Menunggu Verifikasi" nilai={stat.rows[0].pending} ikon={Clock} tone="amber" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -388,17 +388,17 @@ async function DashboardHrd({ user }) {
       <Hero user={user}>
         <div className="mt-4">
           <Link href="/verifikasi" className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50">
-            <ClipboardCheck size={16} /> Buka Persetujuan Final
+            <ClipboardCheck size={16} /> Buka Persetujuan Akhir
           </Link>
         </div>
       </Hero>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <StatCard judul="Pengajuan Bulan Ini" nilai={stat.rows[0].bulan_ini} ikon={CalendarDays} tone="indigo" />
-        <StatCard judul="Pending Final Approval" nilai={stat.rows[0].pending} ikon={Clock} tone="amber" />
+        <StatCard judul="Menunggu Persetujuan Akhir" nilai={stat.rows[0].pending} ikon={Clock} tone="amber" />
       </div>
 
-      <Panel ikon={Clock} judul="Menunggu Persetujuan Final" aksi={<Lihat href="/verifikasi" label="Proses" />} flush>
+      <Panel ikon={Clock} judul="Menunggu Persetujuan Akhir" aksi={<Lihat href="/verifikasi" label="Proses" />} flush>
         <TabelPengajuan rows={menunggu.rows} />
       </Panel>
 

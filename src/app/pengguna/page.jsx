@@ -57,19 +57,19 @@ export default async function PenggunaPage({ searchParams }) {
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
             <Plus size={18} className="text-indigo-600" /> Tambah Pengguna
           </h2>
-          <Field label="Username">
-            <input name="username" placeholder="Username" required className={field} />
+          <Field label="Nama pengguna">
+            <input name="username" placeholder="Nama pengguna" required className={field} />
           </Field>
-          <Field label="Email">
-            <input name="email" type="email" placeholder="Email" required className={field} />
+          <Field label="Alamat email">
+            <input name="email" type="email" placeholder="Alamat email" required className={field} />
           </Field>
           <Field label="Nama lengkap">
             <input name="nama_lengkap" placeholder="Nama lengkap" required className={field} />
           </Field>
-          <Field label="Password">
+          <Field label="Kata sandi">
             <input name="password" type="password" placeholder="Minimal 6 karakter" required className={field} />
           </Field>
-          <Field label="Role">
+          <Field label="Peran">
             <select name="role" defaultValue="user" className={field}>
               {Object.entries(LABEL_ROLE).map(([v, l]) => (
                 <option key={v} value={v}>{l}</option>
@@ -91,7 +91,7 @@ export default async function PenggunaPage({ searchParams }) {
       <Card className="p-4">
         <form className="flex flex-wrap items-end gap-3">
           <select name="role" defaultValue={sp.role ?? ""} className={filterField}>
-            <option value="">Semua role</option>
+            <option value="">Semua peran</option>
             {Object.entries(LABEL_ROLE).map(([v, l]) => (
               <option key={v} value={v}>{l}</option>
             ))}
@@ -118,7 +118,7 @@ export default async function PenggunaPage({ searchParams }) {
             <option value="divisi">Urut: Divisi</option>
           </select>
           <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
-          <Link href="/pengguna" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
+          <Link href="/pengguna" className={btn("ghost")}><RotateCcw size={14} /> Bersihkan Filter</Link>
         </form>
       </Card>
 
@@ -127,8 +127,8 @@ export default async function PenggunaPage({ searchParams }) {
           <table className={TABLE}>
             <thead>
               <tr>
-                <th className={TH}>Nama</th><th className={TH}>Username</th><th className={TH}>Email</th>
-                <th className={TH}>Role</th><th className={TH}>Divisi</th><th className={TH}>Bergabung</th>
+                <th className={TH}>Nama</th><th className={TH}>Nama pengguna</th><th className={TH}>Email</th>
+                <th className={TH}>Peran</th><th className={TH}>Divisi</th><th className={TH}>Bergabung</th>
                 <th className={TH}>Status</th><th className={TH}>Aksi</th>
               </tr>
             </thead>

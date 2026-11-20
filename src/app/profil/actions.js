@@ -28,10 +28,10 @@ export async function simpanProfil(formData) {
   const adaFile = file && typeof file === "object" && file.size > 0;
 
   let error = null;
-  if (!username || !email || !nama) error = "Username, email, dan nama lengkap wajib diisi";
-  else if (!EMAIL.test(email)) error = "Format email tidak valid";
+  if (!username || !email || !nama) error = "Nama pengguna, email, dan nama lengkap wajib diisi";
+  else if (!EMAIL.test(email)) error = "Alamat email tidak valid";
   else if (telepon && !TELEPON.test(telepon)) error = "Nomor telepon tidak valid";
-  else if (password && password.length < 6) error = "Password baru minimal 6 karakter";
+  else if (password && password.length < 6) error = "Kata sandi baru minimal 6 karakter";
   else if (adaFile && !TIPE.includes(file.type)) error = "Foto harus berformat JPG, PNG, atau WEBP";
   else if (adaFile && file.size > MAKS_BYTE) error = "Ukuran foto maksimal 10 MB";
   if (!error) {
@@ -54,7 +54,7 @@ export async function simpanProfil(formData) {
         ]);
       }
     } catch (e) {
-      if (e.code === "23505") error = "Email atau username sudah dipakai pengguna lain";
+      if (e.code === "23505") error = "Email atau nama pengguna sudah dipakai pengguna lain";
       else {
         console.error(e);
         error = "Terjadi kesalahan pada server";

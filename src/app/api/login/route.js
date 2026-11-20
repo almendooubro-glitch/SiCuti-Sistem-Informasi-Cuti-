@@ -9,7 +9,7 @@ export async function POST(request) {
 
     if (!identifier || !password) {
       return NextResponse.json(
-        { message: "Email/username dan password wajib diisi" },
+        { message: "Email atau nama pengguna dan kata sandi wajib diisi" },
         { status: 400 }
       );
     }
@@ -24,7 +24,7 @@ export async function POST(request) {
     const valid = user && (await bcrypt.compare(password, user.password));
     if (!valid) {
       return NextResponse.json(
-        { message: "Email/username atau password salah" },
+        { message: "Email/nama pengguna atau kata sandi salah" },
         { status: 401 }
       );
     }
@@ -37,7 +37,7 @@ export async function POST(request) {
     }
 
     await createSession(user.id, Boolean(remember));
-    return NextResponse.json({ message: "Login berhasil", role: user.role });
+    return NextResponse.json({ message: "Berhasil masuk", role: user.role });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

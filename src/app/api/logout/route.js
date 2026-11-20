@@ -3,5 +3,5 @@ import { destroySession } from "@/lib/session";
 
 export async function POST() {
   await destroySession();
-  return NextResponse.json({ message: "Logout berhasil" });
+  return NextResponse.json({ message: "Berhasil keluar" });
 }

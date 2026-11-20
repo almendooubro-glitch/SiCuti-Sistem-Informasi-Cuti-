@@ -33,7 +33,7 @@ const MENU = {
     ["Verifikasi", "/verifikasi", ClipboardCheck],
   ],
   hrd: [
-    ["Persetujuan Final", "/verifikasi", ClipboardCheck],
+    ["Persetujuan Akhir", "/verifikasi", ClipboardCheck],
     ["Pengaturan", "/pengaturan", Settings],
   ],
 };
@@ -41,7 +41,7 @@ const MENU = {
 export default function AppShell({ user, adaFoto, footer, children }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const menu = [["Dashboard", "/dashboard", LayoutDashboard], ...(MENU[user.role] || [])];
+  const menu = [["Beranda", "/dashboard", LayoutDashboard], ...(MENU[user.role] || [])];
   const akun = [["Profil Saya", "/profil", CircleUser]];
   const aktif = (href) => pathname === href || pathname.startsWith(`${href}/`);
 

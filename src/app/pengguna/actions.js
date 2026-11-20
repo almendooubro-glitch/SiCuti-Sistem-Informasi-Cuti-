@@ -24,15 +24,15 @@ export async function simpanPengguna(formData) {
 
   let error = null;
   if (!username || !email || !nama || !ROLES.includes(role)) {
-    error = "Semua field wajib diisi";
+    error = "Semua isian wajib diisi";
   } else if (!EMAIL.test(email)) {
-    error = "Format email tidak valid";
+    error = "Alamat email tidak valid";
   } else if ((!id || password) && password.length < 6) {
-    error = "Password minimal 6 karakter";
+    error = "Kata sandi minimal 6 karakter";
   } else if (Number.isNaN(kuota) || kuota < 0) {
     error = "Kuota cuti tidak valid";
   } else if (id === admin.id && (role !== "admin" || !aktif)) {
-    error = "Role dan status akun sendiri tidak boleh diubah";
+    error = "Peran dan status akun sendiri tidak boleh diubah";
   }
 
   if (!error) {
@@ -57,7 +57,7 @@ export async function simpanPengguna(formData) {
         );
       }
     } catch (e) {
-      if (e.code === "23505") error = "Email atau username sudah terdaftar";
+      if (e.code === "23505") error = "Email atau nama pengguna sudah terdaftar";
       else {
         console.error(e);
         error = "Terjadi kesalahan pada server";
@@ -93,7 +93,7 @@ export async function hapusPengguna(formData) {
 
     if (cek.rowCount === 0) {
       await client.query("ROLLBACK");
-      error = "Hanya karyawan dan ketua divisi yang bisa dihapus";
+      error = "Hanya karyawan dan ketua divisi yang dapat dihapus";
     } else {
       await client.query("UPDATE pengajuan_cuti SET handover_user_id = NULL WHERE handover_user_id = $1", [id]);
       await client.query("DELETE FROM approval_log WHERE approver_id = $1", [id]);

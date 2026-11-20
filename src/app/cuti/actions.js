@@ -58,7 +58,7 @@ export async function ajukanCuti(formData) {
           [mulai, selesai]
         )
       ).rows[0];
-      if (bo) return gagal(`Cuti tidak bisa diajukan pada periode blackout: ${bo.keterangan}`);
+      if (bo) return gagal(`Cuti tidak bisa diajukan pada periode larangan cuti: ${bo.keterangan}`);
     }
 
     const selisih = selisihHari(hariIni(), mulai);
@@ -82,7 +82,7 @@ export async function ajukanCuti(formData) {
         [user.id]
       )
     ).rows[0];
-    if (user.role === "user" && !u.divisi_id) return gagal("Kamu belum masuk divisi, hubungi admin");
+    if (user.role === "user" && !u.divisi_id) return gagal("Kamu belum terdaftar di divisi. Hubungi admin.");
 
     if (jenis.nama === "Cuti Tahunan" && mulai < u.eligible_sejak) {
       const sejak = new Date(u.eligible_sejak + "T00:00:00").toLocaleDateString("id-ID");

@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 
 export async function GET(request) {
   const user = await getCurrentUser();
-  if (!user) return new Response("Harus login", { status: 401 });
+  if (!user) return new Response("Silakan masuk terlebih dahulu", { status: 401 });
 
   const id = Number(new URL(request.url).searchParams.get("id"));
   const { rows } = await pool.query(
@@ -20,7 +20,7 @@ export async function GET(request) {
     const r = await pool.query("SELECT 1 FROM divisi WHERE id = $1 AND ketua_id = $2", [f.divisi_id, user.id]);
     boleh = r.rows.length > 0;
   }
-  if (!boleh) return new Response("Tidak punya akses", { status: 403 });
+  if (!boleh) return new Response("Anda tidak memiliki akses", { status: 403 });
 
   return new Response(f.lampiran_data, {
     headers: {

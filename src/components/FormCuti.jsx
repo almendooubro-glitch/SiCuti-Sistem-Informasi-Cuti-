@@ -110,7 +110,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           <p className="col-span-full flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
             <TriangleAlert size={16} className="mt-0.5" />
             <span>
-              Periode blackout (cuti selain sakit tidak bisa diajukan):{" "}
+              Periode larangan cuti (selain cuti sakit):{" "}
               {blackout
                 .map(
                   (b) =>
@@ -193,7 +193,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           <textarea name="alasan" required rows={2} className={field} />
         </Field>
 
-        <Field label="Rekan pengganti (handover)">
+        <Field label="Rekan pengganti">
           <select name="handover_user_id" defaultValue="" className={field}>
             <option value="">Tidak ada</option>
             {rekan.map((r) => (
@@ -204,7 +204,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           </select>
         </Field>
 
-        <Field label="Catatan tugas">
+        <Field label="Catatan serah tugas">
           <textarea name="catatan_tugas" rows={1} className={field} />
         </Field>
 
@@ -246,15 +246,15 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
             ) : (
               <Send size={16} />
             )}
-            {pending ? "Mengirim..." : "Submit"}
+            {pending ? "Mengirim..." : "Kirim Pengajuan"}
           </button>
 
           <button type="reset" className={btn("secondary")}>
-            <RotateCcw size={16} /> Reset
+            <RotateCcw size={16} /> Bersihkan Formulir
           </button>
 
           <Link href="/cuti" className={btn("ghost")}>
-            <X size={16} /> Cancel
+            <X size={16} /> Batal
           </Link>
         </div>
       </form>

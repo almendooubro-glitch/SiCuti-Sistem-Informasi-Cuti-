@@ -120,7 +120,7 @@ export async function tambahBlackout(formData) {
   const keterangan = teks(formData, "keterangan");
 
   let error = null;
-  if (!TGL.test(mulai) || !TGL.test(akhir) || !keterangan) error = "Semua field wajib diisi";
+  if (!TGL.test(mulai) || !TGL.test(akhir) || !keterangan) error = "Semua isian wajib diisi";
   else if (akhir < mulai) error = "Tanggal selesai tidak boleh sebelum tanggal mulai";
   else {
     try {
@@ -132,11 +132,11 @@ export async function tambahBlackout(formData) {
       error = "Tanggal tidak valid";
     }
   }
-  selesai(error, "Periode blackout ditambahkan");
+  selesai(error, "Periode larangan cuti ditambahkan");
 }
 
 export async function hapusBlackout(formData) {
   await requireUser(PERAN);
   await pool.query("DELETE FROM blackout WHERE id = $1", [Number(formData.get("id"))]);
-  selesai(null, "Periode blackout dihapus");
+  selesai(null, "Periode larangan cuti dihapus");
 }

@@ -74,7 +74,7 @@ export default async function ProfilPage({ searchParams }) {
           <div className="grid gap-4 sm:grid-cols-3">
             {[
               ["Kuota Tahunan", Number(p.kuota_awal)],
-              ["Terpakai (termasuk pending)", Number(p.terpakai)],
+              ["Terpakai (termasuk yang menunggu persetujuan)", Number(p.terpakai)],
               ["Sisa", sisa],
             ].map(([judul, nilai]) => (
               <div key={judul}>
@@ -100,7 +100,7 @@ export default async function ProfilPage({ searchParams }) {
             <input type="hidden" name="username" value={p.username} />
             <input type="hidden" name="email" value={p.email} />
             <input type="hidden" name="nama_lengkap" value={p.nama_lengkap} />
-            <Field label="Role">
+            <Field label="Peran">
               <select name="role" defaultValue={p.role} className={field}>
                 {Object.entries(LABEL_ROLE).map(([v, l]) => (
                   <option key={v} value={v}>{l}</option>
@@ -135,7 +135,7 @@ export default async function ProfilPage({ searchParams }) {
           <Field label="Nama lengkap">
             <input name="nama_lengkap" defaultValue={p.nama_lengkap} required className={field} />
           </Field>
-          <Field label="Username">
+          <Field label="Nama pengguna">
             <input name="username" defaultValue={p.username} required className={field} />
           </Field>
           <Field label="Email">
@@ -147,7 +147,7 @@ export default async function ProfilPage({ searchParams }) {
           <Field label="Alamat" className="col-span-full">
             <textarea name="alamat" rows={2} defaultValue={p.alamat ?? ""} className={field} />
           </Field>
-          <Field label="Password baru (opsional)">
+          <Field label="Kata sandi baru (opsional)">
             <input name="password" type="password" autoComplete="new-password" className={field} />
           </Field>
           <Field label="Foto profil (JPG, PNG, WEBP, maks. 900 KB)">

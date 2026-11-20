@@ -74,7 +74,7 @@ export default function FormLogin({ akun }) {
 
         <Card className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <Field label="Email atau username">
+            <Field label="Email atau nama pengguna">
               <input
                 type="text"
                 placeholder="nama@sicuti.com"
@@ -84,11 +84,11 @@ export default function FormLogin({ akun }) {
                 className={field}
               />
             </Field>
-            <Field label="Password">
+            <Field label="Kata sandi">
               <div className="relative">
                 <input
                   type={tampil ? "text" : "password"}
-                  placeholder="Masukkan password"
+                  placeholder="Masukkan kata sandi"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -97,7 +97,7 @@ export default function FormLogin({ akun }) {
                 <button
                   type="button"
                   onClick={() => setTampil((v) => !v)}
-                  aria-label={tampil ? "Sembunyikan password" : "Tampilkan password"}
+                  aria-label={tampil ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                   aria-pressed={tampil}
                   className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-lg text-slate-400 transition hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                 >
@@ -113,14 +113,14 @@ export default function FormLogin({ akun }) {
                 onChange={(e) => setRemember(e.target.checked)}
                 className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
               />
-              Remember Me
+              Ingat saya
             </label>
 
             <Alert error={pesan} />
 
             <button type="submit" disabled={loading} className={btn("primary", "md", "w-full")}>
               {loading ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
-              {loading ? "Memproses..." : "Login"}
+              {loading ? "Memproses..." : "Masuk"}
             </button>
           </form>
         </Card>
@@ -129,7 +129,7 @@ export default function FormLogin({ akun }) {
           <div>
             <h2 className="text-sm font-semibold text-slate-800">Akun Uji Cepat</h2>
             <p className="text-xs text-slate-500">
-              Klik salah satu akun untuk mengisi form. Password akun demo: <code className="rounded bg-slate-100 px-1">{PASSWORD_DEMO}</code>
+              Pilih akun untuk mengisi formulir. Kata sandi akun contoh: <code className="rounded bg-slate-100 px-1">{PASSWORD_DEMO}</code>
             </p>
           </div>
           <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">

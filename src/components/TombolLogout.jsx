@@ -15,7 +15,7 @@ export default function TombolLogout() {
 
   return (
     <button onClick={handleLogout} className={btn("secondary", "md", "w-full")}>
-      <LogOut size={16} /> Logout
+      <LogOut size={16} /> Keluar
     </button>
   );
 }

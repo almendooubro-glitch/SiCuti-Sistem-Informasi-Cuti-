@@ -112,7 +112,7 @@ export default async function DivisiPage({ searchParams }) {
             <option value="dibuat">Tanggal dibuat</option>
           </select>
           <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
-          <Link href="/divisi" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
+          <Link href="/divisi" className={btn("ghost")}><RotateCcw size={14} /> Bersihkan Filter</Link>
         </form>
       </Card>
 

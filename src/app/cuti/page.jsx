@@ -166,7 +166,7 @@ export default async function CutiPage({ searchParams }) {
             <option value="hari">Urut: Lama cuti</option>
           </select>
           <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
-          <Link href="/cuti" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
+          <Link href="/cuti" className={btn("ghost")}><RotateCcw size={14} /> Bersihkan Filter</Link>
         </form>
       </Card>
 
@@ -212,7 +212,7 @@ export default async function CutiPage({ searchParams }) {
               <div><dt className="text-slate-500">Tanggal pengajuan</dt><dd className="font-medium text-slate-900">{tgl(d.tanggal_pengajuan)}</dd></div>
               <div className="md:col-span-2"><dt className="text-slate-500">Alasan</dt><dd className="text-slate-900">{d.alasan}</dd></div>
               <div><dt className="text-slate-500">Rekan pengganti</dt><dd className="text-slate-900">{d.handover || "-"}</dd></div>
-              <div><dt className="text-slate-500">Catatan tugas (handover)</dt><dd className="text-slate-900">{d.catatan_tugas || "-"}</dd></div>
+              <div><dt className="text-slate-500">Catatan serah tugas</dt><dd className="text-slate-900">{d.catatan_tugas || "-"}</dd></div>
               <div><dt className="text-slate-500">Alamat selama cuti</dt><dd className="text-slate-900">{d.alamat_selama_cuti || "-"}</dd></div>
               <div><dt className="text-slate-500">Nomor darurat</dt><dd className="text-slate-900">{d.nomor_darurat || "-"}</dd></div>
               <div>
@@ -229,7 +229,7 @@ export default async function CutiPage({ searchParams }) {
 
             <div>
               <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-                <History size={16} className="text-indigo-600" /> Timeline Approval
+                <History size={16} className="text-indigo-600" /> Riwayat Persetujuan
               </h3>
               <ol className="space-y-4 border-l border-slate-200 pl-5 text-sm">
                 <li className="relative text-slate-700">

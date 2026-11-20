@@ -36,7 +36,7 @@ export default async function PengaturanPage({ searchParams }) {
 
   return (
     <main className={`${PAGE} max-w-4xl`}>
-      <PageHeader ikon={Settings} judul="Pengaturan Cuti" sub="Kapasitas tim, hari libur, dan periode blackout" />
+      <PageHeader ikon={Settings} judul="Pengaturan Cuti" sub="Kapasitas tim, hari libur, dan periode larangan cuti" />
       <Alert error={sp.error} info={sp.info} />
 
       <Panel ikon={Gauge} judul="Kapasitas Tim">
@@ -91,7 +91,7 @@ export default async function PengaturanPage({ searchParams }) {
         </div>
       </Panel>
 
-      <Panel ikon={CalendarX} judul="Periode Blackout">
+      <Panel ikon={CalendarX} judul="Periode Larangan Cuti">
         <div className="space-y-4">
           <p className="text-sm text-slate-500">Pada periode ini cuti (selain Cuti Sakit) tidak bisa diajukan.</p>
           <form action={tambahBlackout} className="flex flex-wrap items-end gap-3">
@@ -112,11 +112,11 @@ export default async function PengaturanPage({ searchParams }) {
                 <span className="text-slate-700">
                   <span className="font-medium text-slate-900">{b.keterangan}</span> · {tgl(b.mulai)} s.d. {tgl(b.selesai)}
                 </span>
-                <TombolKonfirmasi action={hapusBlackout} fields={{ id: b.id }} label="Hapus" pesan={`Hapus blackout ${b.keterangan}?`} />
+                <TombolKonfirmasi action={hapusBlackout} fields={{ id: b.id }} label="Hapus" pesan={`Hapus periode larangan cuti ${b.keterangan}?`} />
               </li>
             ))}
           </ul>
-          {blackout.length === 0 && <p className="text-sm text-slate-400">Belum ada periode blackout.</p>}
+          {blackout.length === 0 && <p className="text-sm text-slate-400">Belum ada periode larangan cuti.</p>}
         </div>
       </Panel>
     </main>

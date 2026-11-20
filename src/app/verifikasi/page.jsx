@@ -74,7 +74,7 @@ export default async function VerifikasiPage({ searchParams }) {
     <main className={PAGE}>
       <PageHeader
         ikon={ClipboardCheck}
-        judul={hrd ? "Persetujuan Final" : "Verifikasi Pengajuan"}
+        judul={hrd ? "Persetujuan Akhir" : "Verifikasi Pengajuan"}
         sub={
           hrd
             ? "Pengajuan yang sudah disetujui ketua divisi dan pengajuan langsung dari ketua divisi."
@@ -181,8 +181,8 @@ export default async function VerifikasiPage({ searchParams }) {
               )}
 
               <div className="flex flex-wrap gap-2">
-                <ModalKeputusan action={putuskan} id={k.id} aksi="approved" label="Approve" judul={`Setujui pengajuan ${k.nama_lengkap}?`} />
-                <ModalKeputusan action={putuskan} id={k.id} aksi="rejected" label="Reject" judul={`Tolak pengajuan ${k.nama_lengkap}?`} />
+                <ModalKeputusan action={putuskan} id={k.id} aksi="approved" label="Setujui" judul={`Setujui pengajuan ${k.nama_lengkap}?`} />
+                <ModalKeputusan action={putuskan} id={k.id} aksi="rejected" label="Tolak" judul={`Tolak pengajuan ${k.nama_lengkap}?`} />
               </div>
             </Card>
           ))}
@@ -198,7 +198,7 @@ export default async function VerifikasiPage({ searchParams }) {
             ))}
           </select>
           <button type="submit" className={btn("secondary")}><Filter size={16} /> Terapkan</button>
-          <Link href="/verifikasi" className={btn("ghost")}><RotateCcw size={14} /> Reset</Link>
+          <Link href="/verifikasi" className={btn("ghost")}><RotateCcw size={14} /> Bersihkan Filter</Link>
         </form>
 
         <div className="overflow-x-auto">

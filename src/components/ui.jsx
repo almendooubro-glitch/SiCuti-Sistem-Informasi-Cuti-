@@ -10,7 +10,7 @@ const ROLE_STYLE = {
 };
 
 export const STATUS = {
-  pending: ["Pending", "bg-amber-50 text-amber-700 ring-amber-600/20"],
+  pending: ["Menunggu Persetujuan", "bg-amber-50 text-amber-700 ring-amber-600/20"],
   approved_leader: ["Disetujui Ketua Divisi", "bg-sky-50 text-sky-700 ring-sky-600/20"],
   approved: ["Disetujui", "bg-emerald-50 text-emerald-700 ring-emerald-600/20"],
   rejected: ["Ditolak", "bg-rose-50 text-rose-700 ring-rose-600/20"],

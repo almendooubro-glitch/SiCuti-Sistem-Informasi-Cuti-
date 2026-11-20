@@ -10,7 +10,7 @@ export default function Footer() {
           </span>
           <span>Sistem Manajemen Cuti Karyawan</span>
         </p>
-        <p>&copy; 2026 SiCuti. All rights reserved.</p>
+        <p>&copy; 2026 SiCuti. Hak cipta dilindungi.</p>
       </div>
     </footer>
   );

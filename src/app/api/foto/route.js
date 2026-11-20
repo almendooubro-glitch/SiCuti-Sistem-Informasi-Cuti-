@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 
 export async function GET(request) {
   const user = await getCurrentUser();
-  if (!user) return new Response("Harus login", { status: 401 });
+  if (!user) return new Response("Silakan masuk terlebih dahulu", { status: 401 });
 
   const id = Number(new URL(request.url).searchParams.get("id"));
   if (!Number.isInteger(id)) return new Response("Foto tidak ditemukan", { status: 404 });
