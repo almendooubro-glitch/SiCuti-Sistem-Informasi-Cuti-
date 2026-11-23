@@ -121,7 +121,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
           <div className="flex items-center gap-3">
             <Avatar id={user.id} ada={adaFoto} nama={user.nama_lengkap} />
             <div className="min-w-0 space-y-1">
-              <p className="truncate text-sm font-semibold text-[#FEFEFE]">{user.nama_lengkap}</p>
+              <p className="truncate text-sm font-semibold text-[#012677] dark:text-[#FEFEFE]">{user.nama_lengkap}</p>
               <RoleBadge role={user.role} />
             </div>
           </div>

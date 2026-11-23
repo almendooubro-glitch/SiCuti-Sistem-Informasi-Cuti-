@@ -3,10 +3,10 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 export const LABEL_ROLE = { admin: "Admin", user: "Karyawan", ketua_divisi: "Ketua Divisi", hrd: "HRD" };
 
 const ROLE_STYLE = {
-  admin: "bg-[#E8F0FD] text-[#022F8E] ring-[#54B7FD]/30",
-  hrd: "bg-[#CBDFFC] text-[#022F8E] ring-[#2893FC]/30",
-  ketua_divisi: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  user: "bg-[#54B7FD]/20 text-[#022F8E] ring-[#2893FC]/30",
+  admin: "bg-[#CBDFFC] text-[#012677] ring-[#54B7FD]/40 dark:bg-[#0450D5]/25 dark:text-[#CBDFFC] dark:ring-[#54B7FD]/20",
+  hrd: "bg-[#54B7FD]/35 text-[#012677] ring-[#2893FC]/40 dark:bg-[#2893FC]/20 dark:text-[#CBDFFC] dark:ring-[#54B7FD]/20",
+  ketua_divisi: "bg-[#CBDFFC] text-[#022F8E] ring-[#54B7FD]/40 dark:bg-[#0450D5]/25 dark:text-[#CBDFFC] dark:ring-[#54B7FD]/20",
+  user: "bg-[#54B7FD]/35 text-[#012677] ring-[#2893FC]/40 dark:bg-[#2893FC]/20 dark:text-[#CBDFFC] dark:ring-[#54B7FD]/20",
 };
 
 export const STATUS = {

@@ -34,7 +34,7 @@ export default function ToggleTema({ penuh = false }) {
   }
 
   const gaya = penuh
-    ? "inline-flex w-full items-center justify-center rounded-xl border border-[#CBDFFC]/60 bg-[#FEFEFE]/10 px-4 py-2 text-sm font-semibold text-[#FEFEFE] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#54B7FD] hover:bg-[#0450D5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] active:translate-y-0"
+    ? "inline-flex w-full items-center justify-center rounded-xl border border-[#54B7FD]/50 bg-[#CBDFFC] px-4 py-2 text-sm font-semibold text-[#012677] shadow-sm transition-all duration-200 hover:border-[#2893FC] hover:bg-[#54B7FD] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] active:scale-[0.98] dark:border-[#54B7FD]/30 dark:bg-[#022F8E] dark:text-[#FEFEFE] dark:hover:border-[#54B7FD] dark:hover:bg-[#0450D5]"
     : "flex h-10 w-10 items-center justify-center rounded-xl bg-[#CBDFFC] p-2.5 text-[#022F8E] transition-colors duration-200 hover:bg-[#54B7FD] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] active:scale-95 dark:bg-[#022F8E] dark:text-[#FEFEFE] dark:hover:bg-[#0450D5]";
 
   return (

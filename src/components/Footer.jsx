@@ -9,7 +9,7 @@ export default function Footer() {
       />
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#2893FC] to-[#54B7FD] text-[#012677] ring-1 ring-[#54B7FD]/30 dark:bg-[#0450D5]/25 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#2893FC] to-[#54B7FD] text-[#012677] ring-1 ring-[#54B7FD]/30 dark:bg-[#0450D5]/25 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
             <CalendarCheck size={20} />
           </span>
           <div>
