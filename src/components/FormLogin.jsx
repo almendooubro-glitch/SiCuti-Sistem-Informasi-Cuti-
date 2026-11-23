@@ -83,14 +83,14 @@ export default function FormLogin({ akun }) {
           <p className="mt-1 text-sm font-medium text-white/75">Sistem Manajemen Cuti Karyawan</p>
         </header>
 
-        <Card className="animate-[login-in_700ms_100ms_ease-out_both] border-[#2893FC]/35 bg-[#022F8E]/95 p-5 shadow-[0_24px_70px_rgba(1,38,119,0.42)] backdrop-blur-xl dark:border-[#54B7FD]/25 dark:bg-[#012677]/95 sm:p-6">
+        <Card className="animate-[login-in_700ms_100ms_ease-out_both] border-[#2893FC]/45 bg-[#E8F0FD]/95 p-5 shadow-[0_24px_70px_rgba(1,38,119,0.28)] backdrop-blur-xl dark:border-[#54B7FD]/25 dark:bg-[#012677]/95 sm:p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <label className="block space-y-2 text-sm font-semibold text-[#CBDFFC]">
+            <label className="block space-y-2 text-sm font-semibold text-[#022F8E] dark:text-[#CBDFFC]">
               <span>Email atau nama pengguna</span>
               <span className="relative block">
                 <Mail
                   size={18}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#54B7FD] transition-colors"
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#0F67ED] transition-colors dark:text-[#54B7FD]"
                 />
                 <input
                   type="text"
@@ -98,17 +98,17 @@ export default function FormLogin({ akun }) {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-[#CBDFFC]/60 bg-[#012677]/70 py-3 pl-11 pr-3 text-sm text-[#FEFEFE] shadow-sm outline-none transition duration-200 placeholder:text-[#CBDFFC]/70 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#012677]/85 focus:ring-4 focus:ring-[#2893FC]/25"
+                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-3 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E]/55 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC]/70 dark:focus:bg-[#012677]/85"
                 />
               </span>
             </label>
 
-            <label className="block space-y-2 text-sm font-semibold text-[#CBDFFC]">
+            <label className="block space-y-2 text-sm font-semibold text-[#022F8E] dark:text-[#CBDFFC]">
               <span>Kata sandi</span>
               <span className="relative block">
                 <LockKeyhole
                   size={18}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#54B7FD]"
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#0F67ED] dark:text-[#54B7FD]"
                 />
                 <input
                   type={tampil ? "text" : "password"}
@@ -116,26 +116,26 @@ export default function FormLogin({ akun }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-[#CBDFFC]/60 bg-[#012677]/70 py-3 pl-11 pr-12 text-sm text-[#FEFEFE] shadow-sm outline-none transition duration-200 placeholder:text-[#CBDFFC]/70 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#012677]/85 focus:ring-4 focus:ring-[#2893FC]/25"
+                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-12 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E]/55 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC]/70 dark:focus:bg-[#012677]/85"
                 />
                 <button
                   type="button"
                   onClick={() => setTampil((v) => !v)}
                   aria-label={tampil ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                   aria-pressed={tampil}
-                  className="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-[#54B7FD] transition hover:text-[#2893FC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC]"
+                  className="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-[#0F67ED] transition hover:text-[#2893FC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] dark:text-[#54B7FD]"
                 >
                   {tampil ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </span>
             </label>
 
-            <label className="flex items-center gap-2 text-sm text-[#CBDFFC] transition">
+            <label className="flex items-center gap-2 text-sm text-[#022F8E] transition dark:text-[#CBDFFC]">
               <input
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="h-4 w-4 rounded border-[#CBDFFC] bg-[#012677] text-[#2893FC] focus:ring-[#2893FC]"
+                className="h-4 w-4 rounded border-[#54B7FD] bg-[#FEFEFE] text-[#0450D5] focus:ring-[#2893FC] dark:border-[#CBDFFC] dark:bg-[#012677]"
               />
               Ingat saya
             </label>
@@ -153,11 +153,11 @@ export default function FormLogin({ akun }) {
           </form>
         </Card>
 
-        <Card className="animate-[login-in_700ms_200ms_ease-out_both] space-y-3 border-[#2893FC]/30 bg-[#012677]/95 p-4 shadow-[0_18px_55px_rgba(1,38,119,0.38)] backdrop-blur-xl dark:border-[#54B7FD]/20 dark:bg-[#012677]/95">
+        <Card className="animate-[login-in_700ms_200ms_ease-out_both] space-y-3 border-[#2893FC]/45 bg-[#E8F0FD]/95 p-4 shadow-[0_18px_55px_rgba(1,38,119,0.28)] backdrop-blur-xl dark:border-[#54B7FD]/20 dark:bg-[#012677]/95">
           <div>
-            <h2 className="text-sm font-semibold text-[#FEFEFE]">Akun Uji Cepat</h2>
-            <p className="text-xs text-[#CBDFFC]">
-              Pilih akun untuk mengisi formulir. Kata sandi akun contoh: <code className="rounded-md bg-[#2893FC]/20 px-1.5 py-0.5 font-semibold text-[#FEFEFE]">{PASSWORD_DEMO}</code>
+            <h2 className="text-sm font-semibold text-[#012677] dark:text-[#FEFEFE]">Akun Uji Cepat</h2>
+            <p className="text-xs text-[#022F8E] dark:text-[#CBDFFC]">
+              Pilih akun untuk mengisi formulir. Kata sandi akun contoh: <code className="rounded-md border border-[#54B7FD]/35 bg-[#CBDFFC]/60 px-1.5 py-0.5 font-semibold text-[#012677] dark:border-0 dark:bg-[#2893FC]/20 dark:text-[#FEFEFE]">{PASSWORD_DEMO}</code>
             </p>
           </div>
           <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
@@ -168,23 +168,23 @@ export default function FormLogin({ akun }) {
                   key={a.email}
                   type="button"
                   onClick={() => isiAkun(a.email)}
-                  className="rounded-xl border border-[#54B7FD]/20 bg-[#022F8E]/80 px-3 py-2.5 text-left text-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2893FC] hover:bg-[#0450D5]/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC]"
+                  className="rounded-xl border border-[#54B7FD]/55 bg-[#CBDFFC]/75 px-3 py-2.5 text-left text-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2893FC] hover:bg-[#54B7FD]/35 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] dark:border-[#54B7FD]/20 dark:bg-[#022F8E]/80 dark:hover:border-[#2893FC] dark:hover:bg-[#0450D5]/75"
                 >
-                  <span className="flex items-center gap-1.5 font-semibold text-[#FEFEFE]">
-                    <Ikon size={14} className="shrink-0 text-[#54B7FD]" />
+                  <span className="flex items-center gap-1.5 font-semibold text-[#012677] dark:text-[#FEFEFE]">
+                    <Ikon size={14} className="shrink-0 text-[#0450D5] dark:text-[#54B7FD]" />
                     <span className="truncate">{a.nama_lengkap}</span>
                   </span>
-                  <span className="mt-0.5 block truncate text-[#CBDFFC]">
+                  <span className="mt-0.5 block truncate text-[#022F8E] dark:text-[#CBDFFC]">
                     {LABEL_ROLE[a.role]}
                     {a.divisi && ` · ${a.divisi}`}
                     {a.baru && a.role === "user" && " · < 1 tahun"}
                   </span>
-                  <span className="mt-0.5 block truncate text-[#54B7FD]">{a.email}</span>
+                  <span className="mt-0.5 block truncate text-[#0450D5] dark:text-[#54B7FD]">{a.email}</span>
                 </button>
               );
             })}
           </div>
-          {akun.length === 0 && <p className="text-sm text-slate-400">Belum ada akun.</p>}
+          {akun.length === 0 && <p className="text-sm text-[#022F8E] dark:text-[#CBDFFC]">Belum ada akun.</p>}
         </Card>
       </div>
     </main>
