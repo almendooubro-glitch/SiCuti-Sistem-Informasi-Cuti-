@@ -56,11 +56,11 @@ export default function AppShell({ user, adaFoto, footer, children }) {
         className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] ${
           on
             ? "bg-gradient-to-r from-[#0450D5] to-[#0F67ED] font-semibold text-[#FEFEFE] shadow-sm shadow-[#012677]/20 ring-1 ring-[#54B7FD]/35"
-            : "text-[#CBDFFC] hover:translate-x-0.5 hover:bg-[#0450D5]/35 hover:text-[#FEFEFE]"
+            : "text-[#022F8E] hover:translate-x-0.5 hover:bg-[#CBDFFC] hover:text-[#012677] dark:text-[#CBDFFC] dark:hover:bg-[#0450D5]/35 dark:hover:text-[#FEFEFE]"
         }`}
       >
         {on && <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-[#54B7FD]" />}
-        <Ikon size={18} className={on ? "text-[#FEFEFE]" : "text-[#54B7FD] group-hover:text-[#FEFEFE]"} />
+        <Ikon size={18} className={on ? "text-[#FEFEFE]" : "text-[#0450D5] group-hover:text-[#012677] dark:text-[#54B7FD] dark:group-hover:text-[#FEFEFE]"} />
         {label}
       </Link>
     );
@@ -82,25 +82,25 @@ export default function AppShell({ user, adaFoto, footer, children }) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex h-screen min-h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:h-dvh lg:min-h-dvh lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex h-screen min-h-dvh w-64 shrink-0 flex-col border-r border-[#CBDFFC] bg-[#E8F0FD] text-[#012677] transition-colors duration-300 lg:h-dvh lg:min-h-dvh lg:translate-x-0 dark:border-[#54B7FD]/20 dark:bg-[#012677] dark:text-[#FEFEFE] ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-[#54B7FD]/20 px-4 py-4">
+        <div className="flex items-center justify-between border-b border-[#CBDFFC] px-4 py-4 dark:border-[#54B7FD]/20">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#2893FC] to-[#54B7FD] text-[#012677] shadow-md shadow-[#012677]/30">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#2893FC] to-[#54B7FD] text-[#012677] shadow-sm shadow-[#0450D5]/20">
               <CalendarCheck size={20} />
             </span>
             <div className="leading-tight">
-              <p className="font-bold text-[#FEFEFE]">SiCuti</p>
-              <p className="text-xs text-[#CBDFFC]">Manajemen Cuti</p>
+              <p className="font-bold text-[#012677] dark:text-[#FEFEFE]">SiCuti</p>
+              <p className="text-xs text-[#022F8E]/70 dark:text-[#CBDFFC]">Manajemen Cuti</p>
             </div>
           </div>
           <button
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Tutup menu"
-            className="rounded-lg p-1.5 text-[#CBDFFC] hover:bg-[#0450D5]/50 lg:hidden"
+            className="rounded-lg p-1.5 text-[#022F8E] hover:bg-[#CBDFFC] lg:hidden dark:text-[#CBDFFC] dark:hover:bg-[#0450D5]/50"
           >
             <X size={20} />
           </button>
@@ -108,16 +108,16 @@ export default function AppShell({ user, adaFoto, footer, children }) {
 
         <nav className="min-h-0 flex-1 space-y-6 overflow-y-auto px-3 py-4">
           <div className="space-y-1">
-            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[#54B7FD]">Menu</p>
+            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[#0450D5] dark:text-[#54B7FD]">Menu</p>
             {menu.map(item)}
           </div>
           <div className="space-y-1">
-            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[#54B7FD]">Akun</p>
+            <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[#0450D5] dark:text-[#54B7FD]">Akun</p>
             {akun.map(item)}
           </div>
         </nav>
 
-        <div className="mt-auto shrink-0 space-y-3 border-t border-[#54B7FD]/20 p-4">
+        <div className="mt-auto shrink-0 space-y-3 border-t border-[#CBDFFC] p-4 dark:border-[#54B7FD]/20">
           <div className="flex items-center gap-3">
             <Avatar id={user.id} ada={adaFoto} nama={user.nama_lengkap} />
             <div className="min-w-0 space-y-1">

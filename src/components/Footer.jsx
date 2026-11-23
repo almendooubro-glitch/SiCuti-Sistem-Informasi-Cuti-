@@ -2,7 +2,7 @@ import { CalendarCheck, Sparkles } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-[#54B7FD]/20 bg-[#012677] px-4 py-6 text-[#FEFEFE] sm:px-6 dark:border-[#54B7FD]/15 dark:bg-[#012677]">
+    <footer className="relative overflow-hidden border-t border-[#CBDFFC] bg-[#E8F0FD] px-4 py-6 text-[#012677] transition-colors duration-300 sm:px-6 dark:border-[#54B7FD]/15 dark:bg-[#012677] dark:text-[#FEFEFE]">
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#022F8E] via-[#2893FC] to-[#54B7FD]"
@@ -13,12 +13,12 @@ export default function Footer() {
             <CalendarCheck size={20} />
           </span>
           <div>
-            <p className="font-bold text-[#FEFEFE]">SiCuti</p>
-            <p className="text-xs text-[#CBDFFC]">Sistem Manajemen Cuti Karyawan</p>
+            <p className="font-bold text-[#012677] dark:text-[#FEFEFE]">SiCuti</p>
+            <p className="text-xs text-[#022F8E]/70 dark:text-[#CBDFFC]">Sistem Manajemen Cuti Karyawan</p>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-2 text-xs text-[#CBDFFC] sm:items-end">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0450D5]/35 px-3 py-1 font-medium text-[#54B7FD] dark:bg-[#0450D5]/25 dark:text-[#54B7FD]">
+        <div className="flex flex-col items-center gap-2 text-xs text-[#022F8E]/70 sm:items-end dark:text-[#CBDFFC]">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#CBDFFC] px-3 py-1 font-medium text-[#0450D5] dark:bg-[#0450D5]/25 dark:text-[#54B7FD]">
             <Sparkles size={14} /> Pengelolaan cuti yang lebih mudah
           </span>
           <p>&copy; 2026 SiCuti. Hak cipta dilindungi.</p>
