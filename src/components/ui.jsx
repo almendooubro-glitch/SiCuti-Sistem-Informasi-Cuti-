@@ -48,7 +48,7 @@ export const TR = "border-t border-[#CBDFFC]/70 transition-colors hover:bg-[#E8F
 
 const HOVER =
   "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[#54B7FD] hover:shadow-lg hover:shadow-[#012677]/10";
-const PILL = "inline-flex max-w-full items-center justify-start gap-1.5 whitespace-normal break-words rounded-full px-3 py-1 text-xs font-semibold leading-4 ring-1 ring-inset";
+const PILL = "inline-flex max-w-full items-center justify-start gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold leading-4 ring-1 ring-inset";
 
 export function Card({ className = "", hover = false, children }) {
   return (
