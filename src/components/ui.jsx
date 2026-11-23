@@ -105,13 +105,17 @@ const TONE = {
 
 export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo" }) {
   return (
-    <Card hover className="group flex items-center gap-4 p-4 sm:p-5">
+    <Card hover className="group flex min-h-28 items-center gap-3 p-4 sm:gap-4 sm:p-5">
       <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-200 group-hover:scale-105 ${TONE[tone]}`}>
         <Ikon size={22} />
       </span>
-      <div className="min-w-0">
-        <p className="truncate text-xs font-semibold uppercase tracking-wide text-slate-500">{judul}</p>
-        <p className="truncate text-2xl font-bold tracking-tight text-slate-900">{nilai}</p>
+      <div className="min-w-0 flex-1">
+        <p className="break-words text-xs font-semibold uppercase leading-5 tracking-wide text-[#022F8E]/75 dark:text-[#CBDFFC]">
+          {judul}
+        </p>
+        <p className="mt-1 break-words text-2xl font-bold leading-none tracking-tight text-[#012677] dark:text-[#FEFEFE]">
+          {nilai}
+        </p>
       </div>
     </Card>
   );

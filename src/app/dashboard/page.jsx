@@ -130,7 +130,7 @@ async function DashboardAdmin({ user }) {
         <p className="mt-1 text-sm text-[#CBDFFC]">Pantau pengguna, divisi, dan pengajuan cuti di seluruh sistem.</p>
       </Hero>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <StatCard judul="Karyawan Aktif" nilai={s.aktif} ikon={UserCheck} tone="emerald" />
         <StatCard judul="Karyawan Tidak Aktif" nilai={s.nonaktif} ikon={UserX} tone="slate" />
         <StatCard judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} ikon={CalendarDays} tone="indigo" />
