@@ -130,12 +130,12 @@ async function DashboardAdmin({ user }) {
         <p className="mt-1 text-sm text-[#CBDFFC]">Pantau pengguna, divisi, dan pengajuan cuti di seluruh sistem.</p>
       </Hero>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5">
-        <StatCard judul="Karyawan Aktif" nilai={s.aktif} ikon={UserCheck} tone="emerald" />
-        <StatCard judul="Karyawan Tidak Aktif" nilai={s.nonaktif} ikon={UserX} tone="slate" />
-        <StatCard judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} ikon={CalendarDays} tone="indigo" />
-        <StatCard judul="Menunggu Persetujuan" nilai={s.pending} ikon={Clock} tone="amber" />
-        <StatCard judul="Total Divisi" nilai={s.divisi} ikon={Building2} tone="sky" />
+      <div className="flex flex-wrap justify-center gap-4">
+        <StatCard className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] 2xl:w-[calc(20%-0.8rem)]" judul="Karyawan Aktif" nilai={s.aktif} ikon={UserCheck} tone="emerald" />
+        <StatCard className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] 2xl:w-[calc(20%-0.8rem)]" judul="Karyawan Tidak Aktif" nilai={s.nonaktif} ikon={UserX} tone="slate" />
+        <StatCard className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] 2xl:w-[calc(20%-0.8rem)]" judul="Pengajuan Bulan Ini" nilai={s.bulan_ini} ikon={CalendarDays} tone="indigo" />
+        <StatCard className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] 2xl:w-[calc(20%-0.8rem)]" judul="Menunggu Persetujuan" nilai={s.pending} ikon={Clock} tone="amber" />
+        <StatCard className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] 2xl:w-[calc(20%-0.8rem)]" judul="Total Divisi" nilai={s.divisi} ikon={Building2} tone="sky" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

@@ -103,9 +103,9 @@ const TONE = {
   slate: "bg-[#E8F0FD] text-[#022F8E] ring-[#CBDFFC] dark:bg-[#012677] dark:text-[#CBDFFC] dark:ring-[#54B7FD]/20",
 };
 
-export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo" }) {
+export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo", className = "" }) {
   return (
-    <Card hover className="group relative flex min-h-32 items-center gap-3 overflow-hidden border-[#CBDFFC] p-4 sm:gap-4 sm:p-5 xl:gap-3 xl:p-4">
+    <Card hover className={`group relative flex h-full min-h-32 items-center gap-3 overflow-hidden border-[#CBDFFC] p-4 sm:gap-4 sm:p-5 xl:gap-3 xl:p-4 ${className}`}>
       <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ring-1 transition-transform duration-200 group-hover:scale-[1.04] ${TONE[tone]}`}>
         <Ikon size={24} strokeWidth={2} />
       </span>
