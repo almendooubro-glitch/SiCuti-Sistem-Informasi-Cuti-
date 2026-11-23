@@ -82,7 +82,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:sticky lg:top-0 lg:h-dvh lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex h-screen min-h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:sticky lg:top-0 lg:h-dvh lg:min-h-dvh lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
