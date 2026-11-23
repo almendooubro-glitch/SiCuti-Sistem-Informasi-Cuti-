@@ -82,7 +82,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex h-screen min-h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:sticky lg:top-0 lg:h-dvh lg:min-h-dvh lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex h-screen min-h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:h-dvh lg:min-h-dvh lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -130,7 +130,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
         </div>
       </aside>
 
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col lg:ml-64">
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-[#CBDFFC] bg-[#FEFEFE]/95 px-4 py-3 text-[#012677] backdrop-blur lg:hidden dark:border-[#54B7FD]/20 dark:bg-[#012677]/95 dark:text-[#FEFEFE]">
           <button
             type="button"
