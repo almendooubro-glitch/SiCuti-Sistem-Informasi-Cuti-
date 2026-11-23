@@ -38,7 +38,7 @@ export const btn = (varian = "primary", ukuran = "md", extra = "") =>
   `${BASE} ${SIZE[ukuran]} ${VARIAN[varian]} ${extra}`;
 
 export const field =
-  "w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE] px-3 py-2.5 text-sm text-[#012677] shadow-sm transition duration-200 placeholder:text-[#022F8E]/45 hover:border-[#54B7FD] focus:border-[#2893FC] focus:outline-none focus:ring-4 focus:ring-[#2893FC]/15 disabled:bg-[#E8F0FD] disabled:text-[#022F8E]/55 file:mr-3 file:rounded-lg file:border-0 file:bg-[#E8F0FD] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[#0450D5] hover:file:bg-[#CBDFFC] dark:border-[#54B7FD]/25 dark:bg-[#022F8E]/60 dark:text-[#FEFEFE]";
+  "w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE] px-3 py-2.5 text-sm text-[#012677] shadow-sm transition duration-200 placeholder:text-[#022F8E] placeholder:opacity-75 hover:border-[#54B7FD] focus:border-[#2893FC] focus:outline-none focus:ring-4 focus:ring-[#2893FC]/15 disabled:bg-[#E8F0FD] disabled:text-[#022F8E]/55 file:mr-3 file:rounded-lg file:border-0 file:bg-[#E8F0FD] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[#0450D5] hover:file:bg-[#CBDFFC] dark:border-[#54B7FD]/25 dark:bg-[#022F8E]/60 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC] dark:placeholder:opacity-90";
 export const filterField = `${field} sm:w-auto`;
 
 export const TABLE = "w-full text-left text-sm";

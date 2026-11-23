@@ -98,7 +98,7 @@ export default function FormLogin({ akun }) {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-3 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E]/55 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC]/70 dark:focus:bg-[#012677]/85"
+                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-3 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E] placeholder:opacity-75 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC] dark:placeholder:opacity-90 dark:focus:bg-[#012677]/85"
                 />
               </span>
             </label>
@@ -116,7 +116,7 @@ export default function FormLogin({ akun }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-12 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E]/55 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC]/70 dark:focus:bg-[#012677]/85"
+                  className="w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE]/90 py-3 pl-11 pr-12 text-sm text-[#012677] shadow-sm outline-none transition duration-200 placeholder:text-[#022F8E] placeholder:opacity-75 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#FEFEFE] focus:ring-4 focus:ring-[#2893FC]/25 dark:border-[#CBDFFC]/40 dark:bg-[#012677]/70 dark:text-[#FEFEFE] dark:placeholder:text-[#CBDFFC] dark:placeholder:opacity-90 dark:focus:bg-[#012677]/85"
                 />
                 <button
                   type="button"

@@ -28,6 +28,18 @@ body {
   transition: background-color 200ms ease, color 200ms ease;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #022f8e;
+  opacity: 0.72;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #cbddfc;
+  opacity: 0.9;
+}
+
 .dark body {
   background: #06152f;
   color: #e8f0fd;
