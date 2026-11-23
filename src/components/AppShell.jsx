@@ -82,7 +82,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex h-dvh w-64 shrink-0 flex-col border-r border-[#54B7FD]/20 bg-[#012677] text-[#FEFEFE] transition-transform duration-300 lg:sticky lg:top-0 lg:h-dvh lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -106,7 +106,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
+        <nav className="min-h-0 flex-1 space-y-6 overflow-y-auto px-3 py-4">
           <div className="space-y-1">
             <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[#54B7FD]">Menu</p>
             {menu.map(item)}
@@ -117,7 +117,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
           </div>
         </nav>
 
-        <div className="space-y-3 border-t border-[#54B7FD]/20 p-4">
+        <div className="mt-auto shrink-0 space-y-3 border-t border-[#54B7FD]/20 p-4">
           <div className="flex items-center gap-3">
             <Avatar id={user.id} ada={adaFoto} nama={user.nama_lengkap} />
             <div className="min-w-0 space-y-1">
