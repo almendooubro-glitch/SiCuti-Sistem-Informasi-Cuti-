@@ -70,7 +70,8 @@ function hariLiburAcara(event) {
   const cutiBersama = /\b(cuti bersama|joint holiday)\b/i.test(keterangan);
   if (
     event.STATUS?.toUpperCase() === "CANCELLED" ||
-    (!cutiBersama && !/\bpublic holiday\b/i.test(event.DESCRIPTION || ""))
+    !event.DTSTART ||
+    !event.DTEND
   ) {
     return [];
   }
