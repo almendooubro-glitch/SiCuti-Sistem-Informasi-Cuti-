@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, Plus, Filter, RotateCcw, UserCog } from "lucide-react";
+import { Users, Plus, Filter, RotateCcw, UserCog, SlidersHorizontal } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -98,8 +98,21 @@ export default async function PenggunaPage({ searchParams }) {
         </form>
       </Card>
 
-      <Card className="p-4">
-        <form className="flex flex-wrap items-end gap-3">
+      <Card className="p-4 sm:p-5">
+        <div className="mb-4 flex items-start gap-3 border-b border-[#CBDFFC]/80 pb-4 dark:border-[#54B7FD]/20">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#CBDFFC] text-[#0450D5] ring-1 ring-[#54B7FD]/40 dark:bg-[#0450D5]/25 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
+            <SlidersHorizontal size={20} strokeWidth={2} />
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-base font-bold text-[#012677] dark:text-[#FEFEFE]">
+              Filter dan Pencarian Pengguna
+            </h2>
+            <p className="mt-1 text-sm leading-5 text-[#022F8E]/75 dark:text-[#CBDFFC]/90">
+              Temukan dan kelola data pengguna dengan menyaring berdasarkan peran, divisi, status, dan masa kerja.
+            </p>
+          </div>
+        </div>
+        <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:flex xl:flex-wrap xl:items-end">
           <select name="role" defaultValue={sp.role ?? ""} className={filterField}>
             <option value="">Semua peran</option>
             {Object.entries(LABEL_ROLE).map(([v, l]) => (
