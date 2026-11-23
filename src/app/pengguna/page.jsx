@@ -59,7 +59,7 @@ export default async function PenggunaPage({ searchParams }) {
       <Card className="p-5">
         <form action={simpanPengguna} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            <Plus size={18} className="text-indigo-600" /> Tambah Akun
+            <Plus size={18} className="text-[#0450D5] dark:text-[#54B7FD]" /> Tambah Akun
           </h2>
           <Field label="Nama pengguna">
             <input name="username" placeholder="Nama pengguna" required className={field} />

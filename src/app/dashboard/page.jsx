@@ -14,8 +14,8 @@ export const dynamic = "force-dynamic";
 
 function Hero({ user, children }) {
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-600 p-5 text-white shadow-lg shadow-indigo-900/15 sm:p-7">
-      <p className="text-sm text-indigo-100">{LABEL_ROLE[user.role]}</p>
+    <div className="rounded-3xl bg-gradient-to-br from-[#012677] via-[#022F8E] to-[#0450D5] p-5 text-white shadow-lg shadow-[#012677]/20 sm:p-7">
+      <p className="text-sm text-[#CBDFFC]">{LABEL_ROLE[user.role]}</p>
       <h1 className="mt-1 flex items-center gap-2 text-xl font-bold sm:text-2xl">
         <LayoutDashboard size={24} /> Selamat datang, {user.nama_lengkap}
       </h1>
@@ -28,9 +28,9 @@ function Aksi({ href, ikon: Ikon, label }) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+      className="flex items-center gap-3 rounded-lg border border-[#CBDFFC] p-3 text-sm font-medium text-[#012677] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#54B7FD] hover:bg-[#E8F0FD] hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] dark:border-[#54B7FD]/20 dark:text-[#E8F0FD] dark:hover:bg-[#0450D5]/25"
     >
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CBDFFC] text-[#0450D5] dark:bg-[#0450D5]/25 dark:text-[#54B7FD]">
         <Ikon size={16} />
       </span>
       {label}
@@ -65,7 +65,7 @@ function TabelPengajuan({ rows, pemohon = true, handover = false }) {
         <tbody>
           {rows.map((r) => (
             <tr key={r.id} className={TR}>
-              {pemohon && <td className={`${TD} font-medium text-slate-900`}>{r.nama_lengkap}</td>}
+              {pemohon && <td className={`${TD} font-medium text-[#012677] dark:text-[#FEFEFE]`}>{r.nama_lengkap}</td>}
               <td className={TD}>{r.jenis}</td>
               <td className={`${TD} whitespace-nowrap`}>{tgl(r.tanggal_mulai)} - {tgl(r.tanggal_selesai)}</td>
               <td className={TD}>{Number(r.total_hari)}</td>
@@ -85,7 +85,7 @@ function DaftarNama({ items, kosong }) {
     <ul className="space-y-2 text-sm text-slate-700">
       {items.map((t, i) => (
         <li key={i} className="flex items-start gap-2">
-          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" />
+          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2893FC]" />
           <span>{t}</span>
         </li>
       ))}
@@ -127,7 +127,7 @@ async function DashboardAdmin({ user }) {
   return (
     <>
       <Hero user={user}>
-        <p className="mt-1 text-sm text-indigo-100">Pantau pengguna, divisi, dan pengajuan cuti di seluruh sistem.</p>
+        <p className="mt-1 text-sm text-[#CBDFFC]">Pantau pengguna, divisi, dan pengajuan cuti di seluruh sistem.</p>
       </Hero>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -218,7 +218,7 @@ async function DashboardKaryawan({ user }) {
     <>
       <Hero user={user}>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/cuti?baru=1" className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50">
+          <Link href="/cuti?baru=1" className="inline-flex items-center gap-2 rounded-lg bg-[#FEFEFE] px-4 py-2 text-sm font-medium text-[#0450D5] shadow-sm transition hover:bg-[#CBDFFC]">
             <Plus size={16} /> Ajukan Cuti
           </Link>
           <Link href="/cuti" className="inline-flex items-center gap-2 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/25">
@@ -303,9 +303,9 @@ async function DashboardKetua({ user }) {
   return (
     <>
       <Hero user={user}>
-        <p className="mt-1 text-sm text-indigo-100">Divisi {div.rows[0].nama}</p>
+        <p className="mt-1 text-sm text-[#CBDFFC]">Divisi {div.rows[0].nama}</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/verifikasi" className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50">
+          <Link href="/verifikasi" className="inline-flex items-center gap-2 rounded-lg bg-[#FEFEFE] px-4 py-2 text-sm font-medium text-[#0450D5] shadow-sm transition hover:bg-[#CBDFFC]">
             <ClipboardCheck size={16} /> Verifikasi Pengajuan
           </Link>
           <Link href="/cuti?baru=1" className="inline-flex items-center gap-2 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/25">
@@ -387,7 +387,7 @@ async function DashboardHrd({ user }) {
     <>
       <Hero user={user}>
         <div className="mt-4">
-          <Link href="/verifikasi" className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50">
+          <Link href="/verifikasi" className="inline-flex items-center gap-2 rounded-lg bg-[#FEFEFE] px-4 py-2 text-sm font-medium text-[#0450D5] shadow-sm transition hover:bg-[#CBDFFC]">
             <ClipboardCheck size={16} /> Buka Persetujuan Akhir
           </Link>
         </div>

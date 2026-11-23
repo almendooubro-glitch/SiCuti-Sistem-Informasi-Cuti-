@@ -7,7 +7,7 @@ import { simpanJenisCuti } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const cek = "h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500";
+const cek = "h-4 w-4 rounded border-[#54B7FD] text-[#0450D5] focus:ring-[#2893FC]";
 
 export default async function JenisCutiPage({ searchParams }) {
   await requireUser(["admin"]);
@@ -24,7 +24,7 @@ export default async function JenisCutiPage({ searchParams }) {
       <Card className="p-5">
         <form key={edit?.id ?? "baru"} action={simpanJenisCuti} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            {edit ? <Pencil size={18} className="text-indigo-600" /> : <Plus size={18} className="text-indigo-600" />}
+            {edit ? <Pencil size={18} className="text-[#0450D5] dark:text-[#54B7FD]" /> : <Plus size={18} className="text-[#0450D5] dark:text-[#54B7FD]" />}
             {edit ? `Edit Jenis Cuti #${edit.id}` : "Tambah Jenis Cuti"}
           </h2>
           <input type="hidden" name="id" value={edit?.id ?? ""} />

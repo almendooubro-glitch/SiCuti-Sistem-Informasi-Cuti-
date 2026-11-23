@@ -73,7 +73,7 @@ export default async function DivisiPage({ searchParams }) {
       <Card className="p-5">
         <form key={edit?.id ?? "baru"} action={simpanDivisi} className="grid gap-4 md:grid-cols-3">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            {edit ? <Pencil size={18} className="text-indigo-600" /> : <Plus size={18} className="text-indigo-600" />}
+            {edit ? <Pencil size={18} className="text-[#0450D5] dark:text-[#54B7FD]" /> : <Plus size={18} className="text-[#0450D5] dark:text-[#54B7FD]" />}
             {edit ? `Edit Divisi #${edit.id}` : "Tambah Divisi"}
           </h2>
           <input type="hidden" name="id" value={edit?.id ?? ""} />

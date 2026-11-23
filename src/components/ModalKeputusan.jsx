@@ -17,10 +17,10 @@ export default function ModalKeputusan({ action, id, aksi, label, judul }) {
 
       <dialog
         ref={ref}
-        className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-slate-200 bg-white p-0 text-slate-900 shadow-2xl"
+        className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-[#CBDFFC] bg-[#FEFEFE] p-0 text-[#012677] shadow-2xl dark:border-[#54B7FD]/25 dark:bg-[#022F8E] dark:text-[#FEFEFE]"
       >
         <form action={action} className="space-y-4 p-6">
-          <h3 className="text-lg font-semibold text-slate-900">{judul}</h3>
+          <h3 className="text-lg font-semibold text-[#012677] dark:text-[#FEFEFE]">{judul}</h3>
           <input type="hidden" name="id" value={id} />
           <input type="hidden" name="aksi" value={aksi} />
           <textarea

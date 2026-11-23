@@ -137,8 +137,8 @@ export default async function CutiPage({ searchParams }) {
       )}
 
       {sebagaiPengganti.length > 0 && (
-        <Card className="border-sky-200 bg-sky-50/50 p-5">
-          <h2 className="flex items-center gap-2 font-semibold text-sky-800">
+        <Card className="border-[#54B7FD]/50 bg-[#E8F0FD]/80 p-5 dark:border-[#54B7FD]/20 dark:bg-[#0450D5]/15">
+          <h2 className="flex items-center gap-2 font-semibold text-[#022F8E] dark:text-[#54B7FD]">
             <Bell size={18} /> Kamu ditunjuk sebagai rekan pengganti
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-slate-700">
@@ -219,7 +219,7 @@ export default async function CutiPage({ searchParams }) {
                 <dt className="text-slate-500">Lampiran</dt>
                 <dd>
                   {d.ada_lampiran ? (
-                    <a href={`/api/lampiran?id=${d.id}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-indigo-600 hover:underline">
+                    <a href={`/api/lampiran?id=${d.id}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-[#0450D5] hover:underline dark:text-[#54B7FD]">
                       <Paperclip size={14} /> {d.lampiran}
                     </a>
                   ) : "-"}
@@ -229,11 +229,11 @@ export default async function CutiPage({ searchParams }) {
 
             <div>
               <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-                <History size={16} className="text-indigo-600" /> Riwayat Persetujuan
+                <History size={16} className="text-[#0450D5] dark:text-[#54B7FD]" /> Riwayat Persetujuan
               </h3>
               <ol className="space-y-4 border-l border-slate-200 pl-5 text-sm">
                 <li className="relative text-slate-700">
-                  <span className="absolute -left-[26px] top-1 h-3 w-3 rounded-full bg-indigo-500 ring-4 ring-white" />
+                  <span className="absolute -left-[26px] top-1 h-3 w-3 rounded-full bg-[#2893FC] ring-4 ring-[#FEFEFE] dark:ring-[#022F8E]" />
                   Diajukan · {tgl(d.tanggal_pengajuan)}
                 </li>
                 {log.map((l, i) => (

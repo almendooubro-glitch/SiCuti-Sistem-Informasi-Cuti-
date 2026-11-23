@@ -3,10 +3,10 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 export const LABEL_ROLE = { admin: "Admin", user: "Karyawan", ketua_divisi: "Ketua Divisi", hrd: "HRD" };
 
 const ROLE_STYLE = {
-  admin: "bg-indigo-50 text-indigo-700 ring-indigo-600/20",
-  hrd: "bg-sky-50 text-sky-700 ring-sky-600/20",
+  admin: "bg-[#E8F0FD] text-[#022F8E] ring-[#54B7FD]/30",
+  hrd: "bg-[#CBDFFC] text-[#022F8E] ring-[#2893FC]/30",
   ketua_divisi: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  user: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
+  user: "bg-[#54B7FD]/20 text-[#022F8E] ring-[#2893FC]/30",
 };
 
 export const STATUS = {
@@ -26,33 +26,33 @@ const BASE =
   "inline-flex items-center justify-center gap-2 rounded-xl font-semibold shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-0 active:scale-[0.98] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50";
 const SIZE = { md: "px-4 py-2 text-sm", sm: "px-2.5 py-1.5 text-xs" };
 const VARIAN = {
-  primary: "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-indigo-500/20 hover:from-indigo-700 hover:to-violet-700 focus-visible:ring-indigo-500",
-  secondary: "border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400",
+  primary: "bg-gradient-to-r from-[#022F8E] to-[#0450D5] text-[#FEFEFE] shadow-[#012677]/20 hover:from-[#0450D5] hover:to-[#0F67ED] focus-visible:ring-[#2893FC]",
+  secondary: "border border-[#CBDFFC] bg-[#E8F0FD] text-[#022F8E] hover:bg-[#CBDFFC] focus-visible:ring-[#2893FC]",
   success: "bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-500",
   danger: "bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-500",
   warning: "bg-amber-700 text-white hover:bg-amber-800 focus-visible:ring-amber-500",
-  ghost: "text-indigo-600 shadow-none hover:bg-indigo-50 focus-visible:ring-indigo-500",
+  ghost: "text-[#0450D5] shadow-none hover:bg-[#E8F0FD] focus-visible:ring-[#2893FC]",
   dangerGhost: "text-rose-600 shadow-none hover:bg-rose-50 focus-visible:ring-rose-500",
 };
 export const btn = (varian = "primary", ukuran = "md", extra = "") =>
   `${BASE} ${SIZE[ukuran]} ${VARIAN[varian]} ${extra}`;
 
 export const field =
-  "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition duration-200 placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/15 disabled:bg-slate-100 disabled:text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100";
+  "w-full rounded-xl border border-[#CBDFFC] bg-[#FEFEFE] px-3 py-2.5 text-sm text-[#012677] shadow-sm transition duration-200 placeholder:text-[#022F8E]/45 hover:border-[#54B7FD] focus:border-[#2893FC] focus:outline-none focus:ring-4 focus:ring-[#2893FC]/15 disabled:bg-[#E8F0FD] disabled:text-[#022F8E]/55 file:mr-3 file:rounded-lg file:border-0 file:bg-[#E8F0FD] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[#0450D5] hover:file:bg-[#CBDFFC] dark:border-[#54B7FD]/25 dark:bg-[#022F8E]/60 dark:text-[#FEFEFE]";
 export const filterField = `${field} sm:w-auto`;
 
 export const TABLE = "w-full text-left text-sm";
-export const TH = "bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500";
-export const TD = "px-4 py-3 text-slate-700";
-export const TR = "border-t border-slate-100 transition-colors hover:bg-indigo-50/40";
+export const TH = "bg-[#E8F0FD] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]";
+export const TD = "px-4 py-3 text-[#012677] dark:text-[#E8F0FD]";
+export const TR = "border-t border-[#CBDFFC]/70 transition-colors hover:bg-[#E8F0FD] dark:border-[#54B7FD]/15 dark:hover:bg-[#022F8E]/70";
 
 const HOVER =
-  "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-950/5";
+  "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[#54B7FD] hover:shadow-lg hover:shadow-[#012677]/10";
 const PILL = "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset";
 
 export function Card({ className = "", hover = false, children }) {
   return (
-    <div className={`rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 ${hover ? HOVER : ""} ${className}`}>
+    <div className={`rounded-2xl border border-[#CBDFFC] bg-[#FEFEFE] shadow-sm shadow-[#012677]/5 dark:border-[#54B7FD]/20 dark:bg-[#022F8E]/75 ${hover ? HOVER : ""} ${className}`}>
       {children}
     </div>
   );
@@ -61,10 +61,10 @@ export function Card({ className = "", hover = false, children }) {
 export function Panel({ ikon: Ikon, judul, aksi, className = "", flush = false, children }) {
   return (
     <Card className={`overflow-hidden ${className}`}>
-      <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-slate-50/70 px-4 py-3.5 sm:px-5 dark:bg-slate-800">
-        <h2 className="flex items-center gap-2 font-semibold text-slate-800">
+      <div className="flex items-center justify-between gap-3 border-b border-[#CBDFFC] bg-[#E8F0FD]/80 px-4 py-3.5 sm:px-5 dark:border-[#54B7FD]/15 dark:bg-[#012677]/80">
+        <h2 className="flex items-center gap-2 font-semibold text-[#012677] dark:text-[#FEFEFE]">
           {Ikon && (
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CBDFFC] text-[#0450D5] dark:bg-[#0450D5]/25 dark:text-[#54B7FD]">
               <Ikon size={16} />
             </span>
           )}
@@ -81,12 +81,12 @@ export function PageHeader({ ikon: Ikon, judul, sub, children }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-100 to-sky-100 text-indigo-700 shadow-sm ring-1 ring-indigo-100 dark:from-indigo-950 dark:to-sky-950 dark:ring-indigo-900">
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#CBDFFC] to-[#54B7FD]/50 text-[#022F8E] shadow-sm ring-1 ring-[#54B7FD]/35 dark:from-[#0450D5]/35 dark:to-[#2893FC]/20 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
           <Ikon size={22} />
         </span>
         <div>
-          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{judul}</h1>
-          {sub && <p className="text-sm text-slate-500">{sub}</p>}
+          <h1 className="text-xl font-bold text-[#012677] sm:text-2xl dark:text-[#FEFEFE]">{judul}</h1>
+          {sub && <p className="text-sm text-[#022F8E]/70 dark:text-[#CBDFFC]">{sub}</p>}
         </div>
       </div>
       {children}
@@ -95,7 +95,7 @@ export function PageHeader({ ikon: Ikon, judul, sub, children }) {
 }
 
 const TONE = {
-  indigo: "bg-indigo-50 text-indigo-600",
+  indigo: "bg-[#E8F0FD] text-[#0450D5]",
   emerald: "bg-emerald-50 text-emerald-600",
   amber: "bg-amber-50 text-amber-600",
   rose: "bg-rose-50 text-rose-600",
@@ -172,7 +172,7 @@ export function Avatar({ id, ada, nama, size = "h-10 w-10", teks = "text-sm" }) 
   return ada ? (
     <img src={`/api/foto?id=${id}`} alt={`Foto ${nama}`} className={`${size} shrink-0 rounded-full object-cover ring-2 ring-white`} />
   ) : (
-    <div className={`${size} ${teks} flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-sky-100 font-semibold text-indigo-700 ring-2 ring-white shadow-sm dark:from-indigo-950 dark:to-sky-950 dark:ring-slate-700`}>
+    <div className={`${size} ${teks} flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#CBDFFC] to-[#54B7FD]/50 font-semibold text-[#022F8E] ring-2 ring-[#FEFEFE] shadow-sm dark:from-[#0450D5]/35 dark:to-[#2893FC]/20 dark:text-[#54B7FD] dark:ring-[#012677]`}>
       {nama[0]}
     </div>
   );

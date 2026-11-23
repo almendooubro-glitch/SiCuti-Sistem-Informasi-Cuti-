@@ -71,7 +71,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
         className="grid gap-4 md:grid-cols-2"
       >
         <h2 className="col-span-full flex items-center gap-2 text-lg font-semibold text-slate-800">
-          <FilePlus2 size={20} className="text-indigo-600" />
+          <FilePlus2 size={20} className="text-[#0450D5] dark:text-[#54B7FD]" />
           Form Pengajuan Cuti
         </h2>
 
@@ -94,7 +94,7 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           (j.min_hari_sebelum > 0 ||
             j.maks_hari_sesudah > 0 ||
             j.wajib_lampiran) && (
-            <p className="col-span-full flex items-start gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+            <p className="col-span-full flex items-start gap-2 rounded-lg border border-[#54B7FD]/50 bg-[#E8F0FD] px-4 py-3 text-sm text-[#022F8E] dark:border-[#54B7FD]/25 dark:bg-[#0450D5]/20 dark:text-[#CBDFFC]">
               <Info size={16} className="mt-0.5" />
               <span>
                 {j.min_hari_sebelum > 0 &&
@@ -165,10 +165,10 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
           />
         </Field>
 
-        <div className="col-span-full space-y-1 rounded-lg border border-indigo-100 bg-indigo-50/60 p-4 text-sm text-slate-700">
+        <div className="col-span-full space-y-1 rounded-lg border border-[#CBDFFC] bg-[#E8F0FD]/80 p-4 text-sm text-[#012677] dark:border-[#54B7FD]/20 dark:bg-[#0450D5]/15 dark:text-[#CBDFFC]">
           <p>
             Total hari kerja:{" "}
-            <strong className="text-indigo-700">{total}</strong> hari (Sabtu,
+            <strong className="text-[#0450D5] dark:text-[#54B7FD]">{total}</strong> hari (Sabtu,
             Minggu, dan hari libur tidak dihitung)
           </p>
           {mulai && akhir && total === 0 && (

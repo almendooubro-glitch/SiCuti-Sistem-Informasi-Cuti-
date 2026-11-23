@@ -120,7 +120,7 @@ export default async function VerifikasiPage({ searchParams }) {
                     value={k.id}
                     form="multi"
                     aria-label={`Pilih pengajuan ${k.id}`}
-                    className="h-5 w-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-5 w-5 rounded border-[#54B7FD] text-[#0450D5] focus:ring-[#2893FC]"
                   />
                 )}
               </div>
@@ -136,7 +136,7 @@ export default async function VerifikasiPage({ searchParams }) {
                   <div>
                     <dt className="inline text-slate-500">Lampiran: </dt>
                     <dd className="inline">
-                      <a href={`/api/lampiran?id=${k.id}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-indigo-600 hover:underline">
+                      <a href={`/api/lampiran?id=${k.id}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-[#0450D5] hover:underline dark:text-[#54B7FD]">
                         <Paperclip size={14} /> {k.lampiran}
                       </a>
                     </dd>

@@ -93,7 +93,7 @@ export default async function ProfilPage({ searchParams }) {
         <Card className="p-5">
           <form key={`akun-${p.id}`} action={simpanPengguna} className="grid gap-4 sm:grid-cols-3">
             <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-              <ShieldCheck size={18} className="text-indigo-600" /> Pengaturan Akun (khusus admin)
+              <ShieldCheck size={18} className="text-[#0450D5] dark:text-[#54B7FD]" /> Pengaturan Akun (khusus admin)
             </h2>
             <input type="hidden" name="id" value={p.id} />
             <input type="hidden" name="dari" value="profil" />
@@ -115,7 +115,7 @@ export default async function ProfilPage({ searchParams }) {
                 type="checkbox"
                 name="is_active"
                 defaultChecked={p.is_active}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-[#54B7FD] text-[#0450D5] focus:ring-[#2893FC]"
               />
               Akun aktif
             </label>
@@ -129,7 +129,7 @@ export default async function ProfilPage({ searchParams }) {
       <Card className="p-5">
         <form action={simpanProfil} className="grid gap-4 md:grid-cols-2">
           <h2 className="col-span-full flex items-center gap-2 font-semibold text-slate-800">
-            <Pencil size={18} className="text-indigo-600" /> Edit Data
+            <Pencil size={18} className="text-[#0450D5] dark:text-[#54B7FD]" /> Edit Data
           </h2>
           <input type="hidden" name="id" value={p.id} />
           <Field label="Nama lengkap">

@@ -48,7 +48,7 @@ export default async function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-full bg-slate-50 text-slate-900">
+      <body className="min-h-full bg-[#E8F0FD] text-[#012677] dark:bg-[#06152F] dark:text-[#FEFEFE]">
         {user ? (
           <AppShell user={user} adaFoto={Boolean(adaFoto)} footer={<Footer />}>
             {children}
