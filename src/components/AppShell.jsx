@@ -67,7 +67,16 @@ export default function AppShell({ user, adaFoto, footer, children }) {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="relative flex min-h-screen overflow-x-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url("/dashboard-sicuti.jpg")' }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 bg-[#E8F0FD]/35 backdrop-blur-[1px] transition-colors duration-300 dark:bg-[#06152F]/78"
+      />
       {open && (
         <div className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)} />
       )}
@@ -121,7 +130,7 @@ export default function AppShell({ user, adaFoto, footer, children }) {
         </div>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-[#CBDFFC] bg-[#FEFEFE]/95 px-4 py-3 text-[#012677] backdrop-blur lg:hidden dark:border-[#54B7FD]/20 dark:bg-[#012677]/95 dark:text-[#FEFEFE]">
           <button
             type="button"
