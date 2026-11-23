@@ -27,12 +27,12 @@ const BASE =
 const SIZE = { md: "px-4 py-2 text-sm", sm: "px-2.5 py-1.5 text-xs" };
 const VARIAN = {
   primary: "bg-gradient-to-r from-[#022F8E] to-[#0450D5] text-[#FEFEFE] shadow-[#012677]/20 hover:from-[#0450D5] hover:to-[#0F67ED] focus-visible:ring-[#2893FC]",
-  secondary: "border border-[#CBDFFC] bg-[#E8F0FD] text-[#022F8E] hover:bg-[#CBDFFC] focus-visible:ring-[#2893FC]",
+  secondary: "border border-[#CBDFFC] bg-[#E8F0FD] text-[#022F8E] hover:border-[#54B7FD] hover:bg-[#CBDFFC] focus-visible:ring-[#2893FC] dark:border-[#54B7FD]/30 dark:bg-[#0450D5]/25 dark:text-[#CBDFFC] dark:hover:border-[#54B7FD] dark:hover:bg-[#0450D5]/45",
   success: "bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-500",
   danger: "bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-500",
   warning: "bg-amber-700 text-white hover:bg-amber-800 focus-visible:ring-amber-500",
-  ghost: "text-[#0450D5] shadow-none hover:bg-[#E8F0FD] focus-visible:ring-[#2893FC]",
-  dangerGhost: "text-rose-600 shadow-none hover:bg-rose-50 focus-visible:ring-rose-500",
+  ghost: "border border-[#CBDFFC]/80 bg-[#FEFEFE] text-[#0450D5] shadow-none hover:border-[#54B7FD] hover:bg-[#E8F0FD] focus-visible:ring-[#2893FC] dark:border-[#54B7FD]/25 dark:bg-[#022F8E]/70 dark:text-[#54B7FD] dark:hover:border-[#2893FC] dark:hover:bg-[#0450D5]/35",
+  dangerGhost: "border border-[#Fda4af]/60 bg-[#FEFEFE] text-[#BE123C] shadow-none hover:border-[#FB7185] hover:bg-[#FFF1F2] focus-visible:ring-[#2893FC] dark:border-[#FDA4AF]/25 dark:bg-[#4C0519]/70 dark:text-[#FDA4AF] dark:hover:border-[#FDA4AF]/60 dark:hover:bg-[#881337]",
 };
 export const btn = (varian = "primary", ukuran = "md", extra = "") =>
   `${BASE} ${SIZE[ukuran]} ${VARIAN[varian]} ${extra}`;
