@@ -10,11 +10,11 @@ const ROLE_STYLE = {
 };
 
 export const STATUS = {
-  pending: ["Menunggu Persetujuan", "bg-amber-50 text-amber-700 ring-amber-600/20"],
-  approved_leader: ["Disetujui Ketua Divisi", "bg-sky-50 text-sky-700 ring-sky-600/20"],
-  approved: ["Disetujui", "bg-emerald-50 text-emerald-700 ring-emerald-600/20"],
-  rejected: ["Ditolak", "bg-rose-50 text-rose-700 ring-rose-600/20"],
-  cancelled: ["Dibatalkan", "bg-slate-100 text-slate-600 ring-slate-500/20"],
+  pending: ["Menunggu Persetujuan", "bg-amber-50 text-amber-800 ring-amber-600/30 dark:bg-amber-950/70 dark:text-amber-200 dark:ring-amber-400/30"],
+  approved_leader: ["Disetujui Ketua Divisi", "bg-[#E8F0FD] text-[#0450D5] ring-[#54B7FD]/40 dark:bg-[#0450D5]/25 dark:text-[#CBDFFC] dark:ring-[#54B7FD]/30"],
+  approved: ["Disetujui", "bg-emerald-50 text-emerald-700 ring-emerald-600/30 dark:bg-emerald-950/70 dark:text-emerald-200 dark:ring-emerald-400/30"],
+  rejected: ["Ditolak", "bg-rose-50 text-rose-700 ring-rose-600/30 dark:bg-rose-950/70 dark:text-rose-200 dark:ring-rose-400/30"],
+  cancelled: ["Dibatalkan", "bg-[#E8F0FD] text-[#022F8E] ring-[#CBDFFC] dark:bg-[#012677] dark:text-[#CBDFFC] dark:ring-[#54B7FD]/25"],
 };
 export const STATUS_LABEL = Object.fromEntries(Object.entries(STATUS).map(([k, v]) => [k, v[0]]));
 
@@ -48,7 +48,7 @@ export const TR = "border-t border-[#CBDFFC]/70 transition-colors hover:bg-[#E8F
 
 const HOVER =
   "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[#54B7FD] hover:shadow-lg hover:shadow-[#012677]/10";
-const PILL = "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset";
+const PILL = "inline-flex max-w-full items-center justify-start gap-1.5 whitespace-normal break-words rounded-full px-3 py-1 text-xs font-semibold leading-4 ring-1 ring-inset";
 
 export function Card({ className = "", hover = false, children }) {
   return (
@@ -138,7 +138,9 @@ export function ActiveBadge({ aktif }) {
   return (
     <span
       className={`${PILL} ${
-        aktif ? "bg-emerald-50 text-emerald-700 ring-emerald-600/20" : "bg-slate-100 text-slate-600 ring-slate-500/20"
+        aktif
+          ? "bg-emerald-50 text-emerald-700 ring-emerald-600/30 dark:bg-emerald-950/70 dark:text-emerald-200 dark:ring-emerald-400/30"
+          : "bg-[#E8F0FD] text-[#022F8E] ring-[#CBDFFC] dark:bg-[#012677] dark:text-[#CBDFFC] dark:ring-[#54B7FD]/25"
       }`}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current" /> {aktif ? "Aktif" : "Tidak aktif"}
