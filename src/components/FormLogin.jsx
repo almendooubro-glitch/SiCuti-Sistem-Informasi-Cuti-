@@ -16,7 +16,7 @@ import {
   LockKeyhole,
 } from "lucide-react";
 import ToggleTema from "@/components/ToggleTema";
-import { Alert, Card, LABEL_ROLE, btn } from "@/components/ui";
+import { Alert, Card, LABEL_ROLE } from "@/components/ui";
 
 const PASSWORD_DEMO = "password123";
 const IKON = { admin: ShieldCheck, hrd: BriefcaseBusiness, ketua_divisi: Users, user: User };
@@ -68,7 +68,7 @@ export default function FormLogin({ akun }) {
     >
       <div className="absolute inset-0 bg-slate-950/[0.38] backdrop-blur-[1px] transition-colors duration-500 dark:bg-slate-950/[0.68]" />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/[0.45]" />
-      <div className="absolute right-4 top-4 z-20 rounded-xl border border-white/25 bg-slate-950/20 p-1 backdrop-blur-md sm:right-6 sm:top-6 dark:border-white/10 dark:bg-slate-950/35">
+      <div className="absolute right-4 top-4 z-20 rounded-xl border border-[#54B7FD]/40 bg-[#012677]/70 p-1 text-[#FEFEFE] backdrop-blur-md sm:right-6 sm:top-6 [&_button]:rounded-lg [&_button]:text-[#FEFEFE] [&_button]:hover:bg-[#0450D5]/50">
         <ToggleTema />
       </div>
 
@@ -83,14 +83,14 @@ export default function FormLogin({ akun }) {
           <p className="mt-1 text-sm font-medium text-white/75">Sistem Manajemen Cuti Karyawan</p>
         </header>
 
-        <Card className="animate-[login-in_700ms_100ms_ease-out_both] border-white/25 bg-white/[0.82] p-5 shadow-[0_24px_70px_rgba(15,23,42,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/[0.72] sm:p-6">
+        <Card className="animate-[login-in_700ms_100ms_ease-out_both] border-[#2893FC]/35 bg-[#022F8E]/95 p-5 shadow-[0_24px_70px_rgba(1,38,119,0.42)] backdrop-blur-xl dark:border-[#54B7FD]/25 dark:bg-[#012677]/95 sm:p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <label className="block space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <label className="block space-y-2 text-sm font-semibold text-[#CBDFFC]">
               <span>Email atau nama pengguna</span>
               <span className="relative block">
                 <Mail
                   size={18}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors dark:text-slate-400"
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#54B7FD] transition-colors"
                 />
                 <input
                   type="text"
@@ -98,17 +98,17 @@ export default function FormLogin({ akun }) {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-slate-300/80 bg-white/[0.65] py-3 pl-11 pr-3 text-sm text-slate-900 shadow-sm outline-none transition duration-200 placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:bg-white/90 focus:ring-4 focus:ring-indigo-500/15 dark:border-white/10 dark:bg-white/[0.07] dark:text-white dark:placeholder:text-slate-400 dark:hover:border-white/20 dark:focus:border-indigo-400 dark:focus:bg-white/10"
+                  className="w-full rounded-xl border border-[#CBDFFC]/60 bg-[#012677]/70 py-3 pl-11 pr-3 text-sm text-[#FEFEFE] shadow-sm outline-none transition duration-200 placeholder:text-[#CBDFFC]/70 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#012677]/85 focus:ring-4 focus:ring-[#2893FC]/25"
                 />
               </span>
             </label>
 
-            <label className="block space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <label className="block space-y-2 text-sm font-semibold text-[#CBDFFC]">
               <span>Kata sandi</span>
               <span className="relative block">
                 <LockKeyhole
                   size={18}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400"
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#54B7FD]"
                 />
                 <input
                   type={tampil ? "text" : "password"}
@@ -116,26 +116,26 @@ export default function FormLogin({ akun }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-slate-300/80 bg-white/[0.65] py-3 pl-11 pr-12 text-sm text-slate-900 shadow-sm outline-none transition duration-200 placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:bg-white/90 focus:ring-4 focus:ring-indigo-500/15 dark:border-white/10 dark:bg-white/[0.07] dark:text-white dark:placeholder:text-slate-400 dark:hover:border-white/20 dark:focus:border-indigo-400 dark:focus:bg-white/10"
+                  className="w-full rounded-xl border border-[#CBDFFC]/60 bg-[#012677]/70 py-3 pl-11 pr-12 text-sm text-[#FEFEFE] shadow-sm outline-none transition duration-200 placeholder:text-[#CBDFFC]/70 hover:border-[#54B7FD] focus:border-[#2893FC] focus:bg-[#012677]/85 focus:ring-4 focus:ring-[#2893FC]/25"
                 />
                 <button
                   type="button"
                   onClick={() => setTampil((v) => !v)}
                   aria-label={tampil ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                   aria-pressed={tampil}
-                  className="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-slate-400 transition hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-slate-400 dark:hover:text-indigo-300"
+                  className="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-[#54B7FD] transition hover:text-[#2893FC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC]"
                 >
                   {tampil ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </span>
             </label>
 
-            <label className="flex items-center gap-2 text-sm text-slate-600 transition dark:text-slate-300">
+            <label className="flex items-center gap-2 text-sm text-[#CBDFFC] transition">
               <input
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-800"
+                className="h-4 w-4 rounded border-[#CBDFFC] bg-[#012677] text-[#2893FC] focus:ring-[#2893FC]"
               />
               Ingat saya
             </label>
@@ -145,7 +145,7 @@ export default function FormLogin({ akun }) {
             <button
               type="submit"
               disabled={loading}
-              className={btn("primary", "md", "w-full rounded-xl py-3 shadow-lg shadow-indigo-600/20")}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#022F8E] to-[#0450D5] px-4 py-3 text-sm font-semibold text-[#FEFEFE] shadow-lg shadow-[#012677]/35 transition-all duration-200 hover:-translate-y-0.5 hover:from-[#0450D5] hover:to-[#0F67ED] hover:shadow-[#2893FC]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#022F8E] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
               {loading ? "Memproses..." : "Masuk"}
@@ -153,11 +153,11 @@ export default function FormLogin({ akun }) {
           </form>
         </Card>
 
-        <Card className="animate-[login-in_700ms_200ms_ease-out_both] space-y-3 border-white/25 bg-white/[0.78] p-4 shadow-[0_18px_55px_rgba(15,23,42,0.24)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/[0.68]">
+        <Card className="animate-[login-in_700ms_200ms_ease-out_both] space-y-3 border-[#2893FC]/30 bg-[#012677]/95 p-4 shadow-[0_18px_55px_rgba(1,38,119,0.38)] backdrop-blur-xl dark:border-[#54B7FD]/20 dark:bg-[#012677]/95">
           <div>
-            <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Akun Uji Cepat</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Pilih akun untuk mengisi formulir. Kata sandi akun contoh: <code className="rounded-md bg-slate-900/[0.07] px-1.5 py-0.5 font-semibold dark:bg-white/10">{PASSWORD_DEMO}</code>
+            <h2 className="text-sm font-semibold text-[#FEFEFE]">Akun Uji Cepat</h2>
+            <p className="text-xs text-[#CBDFFC]">
+              Pilih akun untuk mengisi formulir. Kata sandi akun contoh: <code className="rounded-md bg-[#2893FC]/20 px-1.5 py-0.5 font-semibold text-[#FEFEFE]">{PASSWORD_DEMO}</code>
             </p>
           </div>
           <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
@@ -168,18 +168,18 @@ export default function FormLogin({ akun }) {
                   key={a.email}
                   type="button"
                   onClick={() => isiAkun(a.email)}
-                  className="rounded-xl border border-slate-200/75 bg-white/45 px-3 py-2.5 text-left text-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-50/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-white/10 dark:bg-white/5 dark:hover:border-indigo-400/50 dark:hover:bg-indigo-400/10"
+                  className="rounded-xl border border-[#54B7FD]/20 bg-[#022F8E]/80 px-3 py-2.5 text-left text-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2893FC] hover:bg-[#0450D5]/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC]"
                 >
-                  <span className="flex items-center gap-1.5 font-semibold text-slate-800 dark:text-slate-100">
-                    <Ikon size={14} className="shrink-0 text-indigo-600 dark:text-indigo-300" />
+                  <span className="flex items-center gap-1.5 font-semibold text-[#FEFEFE]">
+                    <Ikon size={14} className="shrink-0 text-[#54B7FD]" />
                     <span className="truncate">{a.nama_lengkap}</span>
                   </span>
-                  <span className="mt-0.5 block truncate text-slate-500 dark:text-slate-400">
+                  <span className="mt-0.5 block truncate text-[#CBDFFC]">
                     {LABEL_ROLE[a.role]}
                     {a.divisi && ` · ${a.divisi}`}
                     {a.baru && a.role === "user" && " · < 1 tahun"}
                   </span>
-                  <span className="mt-0.5 block truncate text-slate-400 dark:text-slate-500">{a.email}</span>
+                  <span className="mt-0.5 block truncate text-[#54B7FD]">{a.email}</span>
                 </button>
               );
             })}
