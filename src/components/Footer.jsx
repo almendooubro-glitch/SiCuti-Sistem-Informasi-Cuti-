@@ -9,8 +9,8 @@ export default function Footer() {
       />
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#2893FC] to-[#54B7FD] text-[#012677] ring-1 ring-[#54B7FD]/30 dark:bg-[#0450D5]/25 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
-            <CalendarCheck size={20} />
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#CBDFFC] text-[#0450D5] ring-1 ring-[#54B7FD]/60 dark:bg-[#0450D5]/35 dark:text-[#54B7FD] dark:ring-[#54B7FD]/30">
+            <CalendarCheck size={20} strokeWidth={2.25} />
           </span>
           <div>
             <p className="font-bold text-[#012677] dark:text-[#FEFEFE]">SiCuti</p>
@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col items-center gap-2 text-xs text-[#022F8E]/70 sm:items-end dark:text-[#CBDFFC]">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#CBDFFC] px-3 py-1 font-medium text-[#0450D5] dark:bg-[#0450D5]/25 dark:text-[#54B7FD]">
-            <Sparkles size={14} /> Pengelolaan cuti yang lebih mudah
+            <Sparkles size={14} strokeWidth={2.25} /> Pengelolaan cuti yang lebih mudah
           </span>
           <p>&copy; 2026 SiCuti. Hak cipta dilindungi.</p>
         </div>
