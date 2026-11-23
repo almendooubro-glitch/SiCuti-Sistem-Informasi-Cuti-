@@ -68,7 +68,7 @@ export default function FormLogin({ akun }) {
     >
       <div className="absolute inset-0 bg-slate-950/[0.38] backdrop-blur-[1px] transition-colors duration-500 dark:bg-slate-950/[0.68]" />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/[0.45]" />
-      <div className="absolute right-4 top-4 z-20 rounded-xl border border-[#54B7FD]/40 bg-[#012677]/70 p-1 text-[#FEFEFE] backdrop-blur-md sm:right-6 sm:top-6 [&_button]:rounded-lg [&_button]:text-[#FEFEFE] [&_button]:hover:bg-[#0450D5]/50">
+      <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
         <ToggleTema />
       </div>
 

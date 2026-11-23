@@ -2,7 +2,6 @@
 
 import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
-import { btn } from "@/components/ui";
 
 function ikutiTema(callback) {
   const pengamat = new MutationObserver(callback);
@@ -35,8 +34,8 @@ export default function ToggleTema({ penuh = false }) {
   }
 
   const gaya = penuh
-    ? btn("secondary", "md", "w-full")
-    : "rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500";
+    ? "inline-flex w-full items-center justify-center rounded-xl border border-[#CBDFFC]/60 bg-[#FEFEFE]/10 px-4 py-2 text-sm font-semibold text-[#FEFEFE] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#54B7FD] hover:bg-[#0450D5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] active:translate-y-0"
+    : "rounded-xl border border-[#CBDFFC]/80 bg-[#FEFEFE]/90 p-2.5 text-[#022F8E] shadow-md shadow-[#012677]/20 backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2893FC] hover:bg-[#0F67ED] hover:text-[#FEFEFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#012677]/40 active:translate-y-0 dark:border-[#54B7FD]/35 dark:bg-[#012677]/90 dark:text-[#54B7FD] dark:shadow-[#012677]/40 dark:hover:border-[#2893FC] dark:hover:bg-[#0450D5] dark:hover:text-[#FEFEFE]";
 
   return (
     <button
