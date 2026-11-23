@@ -105,12 +105,12 @@ const TONE = {
 
 export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo" }) {
   return (
-    <Card hover className="group relative flex min-h-32 items-center gap-4 overflow-hidden border-[#CBDFFC] p-5 shadow-[0_8px_24px_rgba(1,38,119,0.08)] hover:border-[#54B7FD] hover:shadow-[0_14px_32px_rgba(1,38,119,0.14)] dark:border-[#54B7FD]/20 dark:bg-[#022F8E]/75 dark:shadow-[0_10px_28px_rgba(1,38,119,0.24)] dark:hover:border-[#2893FC]/70 dark:hover:shadow-[0_14px_34px_rgba(1,38,119,0.38)]">
+    <Card hover className="group relative flex min-h-32 items-center gap-3 overflow-hidden border-[#CBDFFC] p-4 sm:gap-4 sm:p-5 xl:gap-3 xl:p-4">
       <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ring-1 transition-transform duration-200 group-hover:scale-[1.04] ${TONE[tone]}`}>
         <Ikon size={24} strokeWidth={2} />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="break-words text-xs font-semibold uppercase leading-5 tracking-[0.08em] text-[#022F8E]/70 dark:text-[#CBDFFC]/90">
+        <p className="whitespace-normal [overflow-wrap:normal] [word-break:normal] [text-wrap:balance] text-xs font-semibold uppercase leading-5 tracking-[0.06em] text-[#022F8E]/70 dark:text-[#CBDFFC]/90">
           {judul}
         </p>
         <p className="mt-2 break-words text-3xl font-bold leading-none tracking-tight text-[#012677] dark:text-[#54B7FD]">
