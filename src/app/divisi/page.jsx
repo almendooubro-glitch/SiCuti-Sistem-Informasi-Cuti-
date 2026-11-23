@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building2, Plus, Save, Filter, RotateCcw, Pencil, Eye, UserPlus, Users } from "lucide-react";
+import { Building2, Plus, Save, Filter, RotateCcw, Pencil, Eye, UserPlus, Users, SlidersHorizontal } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
@@ -100,8 +100,21 @@ export default async function DivisiPage({ searchParams }) {
         </form>
       </Card>
 
-      <Card className="p-4">
-        <form className="flex flex-wrap items-end gap-3">
+      <Card className="p-4 sm:p-5">
+        <div className="mb-4 flex items-start gap-3 border-b border-[#CBDFFC]/80 pb-4 dark:border-[#54B7FD]/20">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#CBDFFC] text-[#0450D5] ring-1 ring-[#54B7FD]/40 dark:bg-[#0450D5]/25 dark:text-[#54B7FD] dark:ring-[#54B7FD]/20">
+            <SlidersHorizontal size={20} strokeWidth={2} />
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-base font-bold text-[#012677] dark:text-[#FEFEFE]">
+              Filter dan Pencarian Divisi
+            </h2>
+            <p className="mt-1 text-sm leading-5 text-[#022F8E]/75 dark:text-[#CBDFFC]/90">
+              Temukan dan kelola data divisi dengan menyaring berdasarkan nama divisi, ketua divisi, dan jumlah anggota.
+            </p>
+          </div>
+        </div>
+        <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:flex xl:flex-wrap xl:items-end">
           <input name="nama" placeholder="Cari nama divisi" defaultValue={sp.nama ?? ""} className={filterField} />
           <input name="ketua" placeholder="Cari ketua" defaultValue={sp.ketua ?? ""} className={filterField} />
           <input name="min" type="number" min="0" placeholder="Min. anggota" defaultValue={sp.min ?? ""} className={`${field} sm:w-36`} />
