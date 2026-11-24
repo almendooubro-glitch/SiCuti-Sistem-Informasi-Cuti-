@@ -6,7 +6,7 @@ import TombolKonfirmasi from "@/components/TombolKonfirmasi";
 import {
   PAGE, Alert, Card, Field, PageHeader, Panel, RoleBadge, ActiveBadge, Kosong,
   btn, field, filterField, tgl, TABLE, TH, TD, TR,
-} from "@/components/ui";
+} from "@/components/KomponenUmum";
 import { simpanDivisi, hapusDivisi, tambahAnggota, hapusAnggota } from "./actions";
 
 export const dynamic = "force-dynamic";

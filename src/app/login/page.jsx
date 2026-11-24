@@ -1,5 +1,5 @@
 import pool from "@/lib/db";
-import FormLogin from "@/components/FormLogin";
+import FormLogin from "@/components/FormulirMasuk";
 
 export const dynamic = "force-dynamic";
 

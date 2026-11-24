@@ -14,8 +14,8 @@ import {
   Mail,
   LockKeyhole,
 } from "lucide-react";
-import ToggleTema from "@/components/ToggleTema";
-import { Alert, Card, LABEL_ROLE } from "@/components/ui";
+import ToggleTema from "@/components/PengalihTema";
+import { Alert, Card, LABEL_ROLE } from "@/components/KomponenUmum";
 
 const PASSWORD_DEMO = "password123";
 const IKON = { admin: ShieldCheck, hrd: BriefcaseBusiness, ketua_divisi: Users, user: User };

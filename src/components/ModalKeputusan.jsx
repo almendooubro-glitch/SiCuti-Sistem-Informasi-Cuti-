@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { Check, X } from "lucide-react";
-import { btn, field } from "@/components/ui";
+import { btn, field } from "@/components/KomponenUmum";
 
 export default function ModalKeputusan({ action, id, aksi, label, judul }) {
   const ref = useRef(null);

@@ -9,7 +9,7 @@ import ModalKeputusan from "@/components/ModalKeputusan";
 import {
   PAGE, STATUS_LABEL, Alert, Avatar, Badge, Card, Kosong, PageHeader, Panel,
   btn, filterField, tgl, TABLE, TH, TD, TR,
-} from "@/components/ui";
+} from "@/components/KomponenUmum";
 import { putuskan, setujuiBanyak } from "./actions";
 
 export const dynamic = "force-dynamic";

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { CalendarDays, Plus, Bell, Filter, RotateCcw, Eye, X, History, Ban, Paperclip } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
-import FormCuti from "@/components/FormCuti";
+import FormCuti from "@/components/FormulirCuti";
 import {
   PAGE, STATUS_LABEL, Alert, Badge, Card, Kosong, PageHeader, Panel,
   btn, field, filterField, tgl, TABLE, TH, TD, TR,
-} from "@/components/ui";
+} from "@/components/KomponenUmum";
 import { batalkanCuti } from "./actions";
 
 export const dynamic = "force-dynamic";

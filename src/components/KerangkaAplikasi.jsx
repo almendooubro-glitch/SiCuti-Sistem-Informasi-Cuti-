@@ -16,9 +16,9 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import TombolLogout from "@/components/TombolLogout";
-import ToggleTema from "@/components/ToggleTema";
-import { Avatar, RoleBadge } from "@/components/ui";
+import TombolLogout from "@/components/TombolKeluar";
+import ToggleTema from "@/components/PengalihTema";
+import { Avatar, RoleBadge } from "@/components/KomponenUmum";
 
 const MENU = {
   admin: [

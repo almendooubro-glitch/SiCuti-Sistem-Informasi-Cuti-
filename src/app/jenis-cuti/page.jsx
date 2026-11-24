@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Tags, Plus, Save, Pencil, Paperclip } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
-import { PAGE, Alert, Card, Field, PageHeader, btn, field, TABLE, TH, TD, TR } from "@/components/ui";
+import { PAGE, Alert, Card, Field, PageHeader, btn, field, TABLE, TH, TD, TR } from "@/components/KomponenUmum";
 import { simpanJenisCuti } from "./actions";
 
 export const dynamic = "force-dynamic";

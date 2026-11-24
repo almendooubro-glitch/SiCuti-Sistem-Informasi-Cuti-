@@ -8,7 +8,7 @@ import { requireUser } from "@/lib/session";
 import pool from "@/lib/db";
 import {
   PAGE, LABEL_ROLE, Panel, StatCard, Badge, Progress, Kosong, tgl, btn, TABLE, TH, TD, TR,
-} from "@/components/ui";
+} from "@/components/KomponenUmum";
 
 export const dynamic = "force-dynamic";
 

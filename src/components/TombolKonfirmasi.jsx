@@ -1,7 +1,7 @@
 "use client";
 
 import { Trash2, UserMinus } from "lucide-react";
-import { btn } from "@/components/ui";
+import { btn } from "@/components/KomponenUmum";
 
 export default function TombolKonfirmasi({ action, fields, label, pesan, pesan2, ikon }) {
   const Ikon = ikon === "keluar" ? UserMinus : Trash2;

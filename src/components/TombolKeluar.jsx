@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
-import { btn } from "@/components/ui";
+import { btn } from "@/components/KomponenUmum";
 
 export default function TombolLogout() {
   const router = useRouter();

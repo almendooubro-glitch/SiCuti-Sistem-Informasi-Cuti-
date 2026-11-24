@@ -6,7 +6,7 @@ import { simpanPengguna } from "@/app/pengguna/actions";
 import {
   PAGE, LABEL_ROLE, Alert, Avatar, Badge, Card, Field, Kosong, PageHeader, Panel, Progress, RoleBadge, ActiveBadge,
   btn, field, tgl, TABLE, TH, TD, TR,
-} from "@/components/ui";
+} from "@/components/KomponenUmum";
 import { simpanProfil } from "./actions";
 
 export const dynamic = "force-dynamic";

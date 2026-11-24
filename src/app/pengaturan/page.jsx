@@ -2,7 +2,7 @@ import { Settings, Gauge, CalendarOff, CalendarX, Save, Plus, RefreshCw } from "
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import TombolKonfirmasi from "@/components/TombolKonfirmasi";
-import { PAGE, Alert, Field, PageHeader, Panel, btn, field, filterField } from "@/components/ui";
+import { PAGE, Alert, Field, PageHeader, Panel, btn, field, filterField } from "@/components/KomponenUmum";
 import { simpanKapasitas, tambahLibur, hapusLibur, sinkronkanHariLiburGoogle, tambahBlackout, hapusBlackout } from "./actions";
 
 export const dynamic = "force-dynamic";

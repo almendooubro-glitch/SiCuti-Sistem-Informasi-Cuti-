@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import AppShell from "@/components/AppShell";
-import Footer from "@/components/Footer";
+import AppShell from "@/components/KerangkaAplikasi";
+import Footer from "@/components/KakiHalaman";
 import pool from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 

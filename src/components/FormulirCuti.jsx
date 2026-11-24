@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import {FilePlus2, Send, Loader2, RotateCcw, X, Info, TriangleAlert,} from "lucide-react";
 import { ajukanCuti } from "@/app/cuti/actions";
 import { hitungHariKerja, hariIni } from "@/lib/hari";
-import { Alert, Card, Field, btn, field } from "@/components/ui";
+import { Alert, Card, Field, btn, field } from "@/components/KomponenUmum";
 
 export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
   const router = useRouter();
