@@ -34,6 +34,11 @@ textarea::placeholder {
   opacity: 0.72;
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 .dark input::placeholder,
 .dark textarea::placeholder {
   color: #cbddfc;
