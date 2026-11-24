@@ -125,7 +125,16 @@ Integrasi menggunakan feed iCalendar publik, bukan Google Calendar REST API; **`
 │   │   ├── globals.css            # Tailwind dan tema
 │   │   ├── layout.js              # Layout utama
 │   │   └── page.js                # Pengalihan ke dashboard atau login
-│   ├── components/                # Formulir, navigasi, tombol, tema, dan komponen UI
+│   ├── components/
+│   │   ├── FormulirCuti.jsx       # Formulir pengajuan cuti
+│   │   ├── FormulirMasuk.jsx      # Formulir login
+│   │   ├── KakiHalaman.jsx        # Bagian bawah halaman
+│   │   ├── KerangkaAplikasi.jsx   # Kerangka dan navigasi aplikasi
+│   │   ├── KomponenUmum.jsx       # Komponen antarmuka umum
+│   │   ├── ModalKeputusan.jsx     # Konfirmasi persetujuan atau penolakan
+│   │   ├── PengalihTema.jsx       # Pengalih tema tampilan
+│   │   ├── TombolKeluar.jsx       # Tombol keluar akun
+│   │   └── TombolKonfirmasi.jsx   # Tombol dengan konfirmasi
 │   └── lib/
 │       ├── db.js                  # Pool koneksi PostgreSQL
 │       ├── google-calendar.js     # Pengambilan dan pemrosesan feed iCalendar
