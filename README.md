@@ -409,4 +409,21 @@ Untuk penggunaan produksi, gunakan HTTPS, rahasiakan kredensial database, batasi
 
 ## Kontributor dan Lisensi
 
-Repository ini belum mencantumkan daftar kontributor khusus. Tidak ditemukan berkas `LICENSE`, sehingga lisensi project belum dinyatakan. Pastikan memperoleh persetujuan pemilik repository sebelum mendistribusikan atau menggunakan project di luar ketentuan repository.
+### Kontributor
+
+Project **SiCuti – Sistem Informasi Cuti** dikembangkan dan dikelola secara pribadi oleh:
+
+- **Almendo D. Ubro** – Pemilik dan Pengembang Utama.
+- GitHub: [@almendooubro-glitch](https://github.com/almendooubro-glitch)
+
+Seluruh proses perancangan, pengembangan, dan pemeliharaan project dilakukan oleh pengembang utama.
+
+### Lisensi
+
+Project SiCuti menggunakan **Lisensi Kepemilikan (Seluruh Hak Dilindungi)**.
+
+Seluruh kode program, dokumentasi, desain, dan materi yang terdapat dalam project ini merupakan hak milik Almendo D. Ubro.
+
+Repository ini tersedia secara publik agar siapa pun dapat melihat dan mempelajari struktur project. Namun, menyalin, menggunakan, mengubah, mengembangkan ulang, atau menyebarluaskan project ini tidak diperbolehkan tanpa persetujuan tertulis dari pemilik.
+
+Untuk mengetahui ketentuan penggunaan secara lengkap, silakan baca file [LICENSE](./LICENSE).
