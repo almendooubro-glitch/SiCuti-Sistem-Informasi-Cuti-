@@ -11,7 +11,6 @@ import {
   User,
   UserRound,
   Eye,
-  EyeOff,
   Mail,
   LockKeyhole,
 } from "lucide-react";
@@ -125,7 +124,7 @@ export default function FormLogin({ akun }) {
                   aria-pressed={tampil}
                   className="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-[#0F67ED] transition hover:text-[#2893FC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2893FC] dark:text-[#54B7FD]"
                 >
-                  {tampil ? <EyeOff size={18} /> : <Eye size={18} />}
+                  <Eye size={18} />
                 </button>
               </span>
             </label>
