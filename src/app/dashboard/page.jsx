@@ -49,6 +49,81 @@ function Lihat({ href, label = "Lihat semua" }) {
 
 function TabelPengajuan({ rows, pemohon = true, handover = false }) {
   if (rows.length === 0) return <Kosong>Belum ada pengajuan.</Kosong>;
+  if (handover) {
+    return (
+      <>
+        <div className="divide-y divide-[#CBDFFC]/70 dark:divide-[#54B7FD]/15 xl:hidden">
+          {rows.map((r) => (
+            <dl key={r.id} className="grid grid-cols-1 gap-x-4 gap-y-3 p-3 min-[480px]:grid-cols-2 sm:p-4">
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Pemohon</dt>
+                <dd className="mt-1 break-words text-sm font-medium text-[#012677] dark:text-[#FEFEFE]">{r.nama_lengkap}</dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Jenis</dt>
+                <dd className="mt-1 break-words text-sm text-[#012677] dark:text-[#E8F0FD]">{r.jenis}</dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Periode</dt>
+                <dd className="mt-1 break-words text-sm text-[#012677] dark:text-[#E8F0FD]">
+                  {tgl(r.tanggal_mulai)} - {tgl(r.tanggal_selesai)}
+                </dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Hari</dt>
+                <dd className="mt-1 break-words text-sm text-[#012677] dark:text-[#E8F0FD]">{Number(r.total_hari)}</dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Pengganti</dt>
+                <dd className="mt-1 break-words text-sm text-[#012677] dark:text-[#E8F0FD]">{r.handover || "-"}</dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-wide text-[#022F8E]/70 dark:text-[#CBDFFC]">Status</dt>
+                <dd className="mt-1"><Badge status={r.status} compact /></dd>
+              </div>
+            </dl>
+          ))}
+        </div>
+        <div className="hidden xl:block">
+          <table className="w-full table-fixed text-left text-xs">
+            <colgroup>
+              <col className="w-[15%]" />
+              <col className="w-[14%]" />
+              <col className="w-[24%]" />
+              <col className="w-[7%]" />
+              <col className="w-[15%]" />
+              <col className="w-[25%]" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Pemohon</th>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Jenis</th>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Periode</th>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Hari</th>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Pengganti</th>
+                <th className="bg-[#E8F0FD] px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#022F8E] dark:bg-[#012677] dark:text-[#CBDFFC]">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.id} className={TR}>
+                  <td className="break-words px-2 py-2 font-medium text-[#012677] dark:text-[#FEFEFE]">{r.nama_lengkap}</td>
+                  <td className="break-words px-2 py-2 text-[#012677] dark:text-[#E8F0FD]">{r.jenis}</td>
+                  <td className="break-words px-2 py-2 text-[#012677] dark:text-[#E8F0FD]">
+                    {tgl(r.tanggal_mulai)} - {tgl(r.tanggal_selesai)}
+                  </td>
+                  <td className="break-words px-2 py-2 text-[#012677] dark:text-[#E8F0FD]">{Number(r.total_hari)}</td>
+                  <td className="break-words px-2 py-2 text-[#012677] dark:text-[#E8F0FD]">{r.handover || "-"}</td>
+                  <td className="px-2 py-2"><Badge status={r.status} compact /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  }
+
   return (
     <div className="overflow-x-auto">
       <table className={TABLE}>
@@ -320,7 +395,7 @@ async function DashboardKetua({ user }) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Panel ikon={FileText} judul="Pengajuan Anggota Terbaru" aksi={<Lihat href="/verifikasi" />} className="lg:col-span-2" flush>
+        <Panel ikon={FileText} judul="Pengajuan Anggota Terbaru" aksi={<Lihat href="/verifikasi" />} className="lg:col-span-2 [&>div:first-child]:flex-wrap" flush>
           <TabelPengajuan rows={terbaru.rows} handover />
         </Panel>
         <Panel ikon={Users} judul="Anggota Divisi">

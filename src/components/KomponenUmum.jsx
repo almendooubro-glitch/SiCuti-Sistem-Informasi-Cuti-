@@ -49,6 +49,7 @@ export const TR = "border-t border-[#CBDFFC]/70 transition-colors hover:bg-[#E8F
 const HOVER =
   "transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[#54B7FD] hover:shadow-lg hover:shadow-[#012677]/10";
 const PILL = "inline-flex max-w-full items-center justify-start gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold leading-4 ring-1 ring-inset";
+const PILL_COMPACT = "inline-flex max-w-full flex-wrap items-center justify-start gap-1 whitespace-normal rounded-full px-2 py-1 text-[10px] font-semibold leading-4 ring-1 ring-inset";
 
 export function Card({ className = "", hover = false, children }) {
   return (
@@ -121,10 +122,10 @@ export function StatCard({ judul, nilai, ikon: Ikon, tone = "indigo", className 
   );
 }
 
-export function Badge({ status }) {
+export function Badge({ status, compact = false }) {
   const [label, gaya] = STATUS[status];
   return (
-    <span className={`${PILL} ${gaya}`}>
+    <span className={`${compact ? PILL_COMPACT : PILL} ${gaya}`}>
       <span className="h-1.5 w-1.5 rounded-full bg-current" /> {label}
     </span>
   );
