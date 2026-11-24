@@ -257,7 +257,6 @@ dialog::backdrop {
   background-color: #881337;
 }
 
-/* Pemetaan kompatibilitas warna lama dashboard ke identitas visual SiCuti. */
 .text-slate-900,
 .text-slate-800 {
   color: #012677;

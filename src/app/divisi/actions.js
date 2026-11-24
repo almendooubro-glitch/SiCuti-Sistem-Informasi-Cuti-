@@ -56,7 +56,6 @@ export async function simpanDivisi(formData) {
 
 export async function hapusDivisi(formData) {
   await requireUser(["admin"]);
-  // users.divisi_id memakai ON DELETE SET NULL, jadi anggota otomatis kehilangan divisi
   await pool.query("DELETE FROM divisi WHERE id = $1", [Number(formData.get("id"))]);
   revalidatePath("/divisi");
   redirect("/divisi");

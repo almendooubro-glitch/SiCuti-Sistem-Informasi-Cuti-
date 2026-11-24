@@ -32,7 +32,6 @@ export async function simpanJenisCuti(formData) {
   if (!error) {
     try {
       if (id) {
-        // Nama dua jenis inti dikunci karena dipakai sistem untuk aturan khusus
         await pool.query(
           `UPDATE jenis_cuti SET
              nama = CASE WHEN nama IN ('Cuti Tahunan', 'Cuti Sakit') THEN nama ELSE $1 END,

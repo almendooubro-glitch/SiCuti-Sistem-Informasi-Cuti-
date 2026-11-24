@@ -20,7 +20,6 @@ export async function POST(request) {
     );
     const user = rows[0];
 
-    // Pesan sengaja dibuat sama agar tidak membocorkan akun mana yang ada
     const valid = user && (await bcrypt.compare(password, user.password));
     if (!valid) {
       return NextResponse.json(
