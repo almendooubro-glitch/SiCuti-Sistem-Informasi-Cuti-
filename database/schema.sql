@@ -25,14 +25,12 @@ CREATE TABLE IF NOT EXISTS divisi (
   dibuat_pada TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-DO $$
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_users_divisi') THEN
-    ALTER TABLE users
-      ADD CONSTRAINT fk_users_divisi
-      FOREIGN KEY (divisi_id) REFERENCES divisi(id) ON DELETE SET NULL;
-  END IF;
-END $$;
+ALTER TABLE users
+  DROP CONSTRAINT IF EXISTS fk_users_divisi;
+
+ALTER TABLE users
+  ADD CONSTRAINT fk_users_divisi
+  FOREIGN KEY (divisi_id) REFERENCES divisi(id) ON DELETE SET NULL;
 
 CREATE TABLE IF NOT EXISTS jenis_cuti (
   id SERIAL PRIMARY KEY,
