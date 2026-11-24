@@ -121,6 +121,18 @@ export async function ajukanCuti(formData) {
     );
     if (ov.rows.length) return gagal("Tanggal bertabrakan dengan pengajuan cuti lain yang masih aktif");
 
+    const tugasPengganti = await pool.query(
+      `SELECT 1 FROM pengajuan_cuti
+       WHERE handover_user_id = $1 AND status IN ${AKTIF}
+         AND tanggal_selesai >= CURRENT_DATE
+         AND tanggal_mulai <= $3 AND tanggal_selesai >= $2
+       LIMIT 1`,
+      [user.id, mulai, selesai]
+    );
+    if (tugasPengganti.rows.length) {
+      return gagal("Tanggal bertabrakan dengan masa cuti saat kamu ditunjuk sebagai rekan pengganti");
+    }
+
     if (handoverId) {
       const h = await pool.query(
         `SELECT 1 FROM users WHERE id = $1 AND id <> $2 AND divisi_id = $3 AND is_active

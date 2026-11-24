@@ -73,6 +73,7 @@ Aturan cuti—seperti kebutuhan lampiran, batas pengajuan, pemotongan kuota, kap
 ### Aturan dan perhitungan cuti
 
 - Pengajuan diperiksa terhadap kuota, masa kerja untuk Cuti Tahunan, batas waktu pengajuan per jenis, tanggal yang bertabrakan, dan kelengkapan lampiran.
+- Pengguna yang sedang ditunjuk sebagai rekan pengganti tidak dapat mengajukan cuti pada tanggal yang bertumpang tindih selama masa cuti pemberi tugas belum selesai.
 - Cuti selain Cuti Sakit dibatasi oleh periode larangan cuti dan batas kapasitas divisi.
 - Cuti Setengah Hari hanya berlaku untuk satu tanggal dan mengurangi kuota sebesar 0,5 hari.
 - Status pengajuan yang digunakan: menunggu persetujuan, disetujui Ketua Divisi, disetujui, ditolak, dan dibatalkan.
