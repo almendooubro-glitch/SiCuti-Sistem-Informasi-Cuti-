@@ -50,6 +50,9 @@ export default function FormCuti({ jenis, rekan, sisaKuota, libur, blackout }) {
       const res = await ajukanCuti(fd);
       if (res?.error) {
         setError(res.error);
+      } else if (res?.info) {
+        router.push(`/cuti?info=${encodeURIComponent(res.info)}`);
+        router.refresh();
       } else {
         router.push("/cuti");
         router.refresh();

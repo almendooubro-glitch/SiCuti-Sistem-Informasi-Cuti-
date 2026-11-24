@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS pengajuan_cuti (
   total_hari NUMERIC(4,1) NOT NULL,
   alasan TEXT NOT NULL,
   handover_user_id INTEGER REFERENCES users(id),
+  perlu_pengganti BOOLEAN NOT NULL DEFAULT FALSE,
   catatan_tugas TEXT,
   alamat_selama_cuti TEXT,
   nomor_darurat VARCHAR(20),
@@ -74,6 +75,9 @@ CREATE TABLE IF NOT EXISTS pengajuan_cuti (
     CHECK (status IN ('pending','approved_leader','approved','rejected','cancelled')),
   alasan_pembatalan TEXT
 );
+
+ALTER TABLE pengajuan_cuti
+  ADD COLUMN IF NOT EXISTS perlu_pengganti BOOLEAN NOT NULL DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS approval_log (
   id SERIAL PRIMARY KEY,

@@ -130,7 +130,7 @@ export default async function CutiPage({ searchParams }) {
         )}
       </PageHeader>
 
-      <Alert error={sp.error} />
+      <Alert error={sp.error} info={sp.info} />
 
       {sp.baru && (
         <FormCuti jenis={jenis} rekan={rekan} sisaKuota={Number(kuota.sisa)} libur={libur} blackout={blackout} />

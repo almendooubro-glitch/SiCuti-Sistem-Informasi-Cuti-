@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  ClipboardCheck, CheckCheck, Clock, History, Paperclip, Filter, RotateCcw, TriangleAlert, UserCheck,
+  ClipboardCheck, CheckCheck, Clock, History, Paperclip, Filter, RotateCcw, TriangleAlert, UserCheck, UserPlus,
 } from "lucide-react";
 import pool from "@/lib/db";
 import { requireUser } from "@/lib/session";
@@ -10,7 +10,7 @@ import {
   PAGE, STATUS_LABEL, Alert, Avatar, Badge, Card, Kosong, PageHeader, Panel,
   btn, filterField, tgl, TABLE, TH, TD, TR,
 } from "@/components/KomponenUmum";
-import { putuskan, setujuiBanyak } from "./actions";
+import { putuskan, setujuiBanyak, tetapkanPengganti } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -57,6 +57,43 @@ export default async function VerifikasiPage({ searchParams }) {
     )
   );
 
+  const tindakLanjut = hrd
+    ? await Promise.all(
+        (
+          await pool.query(
+            `SELECT p.id, p.user_id, p.tanggal_mulai, p.tanggal_selesai,
+                    u.nama_lengkap, j.nama AS jenis, d.id AS divisi_id, d.nama AS divisi
+             FROM pengajuan_cuti p
+             JOIN users u ON u.id = p.user_id
+             JOIN jenis_cuti j ON j.id = p.jenis_cuti_id
+             LEFT JOIN divisi d ON d.id = u.divisi_id
+             WHERE p.perlu_pengganti = TRUE
+               AND p.status IN ('pending','approved_leader','approved')
+               AND p.tanggal_selesai >= CURRENT_DATE
+             ORDER BY p.tanggal_mulai, p.id`
+          )
+        ).rows.map(async (tugas) => ({
+          ...tugas,
+          kandidat: (
+            await pool.query(
+              `SELECT k.id, k.nama_lengkap, k.role
+               FROM users k
+               WHERE k.divisi_id = $1 AND k.is_active
+                 AND k.role IN ('user','ketua_divisi') AND k.id <> $2
+                 AND NOT EXISTS (
+                   SELECT 1 FROM pengajuan_cuti p
+                   WHERE p.user_id = k.id AND p.status IN ('pending','approved_leader','approved')
+                     AND p.tanggal_mulai <= $4 AND p.tanggal_selesai >= $3
+                 )
+               ORDER BY CASE WHEN k.role = 'user' THEN 0 ELSE 1 END, k.nama_lengkap
+               `,
+              [tugas.divisi_id, tugas.user_id, tugas.tanggal_mulai, tugas.tanggal_selesai]
+            )
+          ).rows,
+        }))
+      )
+    : [];
+
   const params = hrd ? [] : [user.id];
   const where = [hrd ? "TRUE" : "u.divisi_id IN (SELECT id FROM divisi WHERE ketua_id = $1) AND u.id <> $1"];
   if (STATUS_LABEL[sp.status]) {
@@ -83,6 +120,46 @@ export default async function VerifikasiPage({ searchParams }) {
       />
 
       <Alert error={sp.error} info={sp.info} />
+
+      {tindakLanjut.length > 0 && (
+        <Panel ikon={TriangleAlert} judul="Tugas Perlu Pengganti">
+          <div className="space-y-4">
+            {tindakLanjut.map((tugas) => (
+              <div key={tugas.id} className="rounded-xl border border-amber-200 bg-amber-50/60 p-4">
+                <p className="font-semibold text-slate-900">
+                  {tugas.nama_lengkap} · {tugas.jenis} · {tugas.divisi || "Tanpa divisi"}
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  {tgl(tugas.tanggal_mulai)} - {tgl(tugas.tanggal_selesai)} · Pengganti sebelumnya sedang cuti.
+                </p>
+                {tugas.kandidat.length > 0 ? (
+                  <form action={tetapkanPengganti} className="mt-3 flex flex-wrap items-end gap-3">
+                    <input type="hidden" name="id" value={tugas.id} />
+                    <label className="min-w-0 flex-1 space-y-2 text-sm font-semibold text-slate-700">
+                      <span className="block">Pilih rekan pengganti</span>
+                      <select name="handover_user_id" required defaultValue="" className={filterField}>
+                        <option value="">Pilih karyawan atau Ketua Divisi</option>
+                        {tugas.kandidat.map((k) => (
+                          <option key={k.id} value={k.id}>
+                            {k.nama_lengkap} · {k.role === "ketua_divisi" ? "Ketua Divisi" : "Karyawan"}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <button type="submit" className={btn("primary")}>
+                      <UserPlus size={16} /> Tetapkan Pengganti
+                    </button>
+                  </form>
+                ) : (
+                  <p className="mt-3 text-sm font-medium text-amber-800">
+                    Belum ada karyawan atau Ketua Divisi aktif yang tersedia. Tugas ini masih perlu ditindaklanjuti.
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </Panel>
+      )}
 
       {hrd && <form id="multi" action={setujuiBanyak} />}
 

@@ -17,6 +17,8 @@ const teks = (fd, k) => String(fd.get(k) || "").trim();
 
 export async function ajukanCuti(formData) {
   const user = await requireUser(["user", "ketua_divisi"]);
+  let perluTindakLanjut = false;
+  let jumlahTugasDialihkan = 0;
 
   try {
     const jenisId = Number(formData.get("jenis_cuti_id"));
@@ -121,16 +123,18 @@ export async function ajukanCuti(formData) {
     );
     if (ov.rows.length) return gagal("Tanggal bertabrakan dengan pengajuan cuti lain yang masih aktif");
 
-    const tugasPengganti = await pool.query(
-      `SELECT 1 FROM pengajuan_cuti
-       WHERE handover_user_id = $1 AND status IN ${AKTIF}
-         AND tanggal_selesai >= CURRENT_DATE
-         AND tanggal_mulai <= $3 AND tanggal_selesai >= $2
-       LIMIT 1`,
-      [user.id, mulai, selesai]
-    );
-    if (tugasPengganti.rows.length) {
-      return gagal("Tanggal bertabrakan dengan masa cuti saat kamu ditunjuk sebagai rekan pengganti");
+    if (jenis.nama !== "Cuti Sakit") {
+      const tugasPengganti = await pool.query(
+        `SELECT 1 FROM pengajuan_cuti
+         WHERE handover_user_id = $1 AND status IN ${AKTIF}
+           AND tanggal_selesai >= CURRENT_DATE
+           AND tanggal_mulai <= $3 AND tanggal_selesai >= $2
+         LIMIT 1`,
+        [user.id, mulai, selesai]
+      );
+      if (tugasPengganti.rows.length) {
+        return gagal("Tanggal bertabrakan dengan masa cuti saat kamu ditunjuk sebagai rekan pengganti");
+      }
     }
 
     if (handoverId) {
@@ -140,6 +144,20 @@ export async function ajukanCuti(formData) {
         [handoverId, user.id, u.divisi_id]
       );
       if (!h.rows.length) return gagal("Rekan pengganti harus berasal dari divisi yang sama");
+
+      if (jenis.nama === "Cuti Sakit") {
+        const penunjuk = await pool.query(
+          `SELECT 1 FROM pengajuan_cuti
+           WHERE handover_user_id = $1 AND user_id = $2 AND status IN ${AKTIF}
+             AND tanggal_selesai >= CURRENT_DATE
+             AND tanggal_mulai <= $4 AND tanggal_selesai >= $3
+           LIMIT 1`,
+          [user.id, handoverId, mulai, selesai]
+        );
+        if (penunjuk.rows.length) {
+          return gagal("Kamu tidak bisa menunjuk kembali orang yang menunjukmu sebagai rekan pengganti pada tanggal yang sama");
+        }
+      }
     }
 
     if (adaFile) {
@@ -150,18 +168,104 @@ export async function ajukanCuti(formData) {
     }
     const data = adaFile ? Buffer.from(await file.arrayBuffer()) : null;
 
-    await pool.query(
-      `INSERT INTO pengajuan_cuti
-         (user_id, jenis_cuti_id, tanggal_mulai, tanggal_selesai, setengah_hari, total_hari, alasan,
-          handover_user_id, catatan_tugas, alamat_selama_cuti, nomor_darurat,
-          lampiran, lampiran_data, lampiran_tipe)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
-      [
-        user.id, jenisId, mulai, selesai, setengah, total, alasan,
-        handoverId, catatan, alamat, darurat,
-        adaFile ? file.name.slice(0, 255) : null, data, adaFile ? file.type : null,
-      ]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      if (jenis.nama === "Cuti Sakit") {
+        const { rows: tugas } = await client.query(
+          `SELECT p.id, p.user_id, p.tanggal_mulai, p.tanggal_selesai, u.divisi_id
+           FROM pengajuan_cuti p
+           JOIN users u ON u.id = p.user_id
+           WHERE p.handover_user_id = $1 AND p.status IN ${AKTIF}
+             AND p.tanggal_selesai >= CURRENT_DATE
+             AND p.tanggal_mulai <= $3 AND p.tanggal_selesai >= $2
+           ORDER BY p.id
+           FOR UPDATE OF p`,
+          [user.id, mulai, selesai]
+        );
+
+        for (const tugasAktif of tugas) {
+          let penggantiId = null;
+          if (tugasAktif.divisi_id) {
+            const karyawan = await client.query(
+              `SELECT k.id
+               FROM users k
+               WHERE k.divisi_id = $1 AND k.is_active AND k.role = 'user'
+                 AND k.id <> $2 AND k.id <> $3
+                 AND NOT EXISTS (
+                   SELECT 1 FROM pengajuan_cuti p
+                   WHERE p.user_id = k.id AND p.status IN ${AKTIF}
+                     AND p.tanggal_mulai <= $5 AND p.tanggal_selesai >= $4
+                 )
+               ORDER BY k.nama_lengkap, k.id
+               LIMIT 1`,
+              [
+                tugasAktif.divisi_id,
+                user.id,
+                tugasAktif.user_id,
+                tugasAktif.tanggal_mulai,
+                tugasAktif.tanggal_selesai,
+              ]
+            );
+            penggantiId = karyawan.rows[0]?.id ?? null;
+
+            if (!penggantiId) {
+              const ketua = await client.query(
+                `SELECT k.id
+                 FROM divisi d
+                 JOIN users k ON k.id = d.ketua_id
+                 WHERE d.id = $1 AND k.is_active AND k.role = 'ketua_divisi'
+                   AND k.id <> $2 AND k.id <> $3
+                   AND NOT EXISTS (
+                     SELECT 1 FROM pengajuan_cuti p
+                     WHERE p.user_id = k.id AND p.status IN ${AKTIF}
+                       AND p.tanggal_mulai <= $5 AND p.tanggal_selesai >= $4
+                   )
+                 LIMIT 1`,
+                [
+                  tugasAktif.divisi_id,
+                  user.id,
+                  tugasAktif.user_id,
+                  tugasAktif.tanggal_mulai,
+                  tugasAktif.tanggal_selesai,
+                ]
+              );
+              penggantiId = ketua.rows[0]?.id ?? null;
+            }
+          }
+
+          await client.query(
+            `UPDATE pengajuan_cuti
+             SET handover_user_id = $1, perlu_pengganti = $2
+             WHERE id = $3`,
+            [penggantiId, !penggantiId, tugasAktif.id]
+          );
+          if (penggantiId) jumlahTugasDialihkan += 1;
+          else perluTindakLanjut = true;
+        }
+      }
+
+      await client.query(
+        `INSERT INTO pengajuan_cuti
+           (user_id, jenis_cuti_id, tanggal_mulai, tanggal_selesai, setengah_hari, total_hari, alasan,
+            handover_user_id, catatan_tugas, alamat_selama_cuti, nomor_darurat,
+            lampiran, lampiran_data, lampiran_tipe)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+        [
+          user.id, jenisId, mulai, selesai, setengah, total, alasan,
+          handoverId, catatan, alamat, darurat,
+          adaFile ? file.name.slice(0, 255) : null, data, adaFile ? file.type : null,
+        ]
+      );
+
+      await client.query("COMMIT");
+    } catch (e) {
+      await client.query("ROLLBACK");
+      throw e;
+    } finally {
+      client.release();
+    }
   } catch (e) {
     console.error(e);
     return gagal("Terjadi kesalahan pada server");
@@ -169,7 +273,14 @@ export async function ajukanCuti(formData) {
 
   revalidatePath("/cuti");
   revalidatePath("/dashboard");
-  return { ok: true };
+  const info = perluTindakLanjut
+    ? jumlahTugasDialihkan
+      ? "Pengajuan cuti sakit berhasil. Sebagian tugas dialihkan, sisanya perlu ditindaklanjuti HRD."
+      : "Pengajuan cuti sakit berhasil. Tugas tanpa pengganti sudah ditandai untuk HRD."
+    : jumlahTugasDialihkan
+      ? "Pengajuan cuti sakit berhasil dan tugas pengganti telah dialihkan."
+      : null;
+  return { ok: true, info };
 }
 
 export async function batalkanCuti(formData) {
@@ -182,7 +293,8 @@ export async function batalkanCuti(formData) {
     error = "Alasan pembatalan wajib diisi";
   } else {
     const r = await pool.query(
-      `UPDATE pengajuan_cuti SET status = 'cancelled', alasan_pembatalan = $1
+      `UPDATE pengajuan_cuti
+       SET status = 'cancelled', alasan_pembatalan = $1, perlu_pengganti = FALSE
        WHERE id = $2 AND user_id = $3 AND status = 'pending'`,
       [alasan, id, user.id]
     );

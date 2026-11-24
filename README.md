@@ -73,7 +73,7 @@ Aturan cuti—seperti kebutuhan lampiran, batas pengajuan, pemotongan kuota, kap
 ### Aturan dan perhitungan cuti
 
 - Pengajuan diperiksa terhadap kuota, masa kerja untuk Cuti Tahunan, batas waktu pengajuan per jenis, tanggal yang bertabrakan, dan kelengkapan lampiran.
-- Pengguna yang sedang ditunjuk sebagai rekan pengganti tidak dapat mengajukan cuti pada tanggal yang bertumpang tindih selama masa cuti pemberi tugas belum selesai.
+- Pengguna yang sedang ditunjuk sebagai rekan pengganti tidak dapat mengajukan cuti yang bertumpang tindih, kecuali Cuti Sakit. Jika pengganti mengajukan Cuti Sakit, ia tidak dapat menunjuk kembali orang yang menugaskannya; tugas dialihkan ke karyawan aktif satu divisi yang tersedia, atau Ketua Divisi jika tidak ada. Tugas tanpa pengganti ditandai untuk tindak lanjut HRD.
 - Cuti selain Cuti Sakit dibatasi oleh periode larangan cuti dan batas kapasitas divisi.
 - Cuti Setengah Hari hanya berlaku untuk satu tanggal dan mengurangi kuota sebesar 0,5 hari.
 - Status pengajuan yang digunakan: menunggu persetujuan, disetujui Ketua Divisi, disetujui, ditolak, dan dibatalkan.
@@ -234,14 +234,14 @@ Sinkronisasi hari libur menggunakan feed publik dan tidak memerlukan API key Goo
 
 ## Database
 
-Skema utama berada di [`database/schema.sql`](./database/schema.sql). Jalankan skema sebelum seed. Skema berisi `CREATE TABLE IF NOT EXISTS`, penambahan constraint divisi, dan konfigurasi awal; project tidak menyediakan sistem migrasi terpisah.
+Skema utama berada di [`database/schema.sql`](./database/schema.sql). Jalankan skema sebelum seed. Untuk database yang sudah ada, jalankan ulang file ini saat ada perubahan skema; penambahan kolom menggunakan `IF NOT EXISTS`. Skema juga berisi konfigurasi awal; project tidak menyediakan sistem migrasi terpisah.
 
 | Tabel | Kolom penting dan fungsi |
 | --- | --- |
 | `users` | `username`, `email`, `password`, `nama_lengkap`, `role`, `divisi_id`, `kuota_awal`, `is_active`, data kontak, foto, dan `tanggal_bergabung`. |
 | `divisi` | Nama dan deskripsi divisi serta `ketua_id`. Ketua hanya dapat memimpin satu divisi. |
 | `jenis_cuti` | Nama jenis, `kuota`, `wajib_lampiran`, `memotong_kuota`, dan batas hari pengajuan sebelum/sesudah tanggal mulai. |
-| `pengajuan_cuti` | Pemohon, jenis, tanggal, `total_hari`, alasan, rekan pengganti, lampiran, status, dan alasan pembatalan. |
+| `pengajuan_cuti` | Pemohon, jenis, tanggal, `total_hari`, alasan, rekan pengganti, penanda tugas yang perlu tindak lanjut, lampiran, status, dan alasan pembatalan. |
 | `approval_log` | Catatan keputusan, approver, tingkat persetujuan (`leader` atau `hrd`), aksi, catatan, dan waktu. |
 | `sessions` | Hash token sesi, pemilik sesi, dan waktu kedaluwarsa. |
 | `hari_libur` | Tanggal unik, keterangan, jenis (`nasional` atau `cuti_bersama`), dan sumber (`manual` atau `google_calendar`). |

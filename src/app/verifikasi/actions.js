@@ -44,7 +44,13 @@ async function proses(user, id, aksi, catatan) {
     }
 
     const status = aksi === "rejected" ? "rejected" : hrd ? "approved" : "approved_leader";
-    await client.query("UPDATE pengajuan_cuti SET status = $1 WHERE id = $2", [status, id]);
+    await client.query(
+      `UPDATE pengajuan_cuti
+       SET status = $1,
+           perlu_pengganti = CASE WHEN $1 = 'rejected' THEN FALSE ELSE perlu_pengganti END
+       WHERE id = $2`,
+      [status, id]
+    );
     await client.query(
       "INSERT INTO approval_log (pengajuan_id, approver_id, level, aksi, catatan) VALUES ($1, $2, $3, $4, $5)",
       [id, user.id, hrd ? "hrd" : "leader", aksi, catatan]
@@ -98,4 +104,66 @@ export async function setujuiBanyak(formData) {
     gagal.length ? `${berhasil} disetujui, ${gagal.length} gagal (${gagal.join("; ")})` : null,
     `${berhasil} pengajuan disetujui`
   );
+}
+
+export async function tetapkanPengganti(formData) {
+  await requireUser(["hrd"]);
+  const id = Number(formData.get("id"));
+  const penggantiId = Number(formData.get("handover_user_id"));
+  if (!Number.isInteger(id) || id < 1 || !Number.isInteger(penggantiId) || penggantiId < 1) {
+    selesai("Pengajuan atau rekan pengganti tidak valid");
+  }
+
+  let error = null;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const { rows } = await client.query(
+      `SELECT p.user_id, p.tanggal_mulai, p.tanggal_selesai, u.divisi_id
+       FROM pengajuan_cuti p
+       JOIN users u ON u.id = p.user_id
+       WHERE p.id = $1 AND p.perlu_pengganti = TRUE
+         AND p.status IN ${AKTIF} AND p.tanggal_selesai >= CURRENT_DATE
+       FOR UPDATE OF p`,
+      [id]
+    );
+    const tugas = rows[0];
+
+    if (!tugas) {
+      error = "Tugas pengganti tidak ditemukan atau sudah ditangani";
+    } else {
+      const calon = await client.query(
+        `SELECT 1 FROM users k
+         WHERE k.id = $1 AND k.divisi_id = $2 AND k.is_active
+           AND k.role IN ('user','ketua_divisi') AND k.id <> $3
+           AND NOT EXISTS (
+             SELECT 1 FROM pengajuan_cuti p
+             WHERE p.user_id = k.id AND p.status IN ${AKTIF}
+               AND p.tanggal_mulai <= $5 AND p.tanggal_selesai >= $4
+           )
+         LIMIT 1`,
+        [penggantiId, tugas.divisi_id, tugas.user_id, tugas.tanggal_mulai, tugas.tanggal_selesai]
+      );
+      if (!calon.rows.length) {
+        error = "Pilih karyawan atau Ketua Divisi aktif yang tidak sedang cuti pada tanggal tersebut";
+      } else {
+        await client.query(
+          `UPDATE pengajuan_cuti
+           SET handover_user_id = $1, perlu_pengganti = FALSE
+           WHERE id = $2`,
+          [penggantiId, id]
+        );
+      }
+    }
+
+    await client.query(error ? "ROLLBACK" : "COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    console.error(e);
+    error = "Terjadi kesalahan pada server";
+  } finally {
+    client.release();
+  }
+
+  selesai(error, "Rekan pengganti berhasil ditetapkan");
 }
