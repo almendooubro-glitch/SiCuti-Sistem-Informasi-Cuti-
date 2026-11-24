@@ -168,7 +168,7 @@ export function Alert({ error, info }) {
 export function Field({ label, className = "", children }) {
   return (
     <label className={`block space-y-2 text-sm font-semibold text-slate-700 ${className}`}>
-      <span>{label}</span>
+      <span className="block">{label}</span>
       {children}
     </label>
   );
