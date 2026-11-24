@@ -388,7 +388,7 @@ flowchart TD
 - Cookie sesi memakai `httpOnly`, `sameSite: "lax"`, dan `secure` pada mode produksi. Masa berlaku sesi satu hari atau 30 hari jika opsi **Ingat saya** dipilih.
 - Pemeriksaan login memastikan akun aktif. Halaman dan aksi server membatasi akses berdasarkan peran.
 - Query database menggunakan parameter untuk nilai masukan.
-- Lampiran cuti dibatasi ke PDF, JPG, atau PNG hingga 900 KB. Foto profil menerima JPG, PNG, atau WEBP. Formulir menampilkan batas 900 KB, sedangkan validasi server saat ini mengizinkan hingga 10 MB.
+- Lampiran cuti (PDF, JPG, atau PNG) dan foto profil (JPG, PNG, atau WEBP) masing-masing dibatasi maksimal 900 KB; batas ini juga diperiksa oleh server.
 - Pengambilan lampiran dibatasi untuk pemohon, HRD, dan Ketua Divisi yang memimpin divisi pemohon. Foto hanya dapat diambil oleh pengguna yang sudah masuk.
 - `.env.local` diabaikan oleh Git. Jangan mengunggah URL database atau kredensial.
 

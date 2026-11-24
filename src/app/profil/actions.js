@@ -9,7 +9,7 @@ import { requireUser } from "@/lib/session";
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TELEPON = /^[0-9+\-\s]{6,20}$/;
 const TIPE = ["image/jpeg", "image/png", "image/webp"];
-const MAKS_BYTE = 10 * 1024 * 1024; 
+const MAKS_BYTE = 900 * 1024;
 const teks = (fd, k) => String(fd.get(k) || "").trim();
 
 export async function simpanProfil(formData) {
@@ -33,7 +33,7 @@ export async function simpanProfil(formData) {
   else if (telepon && !TELEPON.test(telepon)) error = "Nomor telepon tidak valid";
   else if (password && password.length < 6) error = "Kata sandi baru minimal 6 karakter";
   else if (adaFile && !TIPE.includes(file.type)) error = "Foto harus berformat JPG, PNG, atau WEBP";
-  else if (adaFile && file.size > MAKS_BYTE) error = "Ukuran foto maksimal 10 MB";
+  else if (adaFile && file.size > MAKS_BYTE) error = "Ukuran foto maksimal 900 KB";
   if (!error) {
     try {
       await pool.query(
