@@ -38,7 +38,7 @@ Aturan cuti—seperti kebutuhan lampiran, batas pengajuan, pemotongan kuota, kap
 ### Semua pengguna
 
 - Masuk dengan email atau nama pengguna dan kata sandi.
-- Melihat dashboard sesuai peran, mengubah profil, mengganti kata sandi, dan mengelola foto profil.
+- Melihat dashboard sesuai peran, mengubah profil, mengganti kata sandi, mengelola foto profil, dan membuka foto profil dalam tampilan besar.
 - Menggunakan tampilan siang atau malam.
 
 ### Karyawan

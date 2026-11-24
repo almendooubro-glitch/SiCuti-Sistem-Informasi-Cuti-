@@ -1,4 +1,5 @@
 import { CircleAlert, CircleCheck } from "lucide-react";
+import LihatFotoProfil from "./LihatFotoProfil";
 
 export const LABEL_ROLE = { admin: "Admin", user: "Karyawan", ketua_divisi: "Ketua Divisi", hrd: "HRD" };
 
@@ -177,7 +178,7 @@ export function Field({ label, className = "", children }) {
 
 export function Avatar({ id, ada, nama, size = "h-10 w-10", teks = "text-sm" }) {
   return ada ? (
-    <img src={`/api/foto?id=${id}`} alt={`Foto ${nama}`} className={`${size} shrink-0 rounded-full object-cover ring-2 ring-white`} />
+    <LihatFotoProfil id={id} nama={nama} size={size} />
   ) : (
     <div className={`${size} ${teks} flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#CBDFFC] to-[#54B7FD]/50 font-semibold text-[#022F8E] ring-2 ring-[#FEFEFE] shadow-sm dark:from-[#0450D5]/35 dark:to-[#2893FC]/20 dark:text-[#54B7FD] dark:ring-[#012677]`}>
       {nama[0]}
