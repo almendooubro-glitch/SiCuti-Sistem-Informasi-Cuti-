@@ -386,7 +386,8 @@ flowchart TD
 - Kata sandi di-hash dengan bcrypt melalui `bcryptjs`; kata sandi tidak disimpan sebagai teks biasa.
 - Sesi menggunakan token acak. Database menyimpan hash SHA-256 token, bukan token sesi mentah.
 - Cookie sesi memakai `httpOnly`, `sameSite: "lax"`, dan `secure` pada mode produksi. Masa berlaku sesi satu hari atau 30 hari jika opsi **Ingat saya** dipilih.
-- Pemeriksaan login memastikan akun aktif. Halaman dan aksi server membatasi akses berdasarkan peran.
+- `src/middleware.js` memeriksa keberadaan cookie sesi sebelum halaman privat dimuat dan mengarahkan pengguna tanpa cookie ke halaman masuk. Middleware tidak mengakses PostgreSQL; halaman dan aksi server tetap memvalidasi sesi serta membatasi akses berdasarkan peran.
+- Pemeriksaan login memastikan akun aktif. Kata sandi akun baru dan perubahan kata sandi di-hash dengan `bcryptjs`; login memeriksanya dengan `bcrypt.compare`.
 - Query database menggunakan parameter untuk nilai masukan.
 - Lampiran cuti (PDF, JPG, atau PNG) dan foto profil (JPG, PNG, atau WEBP) masing-masing dibatasi maksimal 900 KB; batas ini juga diperiksa oleh server.
 - Pengambilan lampiran dibatasi untuk pemohon, HRD, dan Ketua Divisi yang memimpin divisi pemohon. Foto hanya dapat diambil oleh pengguna yang sudah masuk.
